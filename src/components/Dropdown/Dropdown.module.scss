@@ -1,0 +1,149 @@
+// dropdown for menu item genres
+.dropdown-list {
+    background-color: rgba(15, 17, 26, 0.9);
+    padding: 8px;
+    border-radius: 1rem;
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+
+    &.grid-1 {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    &.grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    &.grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    &.grid-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .dropdown-item {
+        cursor: pointer;
+        padding: 2px 1.6rem;
+        color: var(--text-color);
+        overflow: hidden;
+        border-radius: 0.5rem;
+
+        &:hover {
+            background-color: #212529;
+        }
+        span {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+        }
+    }
+}
+
+.menu-item-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-color);
+    cursor: pointer;
+
+    &:hover {
+        color: var(--primary-text);
+    }
+}
+
+// dROPDOWN FOR USER MENU
+.user-dropdown {
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+    height: auto;
+    background-color: #2b3047;
+    border-radius: 0.5rem;
+    padding: 8px 0;
+
+    .username {
+        font-size: 1.6rem;
+        color: var(--text-color);
+        padding: 0 16px 6px 16px;
+    }
+}
+
+.user-menu-2 {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+
+    .user-menu-item {
+        padding: 10px 16px;
+        font-size: 14px;
+        color: var(--text-color);
+        cursor: pointer;
+
+        &:hover {
+            background-color: #ffffff05;
+        }
+
+        span {
+            margin-left: 1rem;
+        }
+    }
+}
+
+.user-logout {
+    padding: 0.8rem 1.7rem;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    cursor: pointer;
+
+    &:hover {
+        background-color: #ffffff05;
+    }
+
+    span {
+        margin-left: 1rem;
+    }
+}
+
+.user {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    overflow: hidden;
+    display: flex;
+    opacity: 1;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    .avatar-img {
+        width: 3.8rem;
+        height: 3.8rem;
+        border-radius: 50%;
+    }
+}
+
+.arrow-down {
+    color: #fff;
+    font-size: 1.6rem;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0); // trong suốt hoàn toàn
+    z-index: 90; // thấp hơn Tippy, cao hơn Swiper
+    cursor: default;
+}

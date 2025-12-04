@@ -1,0 +1,57 @@
+.main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    .form-control {
+        width: 100%;
+        padding: 1.2rem 1.4rem;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 6px;
+        background-color: transparent;
+        color: #fff;
+        font-size: 1.4rem;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 300;
+        }
+
+        &:focus {
+            border-color: #4fc3f7;
+            box-shadow: 0 0 5px rgba(79, 195, 247, 0.4);
+            outline: none;
+        }
+    }
+
+    .form-message {
+        font-size: 1.2rem;
+        color: #f66;
+        margin-top: 0.6rem;
+        margin-bottom: 0.6rem;
+        padding-left: 0.2rem;
+        min-height: 1.2rem;
+    }
+
+    &.invalid {
+        .form-control {
+            border-color: #f66;
+            box-shadow: 0 0 4px rgba(255, 102, 102, 0.5);
+        }
+    }
+}
+
+.spacer {
+    margin-top: 3rem;
+}

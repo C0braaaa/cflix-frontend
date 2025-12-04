@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 37rem;
+    max-height: 60rem;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: var(--background-color);
+    box-shadow: rgb(0 0 0 / 12%) 0 2px 12px;
+    min-height: 100px;
+}
+
+// media for tablet
+@media (min-width: 500px) and (max-width: 1080px) {
+    .wrapper {
+        max-width: calc(100vw - 6rem);
+    }
+}

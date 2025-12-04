@@ -1,0 +1,136 @@
+.wrapper {
+    width: 100%;
+    padding: 2rem 5rem 0 5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+h3 {
+    font-size: 2.4rem;
+    background: linear-gradient(90deg, #ff7f90, #ffffff, #ff7f90);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+}
+
+.topics-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.topic-item {
+    position: relative;
+    width: 24rem;
+    height: 15rem;
+    border-radius: 1rem;
+    padding: 2rem 3rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.8rem;
+    color: var(--text-color);
+    transition: transform 0.3s linear;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 1rem;
+        -webkit-mask-image: linear-gradient(-45deg, black, transparent 70%);
+        mask-image: linear-gradient(-45deg, black, transparent 70%);
+        background-image: url(../../../../../public/assets/images/wave.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        opacity: 0.7;
+    }
+
+    &:hover {
+        cursor: pointer;
+        transform: translateY(-1rem);
+    }
+}
+.line-2 {
+    font-size: 1.4rem;
+}
+
+// media queries
+@media (max-width: 1600px) {
+    .wrapper {
+        padding: 2rem 2rem 0 2rem;
+    }
+    .topic-item {
+        width: 22rem;
+        height: 13rem;
+
+        .line-1 {
+            font-size: 2rem;
+        }
+    }
+}
+
+@media (max-width: 1400px) {
+    .wrapper {
+        padding: 2rem 2rem 0 2rem;
+    }
+    .topic-item {
+        width: 20rem;
+        height: 11rem;
+    }
+}
+
+//for tablet
+@media ((min-width: 500px) and (max-width: 1080px)) {
+    .topics-list{
+        gap: 1rem;
+    }
+    .topic-item {
+        width: 18.7rem;
+        height: 14rem;
+    }
+}
+
+//for mobile
+@media (max-width: 500px) {
+    .wrapper {
+        padding-left: 1rem;
+        padding-right: 0;
+    }
+    h3 {
+        font-size: 2rem;
+    }
+
+    .topics-list {
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        overflow-x: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    .topic-item {
+        width: 12rem;
+        height: 8rem;
+        justify-content: center;
+
+        .line-1 {
+            font-size: 1.5rem;
+        }
+
+        .line-2 {
+            display: none;
+        }
+
+        &:hover {
+            transform: none;
+            cursor: default;
+        }
+    }
+}

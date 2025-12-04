@@ -1,0 +1,492 @@
+.wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.slide {
+    position: relative;
+    width: 100%;
+    height: 86rem;
+    max-height: 86rem;
+    user-select: none;
+}
+
+.slide-elements {
+    cursor: grab;
+    cursor: -webkit-grab;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    &:active {
+        cursor: grabbing;
+        cursor: -webkit-grabbing;
+    }
+}
+.cover-fade,
+.cover-image,
+.cover-img {
+    pointer-events: none;
+}
+
+.cover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-image: url('../../../public/assets/images/dotted.png');
+
+    .cover-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        -webkit-mask-image: linear-gradient(0deg, transparent 0, black 20%, black 80%, transparent),
+            linear-gradient(90deg, transparent 0, black 20%, black 80%, transparent);
+        -webkit-mask-composite: intersect;
+        mask-composite: intersect;
+        mask-image: linear-gradient(0deg, transparent 0, black 20%, black 80%, transparent),
+            linear-gradient(90deg, transparent 0, black 35%, black 65%, transparent);
+    }
+}
+
+.slide-info {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 70rem;
+    padding: 10rem 5rem 15rem 5rem;
+    display: flex;
+    flex-direction: column;
+    // align-items: flex-end;
+    z-index: 2;
+
+    .movie-title {
+        color: var(--primary-text);
+        width: 100%;
+    }
+
+    .movie-eng-title {
+        font-size: 1.8rem;
+        width: 100%;
+        margin: 0.5rem 0;
+        color: var(--primary-text);
+    }
+
+    .movie-tags-1 {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .movie-tags-2 {
+        margin-bottom: 2.5rem;
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+.IMDb-tag {
+    border: 1px solid #f0d25c;
+    border-radius: 0.5rem;
+    color: var(--text-color);
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    padding: 0 0.5rem;
+    align-items: center;
+    display: inline-flex;
+
+    &::before {
+        content: 'IMDb';
+        color: #f0d25c;
+        font-weight: 500;
+        padding-right: 4px;
+        font-size: 10px;
+        line-height: 1;
+    }
+}
+
+.quality-tag {
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+    font-size: 1.4rem;
+    color: var(--text-black);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(220deg, #ffd875, #fff);
+}
+
+.tag-model {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    padding: 0 0.8rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tag-classic,
+.tag-topic {
+    border-radius: 0.5rem;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    padding: 0 0.5rem;
+    display: inline-flex;
+    color: var(--text-color);
+}
+
+.tag-classic {
+    background-color: transparent;
+    border: 1px solid #fff;
+}
+
+.tag-topic {
+    background-color: var(--background-color-2);
+}
+
+.movie-description {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    display: -webkit-box;
+    line-clamp: 4;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-actions {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-top: 3rem;
+
+    .play {
+        position: relative;
+        width: 7rem;
+        height: 7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: linear-gradient(39deg, #00ffff, #66ffff);
+
+        opacity: 0.9;
+
+        &:hover {
+            opacity: 1;
+            box-shadow: 0 5px 10px 5px rgba(255, 218, 125, 0.1);
+        }
+        .play-icon {
+            position: absolute;
+            color: #191b24;
+            font-size: 3rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+.group-actions {
+    display: flex;
+    height: auto;
+    align-items: center;
+    border: 2px solid var(--border-color);
+    border-radius: 3rem;
+
+    &:hover {
+        border-color: var(--primary);
+    }
+
+    .action-item {
+        cursor: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 5.4rem;
+        height: 4.7rem;
+        padding: 6px 3.5rem;
+        font-size: 2rem;
+        color: var(--text-color);
+
+        &:first-child:hover svg {
+            color: #b8182f;
+            cursor: pointer;
+        }
+        &:nth-child(2):hover svg {
+            color: var(--primary-text);
+            cursor: pointer;
+        }
+    }
+    .action-item + .action-item {
+        border-left: 2px solid var(--border-color);
+    }
+}
+
+// TIPPY LIBRARY
+// Swiper Library
+.slide :global(.swiper-slide) {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0 !important;
+    transition: opacity 1.2s ease-in-out;
+}
+
+.slide :global(.swiper-slide-active) {
+    opacity: 1 !important;
+    z-index: 2;
+}
+.slide {
+    :global {
+        .swiper-pagination {
+            width: auto !important;
+            position: absolute;
+            bottom: 3rem;
+            left: 50% !important;
+            transform: translate(-50%) !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10 !important;
+        }
+
+        .swiper-pagination-bullet {
+            width: 7.5rem;
+            height: 5rem;
+            border-radius: 0.8rem;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: brightness(1);
+                transition: 0.3s;
+            }
+
+            &:hover img {
+                filter: brightness(1);
+            }
+        }
+
+        .swiper-pagination-bullet-active {
+            border-color: #fff;
+
+            img {
+                filter: brightness(1);
+            }
+        }
+    }
+}
+// Animations
+.slideInLeft {
+    animation: slideInLeft 0.7s linear forwards;
+}
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-70px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slideInRight {
+    animation: slideInRight 0.7s linear forwards;
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(70px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+// Media Queries
+
+@media (max-width: 1600px) {
+    .slide {
+        max-height: 70rem;
+    }
+}
+
+@media (max-width: 1400px) {
+    .slide {
+        max-height: 70rem;
+    }
+}
+
+// media for tablet
+@media (min-width: 500px) and (max-width: 1080px) {
+    .slide {
+        height: 50rem;
+    }
+    .cover-image {
+        .cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            -webkit-mask-composite: intersect;
+            -webkit-mask-image: linear-gradient(0deg, transparent 0, black 20%, black 80%, transparent),
+                linear-gradient(90deg, transparent 0, black 20%, black 80%, transparent);
+
+            mask-image: linear-gradient(0deg, transparent 0, black 30%, black, transparent);
+            mask-composite: intersect;
+            opacity: 0.8;
+        }
+    }
+    .slide-info {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        max-width: 70rem;
+        padding: 1rem 2rem 3rem 2rem;
+        display: flex;
+        flex-direction: column;
+        z-index: 3;
+    }
+    .group-actions {
+        display: flex;
+        align-items: center;
+        height: 6rem;
+        border: 2px solid var(--border-color);
+        border-radius: 3rem;
+    
+        &:hover {
+            border-color: var(--primary);
+        }
+    
+        .action-item {
+            cursor: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 5.4rem;
+            height: 2rem;
+            padding: 6px 3.5rem;
+            font-size: 2rem;
+            color: var(--text-color);
+        }
+    }
+    .slide {
+        :global {
+            .swiper-pagination {
+                bottom: 3rem;
+                left: 75% !important;
+                transform: translate(-75%) !important;
+            }
+            .swiper-pagination-bullet {
+                width: 4rem;
+                height: 4rem;
+                border-radius: 50%;
+            }
+            .swiper-pagination-bullet-active {
+                border-color: var(--primary-color);
+            }
+        }
+    }
+    
+}
+
+// media for mobile
+@media (max-width: 500px) {
+    .slide {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+        height: 24rem;
+        max-height: 80rem;
+        user-select: none;
+    }
+    .cover-image {
+        background-image: none;
+
+        .cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            -webkit-mask-composite: intersect;
+            -webkit-mask-image: linear-gradient(0deg, transparent 0, black 20%, black 80%, transparent),
+                linear-gradient(90deg, transparent 0, black 20%, black 80%, transparent);
+
+            mask-image: linear-gradient(0deg, transparent 0, black 30%, black);
+            mask-composite: intersect;
+            opacity: 0.8;
+        }
+    }
+    .slide-info {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        max-width: 70rem;
+        padding: 1rem 2rem 3rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 3;
+
+        .movie-title {
+            font-size: 2rem;
+            margin: 0;
+            color: var(--primary-text);
+            text-align: center;
+        }
+        .movie-eng-title {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary-text);
+        }
+        .IMDb-tag,
+        .quality-tag,
+        .tag-model,
+        .tag-classic,
+        .tag-topic {
+            font-size: 01rem;
+            padding: 0 0.4rem;
+            line-height: 2rem;
+        }
+        .movie-tags-2 {
+            display: none;
+        }
+        .movie-description {
+            display: none;
+        }
+    }
+    .movie-actions {
+        display: none;
+    }
+    .slide {
+        :global {
+            .swiper-pagination-bullet {
+                width: 2.6rem;
+                height: 2.6rem;
+                border-radius: 50%;
+            }
+            .swiper-pagination-bullet-active {
+                border-color: var(--primary-color);
+            }
+        }
+    }
+}

@@ -1,0 +1,144 @@
+.heading {
+    margin-bottom: 3.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    p {
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--text-color);
+    }
+
+    span {
+        font-size: 1.4rem;
+        color: var(--text-color-1);
+    }
+}
+
+.body {
+    width: 70%;
+    position: relative;
+
+    .body-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .col-1 {
+            flex: 0.9;
+        }
+    }
+}
+
+label {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 2.4rem;
+
+    &.gender {
+        flex-direction: row;
+        gap: 1.5rem;
+        transform: translateY(-2.5rem);
+        margin-bottom: 3rem;
+    }
+    input {
+        height: 4.2rem;
+        padding: 8px 1.6rem;
+        border-radius: 1rem;
+        border: 1px solid var(--border-color);
+        background-color: var(--background-color-4);
+        color: var(--text-color);
+    }
+
+    input:disabled {
+        cursor: not-allowed;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        label {
+            margin: 0;
+        }
+    }
+}
+
+.label-gender {
+    transform: translateY(-2rem);
+}
+
+.btn {
+    display: flex;
+    gap: 2rem;
+}
+
+.col-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+
+    label {
+        &:hover {
+            cursor: pointer;
+            color: var(--primary-text);
+        }
+    }
+}
+
+.avatar {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 1rem;
+    border: 2px solid #fff;
+    overflow: hidden;
+    transform: translateY(2.5rem);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+    }
+}
+
+// mobile responsive
+@media (max-width: 500px) {
+    .heading {
+        margin-bottom: 15rem;
+    }
+    .input__text {
+        width: 100%;
+    }
+    .col-2 {
+        position: absolute;
+        top: -12rem;
+        left: 0;
+        flex-direction: row;
+        gap: 2rem;
+
+        .avatar {
+            transform: none;
+            width: 7.5rem;
+            height: 7.5rem;
+        }
+
+        .change-avatar {
+            transform: translateY(-0.5rem);
+
+            label {
+                &:hover {
+                    color: var(--text-color);
+                }
+            }
+        }
+    }
+}

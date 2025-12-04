@@ -1,0 +1,61 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 6px 16px;
+    max-width: 37rem;
+    border-radius: 1rem;
+
+    &:hover {
+        background: var(--background-color-3);
+        cursor: pointer;
+    }
+}
+
+.poster {
+    width: 5rem;
+    height: 6rem;
+    border-radius: 1rem;
+    object-fit: cover;
+}
+
+.info {
+    flex: 1;
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.movie-name {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--text-color);
+    display: -webkit-box;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.original-name {
+    font-size: 1.4rem;
+    color: var(--text-color-1);
+    display: -webkit-box;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.more-info {
+    font-size: 1.4rem;
+    color: var(--text-color-1);
+}
+
+// media for tablet
+@media (min-width: 500px) and (max-width: 1080px) {
+    .wrapper {
+        max-width: 100vw;
+    }
+}

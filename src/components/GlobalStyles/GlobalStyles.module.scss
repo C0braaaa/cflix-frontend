@@ -1,0 +1,96 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+:root {
+    --primary: #fff;
+    --primary-color: #00ffff;
+    --primary-text: #00ffff;
+    --text-black: #000000;
+
+    --text-color: #ffffff;
+    --text-color-1: #aaa;
+    --background-color: #191b24;
+    --background-color-1: #0f111a;
+    --background-color-2: #ffffff10;
+    --background-color-3: #25272f;
+    --background-color-4: #ffffff05;
+    --background-color-5: #1e2545;
+    --background-color-6: #5e6070;
+    --background-color-7: #003366;
+
+    --border-color: #fff4;
+    --font-family: 'Roboto', sans-serif;
+}
+
+*::selection {
+    font-weight: 600;
+    background-color: var(--primary-color);
+    color: var(--text-black);
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+html {
+    font-size: 62.5%;
+}
+
+html *::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 0;
+}
+
+/* Phần thanh cuộn */
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.3); /* trắng mờ */
+    transition: background-color 0.2s ease;
+}
+
+/* Hover thì trắng rõ hơn */
+html *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Nền track phía sau */
+html *::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1); /* nền mờ nhẹ */
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: 2rem;
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
+    background-color: var(--background-color);
+}
+
+a {
+    text-decoration: none !important;
+    color: #fff;
+}
+
+ul {
+    list-style: none;
+}
+
+button,
+hr,
+textarea,
+input,
+[tabindex] {
+    caret-color: var(--primary);
+    border: none;
+    outline: none;
+}
+
+hr {
+    height: 0;
+
+    margin: 0 0 8px 0;
+    border-top: 1px solid rgb(255, 255, 255, 0.2);
+}

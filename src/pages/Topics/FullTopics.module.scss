@@ -1,0 +1,143 @@
+.wrapper {
+    width: 100%;
+    margin: 10rem 0 3rem 0;
+    padding: 2rem 5rem 0 5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+h3 {
+    color: var(--text-color);
+    margin-bottom: 2rem;
+}
+
+.topics-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.topic-item {
+    position: relative;
+    width: 24rem;
+    height: 15rem;
+    border-radius: 1rem;
+    padding: 2rem 3rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.8rem;
+    color: var(--text-color);
+    transition: transform 0.3s linear;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 1rem;
+        -webkit-mask-image: linear-gradient(-45deg, black, transparent 70%);
+        mask-image: linear-gradient(-45deg, black, transparent 70%);
+        background-image: url(../../../public/assets/images/wave.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        opacity: 0.7;
+    }
+
+    &:hover {
+        cursor: pointer;
+        transform: translateY(-1rem);
+    }
+}
+.line-2 {
+    font-size: 1.4rem;
+}
+
+// media queries
+@media (max-width: 1600px) {
+    .wrapper {
+        padding: 2rem 2rem 0 2rem;
+    }
+    .topic-item {
+        width: 22rem;
+        height: 13rem;
+
+        .line-1 {
+            font-size: 2rem;
+        }
+    }
+}
+
+@media (max-width: 1400px) {
+    .wrapper {
+        padding: 2rem 2rem 0 2rem;
+    }
+    .topic-item {
+        width: 20rem;
+        height: 11rem;
+    }
+}
+
+@media (max-width: 768px) {
+    h3 {
+        font-size: 2rem;
+    }
+
+    .topics-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .topic-item {
+        width: 20rem;
+        height: 8.2rem;
+        justify-content: center;
+
+        .line-1 {
+            font-size: 1.5rem;
+        }
+
+        .line-2 {
+            display: none;
+        }
+
+        &:hover {
+            transform: none;
+            cursor: default;
+        }
+    }
+}
+@media (max-width: 500px) {
+    .wrapper {
+        margin-top: 2rem;
+    }
+    h3 {
+        font-size: 1.8rem;
+    }
+
+    .topics-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .topic-item {
+        width: 40vw;
+        height: 6rem;
+        justify-content: center;
+
+        .line-1 {
+            font-size: 1.3rem;
+        }
+
+        .line-2 {
+            display: none;
+        }
+
+        &:hover {
+            transform: none;
+            cursor: default;
+        }
+    }
+}

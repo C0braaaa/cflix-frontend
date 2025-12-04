@@ -1,0 +1,200 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15rem;
+    margin-bottom: 5rem;
+    padding: auto;
+    padding: 0 16rem;
+}
+
+.l-1 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    svg {
+        color: var(--text-color);
+        font-size: 2.3rem;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.title {
+    color: var(--text-color);
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+}
+.video {
+    height: 100rem;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 3rem;
+    background-color: #1e2545;
+    border-radius: 0 0 1rem 1rem;
+    transform: translateY(-10px);
+    padding: 1rem 2rem;
+
+    .action {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-color);
+        font-size: 1.6rem;
+
+        &:hover {
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+    }
+}
+
+.title-2 {
+    position: relative;
+    color: var(--text-color);
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    padding-right: 2rem;
+}
+.options {
+    margin-top: 8rem;
+    display: flex;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+
+    h2 {
+        position: relative;
+        color: var(--text-color);
+        font-size: 2rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        padding-right: 2rem;
+
+        &::after {
+            content: '';
+            height: 80%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+            width: 1px;
+            height: 70%;
+            background-color: var(--border-color);
+        }
+    }
+
+    .option {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        color: var(--text-color);
+        font-size: 1.5rem;
+        font-weight: 500;
+        padding: 1rem 2rem 1rem 1rem;
+        margin-left: 2rem;
+        background-color: var(--background-color-6);
+        border-radius: 0.5rem;
+        cursor: pointer;
+        opacity: 0.8;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &.active {
+            background-color: var(--primary-color);
+            color: var(--text-black);
+            opacity: 1;
+            font-weight: 600;
+        }
+    }
+}
+
+.episodes {
+    width: 100%;
+    max-height: 50rem;
+    overflow-y: auto;
+    border-top: 1px solid var(--border-color);
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    padding: 1rem 0;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .episode {
+        width: 10rem;
+        height: 4rem;
+        color: var(--text-black);
+        background-color: var(--background-color-6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+
+        &.active {
+            background-color: var(--primary-color);
+        }
+    }
+}
+
+// mobile responsive
+@media screen and (max-width: 500px) {
+    .wrapper {
+        margin-top: 2rem;
+        padding: 0 0.5rem;
+    }
+    .l-1 {
+        .title {
+            font-size: 1.5rem;
+        }
+    }
+    .video {
+        height: 23.5rem;
+
+        .action {
+            font-size: 1.6rem;
+
+            span {
+                display: none;
+            }
+        }
+    }
+    .options {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 5rem;
+
+        h2 {
+            font-size: 1.6rem;
+
+            &::after {
+                width: 0;
+            }
+        }
+
+        .option {
+            margin-left: 0;
+            width: 100%;
+            font-size: 1.2rem;
+        }
+    }
+    .episodes {
+        grid-template-columns: repeat(5, 1fr);
+
+        .episode {
+            width: 6rem;
+        }
+    }
+}
