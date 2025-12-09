@@ -47,7 +47,7 @@ function Topics() {
 
     return (
         <div className={cx('wrapper')}>
-            <h3>Khám phá những chủ đề hay!</h3>
+            <h3 className={cx('title')}>Khám phá những chủ đề hay!</h3>
             <div className={cx('topics-list')}>
                 {list.map((item, index) => {
                     return (

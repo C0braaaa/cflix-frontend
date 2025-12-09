@@ -12,8 +12,6 @@ import { genres, nations, more, user } from '../../../components/Dropdown/listDr
 import Dropdown from '../../../components/Dropdown/Dropdown.jsx';
 import Search from '../Search/Search.jsx';
 import { useAuth } from '../../../features/auth/context/AuthContext.jsx';
-import Toast from '../../../components/ToastMessage/ToastMessage.jsx';
-
 const cx = classNames.bind(styles);
 
 function Header() {

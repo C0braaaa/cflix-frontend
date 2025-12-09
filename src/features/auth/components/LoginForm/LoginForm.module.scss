@@ -83,10 +83,12 @@
 }
 
 .forgot-password {
+    position: absolute;
     margin-top: 2rem;
     font-size: 1.4rem;
+    left: 50%;
+    transform: translate(-50%);
     color: var(--text-color-1);
-    transform: translateX(10rem);
     cursor: pointer;
 
     &:hover {
@@ -101,5 +103,22 @@
     }
     to {
         transform: translateY(0);
+    }
+}
+
+
+//media query
+//for mobile
+@media (max-width: 500px) {
+    .login-modal{
+        width: calc(100vw - 2rem);
+        height: 60vh;
+    }
+    .modal-content{
+        padding: 2rem;
+
+        &::before {
+            display: none;
+        }
     }
 }

@@ -84,3 +84,19 @@
         transform: translateY(0);
     }
 }
+
+//media query
+//for mobile
+@media (max-width: 500px) {
+    .register-modal{
+        width: calc(100vw - 2rem);
+        height: 60vh;
+    }
+    .modal-content{
+        padding: 2rem;
+
+        &::before {
+            display: none;
+        }
+    }
+}

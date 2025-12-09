@@ -96,3 +96,19 @@
         transform: translateY(0);
     }
 }
+
+//media query
+//for mobile
+@media (max-width: 500px) {
+    .forgot-modal{
+        width: calc(100vw - 2rem);
+        height: 35vh;
+    }
+    .modal-content{
+        padding: 2rem;
+
+        &::before {
+            display: none;
+        }
+    }
+}

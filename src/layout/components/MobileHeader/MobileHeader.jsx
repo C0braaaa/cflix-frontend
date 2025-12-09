@@ -20,10 +20,15 @@ import Button from '../../../components/Button/index-button';
 import Dropdown from '../../../components/Dropdown/Dropdown';
 import { genres, nations, more } from '../../../components/Dropdown/listDropdown';
 import Search from '../Search/Search';
+import { useAuth } from '../../../features/auth/context/AuthContext';
+
 const cx = classNames.bind(styles);
 
 function MobileHeader() {
-    const currentUser = true;
+
+    const { openModal } = useAuth();
+
+    const currentUser = false;
 
     const [menuIcon, setMenuIcon] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -127,6 +132,7 @@ function MobileHeader() {
                                                 primary
                                                 leftIcon={<FontAwesomeIcon icon={faUser} />}
                                                 className={cx('btn__login')}
+                                                onClick={() => openModal('login')}
                                             >
                                                 Thành viên
                                             </Button>
@@ -134,6 +140,7 @@ function MobileHeader() {
                                                 primary
                                                 leftIcon={<FontAwesomeIcon icon={faUserPlus} />}
                                                 className={cx('btn__register')}
+                                                onClick={() => openModal('register')}
                                             >
                                                 Đăng kí
                                             </Button>
