@@ -21,7 +21,6 @@ function Header() {
 
     const [scroll, setScroll] = useState(false);
     const [showDropdown, setShowDropdown] = useState(null);
-    
 
     useEffect(() => {
         const handleScroll = () => {
@@ -151,7 +150,6 @@ function Header() {
                     </div>
                 </div>
             </header>
-           
         </>
     );
 }
