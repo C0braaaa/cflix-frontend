@@ -88,6 +88,7 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     gap: 1rem;
+    
 }
 
 .item {
@@ -95,10 +96,13 @@
     width: 20rem;
     height: 36rem;
     border-radius: 1rem;
+    
 }
 
 .poster {
     position: relative;
+    border-radius: 1rem;
+    background-color: var(--background-color-3);
     width: 100%;
     height: 80%;
 

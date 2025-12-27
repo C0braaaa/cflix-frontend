@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 import styles from './MobileHeader.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faBars,
     faClockRotateLeft,
     faHeart,
     faInfinity,
@@ -25,7 +24,6 @@ import { useAuth } from '../../../features/auth/context/AuthContext';
 const cx = classNames.bind(styles);
 
 function MobileHeader() {
-
     const { openModal } = useAuth();
 
     const currentUser = false;
@@ -36,9 +34,9 @@ function MobileHeader() {
     const [showDropdown, setShowDropdown] = useState(null);
 
     const closeMenu = () => {
-        setMenuIcon(false);
         setShowMenu(false);
         setShowDropdown(null);
+        setMenuIcon(false);
     };
 
     return (
@@ -47,17 +45,15 @@ function MobileHeader() {
                 <>
                     <div className={cx('menu')}>
                         <div
-                            className={cx('menu__toogle')}
+                            className={cx('menu__toogle', { xMark: menuIcon })}
                             onClick={() => {
-                                setMenuIcon((prev) => !prev);
                                 setShowMenu((prev) => !prev);
+                                setMenuIcon((prev) => !prev);
                             }}
                         >
-                            {menuIcon ? (
-                                <FontAwesomeIcon icon={faX} className={cx('icon--red')} />
-                            ) : (
-                                <FontAwesomeIcon icon={faBars} />
-                            )}
+                            <span></span>
+                            <span></span>
+                            <span></span>
                         </div>
                         <div className={cx('menu__list')}>
                             {showMenu && (
@@ -90,8 +86,8 @@ function MobileHeader() {
                                                     to="/user/playlist"
                                                     className={cx('user__item')}
                                                     onClick={() => {
-                                                        setShowMenu((prev) => !prev);
                                                         setMenuIcon((prev) => !prev);
+                                                        setShowMenu((prev) => !prev);
                                                     }}
                                                 >
                                                     <FontAwesomeIcon icon={faPlus} />
@@ -101,8 +97,8 @@ function MobileHeader() {
                                                     to="/user/xem-tiep"
                                                     className={cx('user__item')}
                                                     onClick={() => {
-                                                        setShowMenu((prev) => !prev);
                                                         setMenuIcon((prev) => !prev);
+                                                        setShowMenu((prev) => !prev);
                                                     }}
                                                 >
                                                     <FontAwesomeIcon icon={faClockRotateLeft} />
@@ -112,8 +108,8 @@ function MobileHeader() {
                                                     to="/user/profile"
                                                     className={cx('user__item')}
                                                     onClick={() => {
-                                                        setShowMenu((prev) => !prev);
                                                         setMenuIcon((prev) => !prev);
+                                                        setShowMenu((prev) => !prev);
                                                     }}
                                                 >
                                                     <FontAwesomeIcon icon={faUser} />

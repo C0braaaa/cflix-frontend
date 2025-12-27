@@ -13,10 +13,34 @@
     font-size: 2.5rem;
     cursor: pointer;
     margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
 
     .icon--red {
         color: red;
         height: 2.2rem;
+    }
+
+    span{
+        width: 2rem;
+        height: 2px;
+        background-color: var(--text-color);
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+    &.xMark {
+        span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+            background-color: red;
+        }
+        span:nth-child(2) {
+            opacity: 0;
+        }
+        span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+            background-color: red;
+        }
     }
 }
 
