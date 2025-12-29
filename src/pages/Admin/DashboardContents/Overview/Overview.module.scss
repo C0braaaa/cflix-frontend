@@ -1,0 +1,112 @@
+// chart stats card
+    .stats-card{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+
+        .card{
+            padding: 2rem;
+            background-color: pink;
+            height: 20rem;
+            display: flex;
+            justify-content: space-between;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+
+            &:hover{
+                transform: translateY(-1rem);
+                cursor: pointer;
+            }
+
+            .card-left-side{
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                
+                .card-title{
+                    margin: 0;
+                    font-size: 1.8rem;
+                }
+
+                .card-value{
+                    font-size: 3.2rem;
+                    font-weight: 700;
+                    color: var(--text-color);
+                }
+            }
+
+            svg{
+                font-size: 4rem;
+                color: var(--border-color);
+            }
+
+            &:nth-child(1) {
+                background: linear-gradient(to right, #ffbf96, #fe7096);
+            }
+            &:nth-child(2) {
+                background: linear-gradient(to right, #90caf9, #047edf 99%);
+            }
+            &:nth-child(3) {
+                background: linear-gradient(to right, #84d9d2, #07cdae);
+            }
+        }
+    }
+
+    // charts section
+    .charts-section {
+        display: grid;
+        grid-template-columns: 2fr 1fr; 
+        gap: 2rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        height: 450px; 
+    }
+    .chart-container {
+        background-color: #fff;
+        border-radius: 1.5rem; 
+        padding: 2rem; 
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+        border: 1px solid rgba(0,0,0, 0.02);
+        display: flex;
+        flex-direction: column;
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem; 
+
+            h3 {
+                font-size: 1.8rem;
+                color: var(--text-black); 
+                font-weight: 600;
+            }
+
+            .chart-filter {
+                padding: 0.6rem 1.2rem;
+                border-radius: 0.8rem;
+                border: 1px solid #e2e8f0;
+                background-color: #f8fafc;
+                color: #64748b;
+                font-size: 1.2rem;
+                font-family: inherit;
+                outline: none;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                &:hover, &:focus {
+                    border-color: #2E86DE;
+                    color: #2E86DE;
+                    background-color: #fff;
+                }
+            }
+        }
+
+        // --- Body of the chart ---
+        .chart-body {
+            flex: 1; 
+            width: 100%;
+            min-height: 0; 
+            font-size: 1.2rem; 
+            font-family: sans-serif;
+        }
+    }

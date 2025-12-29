@@ -15,7 +15,7 @@ import { useAuth } from '../../../features/auth/context/AuthContext.jsx';
 const cx = classNames.bind(styles);
 
 function Header() {
-    let currentUser = false;
+    let currentUser = true;
 
     const { openModal } = useAuth();
 

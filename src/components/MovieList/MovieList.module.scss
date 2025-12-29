@@ -292,9 +292,25 @@
         gap: 1rem;
     }
     .item {
-        width: 17rem;
+        width: calc(100% - 0.5rem);
     }
 }
+
+@media (max-width: 1355px) {
+    .wrapper {
+        margin-top: 3rem;
+        padding: 0 1rem;
+    }
+    .list-items {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 1rem;   
+    }
+    .item {
+        width: calc(100% - 0.5rem);
+    }
+}   
 
 // media for tablet
 @media (min-width: 500px) and (max-width: 1080px) {

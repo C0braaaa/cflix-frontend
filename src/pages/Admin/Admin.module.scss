@@ -1,37 +1,212 @@
 .wrapper {
     width: 100vw;
     height: 100vh;
-    background-color: white;
+    background-color: var(--bg-body);
+    color: var(--text-primary);
     display: flex;
-}
+    padding-top: 8rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 
-//sidebar
-.sidebar {
-    width: 15%;
-    height: 100vh;
-    background-color: #2d353c;
-    padding: 2rem 2rem;
-}
+    // light theme
+    --bg-body: #F2EDF3;
+    --bg-element: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #333;
+    --border-color: #cbd0dd;
+    --hover-bg: #EFF2F6;
+    --active-bg: #00ffff;
+    --active-text: #333;
+    --shadow: 0 2px 10px rgba(0,0,0,0.05);
 
-.admin-info {
+    // dart theme
+    &[data-theme="dark"] {
+        --bg-body: #141414;        
+        --bg-element: #1f1f1f;     
+        --text-primary: #e5e5e5;   
+        --text-secondary: #fff; 
+        --border-color: #333333;
+        --hover-bg: #2a2a2a; 
+        --active-bg: #00ffff;
+        --active-text: #333;
+        --shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+}
+//header
+.header {
+    width: 100%;
+    height: 8rem;
+    background-color: var(--bg-element);
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 1.5rem;
-
-    .avatar {
-        width: 5rem;
+    padding: 0 2rem;
+    transition: background-color 0.3s ease;
+.logo {
+        width: 14rem;
         height: 5rem;
-        border-radius: 1rem;
-
+        cursor: pointer;
         img {
             width: 100%;
             height: 100%;
-            border-radius: 1rem;
             object-fit: cover;
         }
     }
-    .name {
-        color: var(--text-color);
-        font-size: 1.6rem;
+
+    .admin-options {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+
+            .avatar {
+                width: 5rem;
+                height: 5rem;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: conic-gradient(from 0deg, #2E86DE 0%, #2E86DE 25%, #FF6B6B 25%, #FF6B6B 50%, #FF9F43 50%, #FF9F43 75%, #1DD1A1 75%, #1DD1A1 100%);
+                padding: 2.5px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 2px solid var(--bg-element); // Viền ăn theo nền
+                }
+            }
+
+            .name {
+                font-size: 1.6rem;
+                font-weight: 500;
+                // Giữ màu gradient tên cho đẹp
+                background: linear-gradient(to right, #2E86DE, #FF6B6B, #FF9F43, #1DD1A1);
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+        }
     }
+}
+
+// --- NÚT GẠT THEME (Đã căn giữa chuẩn) ---
+.toggle-theme {
+    position: relative;
+    width: 6.4rem;      
+    height: 3.2rem;   
+    padding: 0.4rem;  
+    border-radius: 2rem;
+    background-color: #E6E5E0; // Màu nền toggle giữ nguyên hoặc đổi nếu thích
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    
+    .slider {
+        position: absolute;
+        z-index: 1; 
+        top: 0.4rem; 
+        left: 0.4rem;  
+        width: 2.4rem; 
+        height: 2.4rem;
+        background-color: #ffffff;
+        border-radius: 50%;
+        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        
+        &.active {
+            transform: translateX(3.2rem); // Trượt sang phải chuẩn
+        }
+    }
+
+    .icon-wrapper {
+        z-index: 2;
+        width: 50%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        color: #999;
+        transition: color 0.3s ease;
+        
+        &.active {
+            &:nth-of-type(2){
+                color: #333;
+            }
+            &:nth-of-type(3){
+                color: #FECC51;
+            }
+        }
+    }
+}
+
+// --- SIDEBAR ---
+.sidebar {
+    width: 25rem;
+    height: calc(100vh - 8rem);
+    background-color: var(--bg-element);
+    border-right: 1px solid var(--border-color);
+    padding: 1rem 2rem 2rem;
+    transition: background-color 0.3s ease;
+    
+    // Cố định sidebar, chỉ content scroll
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+
+    .menu {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        // Style chung cho cả NavLink và thẻ div
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border-radius: 0.8rem;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none; // Bỏ gạch chân
+            transition: all 0.2s ease;
+
+            // Khi active (NavLink tự thêm class này)
+            &.active {
+                background-color: var(--active-bg);
+                color: var(--active-text);
+            }
+
+            &:hover:not(.active) {
+                background-color: var(--hover-bg);
+                color: var(--text-primary);
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+// --- CONTENT (Phần thay đổi) ---
+.content {
+    margin-left: 25rem; // Đẩy content sang phải để tránh sidebar che
+    flex: 1;
+    padding: 2rem;
+    width: calc(100% - 25rem);
+    height: calc(100vh - 8rem);
+    overflow-y: auto; // Content scroll độc lập
 }

@@ -131,6 +131,26 @@
 }
 
 // media query
+@media (max-width: 1355px) {
+    .search {
+        margin-left: 1rem;
+        width: calc(100vw - 6rem) ;
+    }
+
+    .search-input {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .search-icon {
+        left: 1rem;
+    }
+
+    .search-result {
+        width: 100rem;
+        margin-left: 1rem;
+    }
+}
 // for tablet
 @media ( min-width: 500px) and (max-width: 1080px) {
     .search {

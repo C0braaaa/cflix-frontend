@@ -13,11 +13,11 @@ const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
     const [moveTop, setMoveTop] = useState(false);
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 1080);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 1350);
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 1080);
+            setIsMobile(window.innerWidth <= 1350);
         };
 
         window.addEventListener('resize', handleResize);

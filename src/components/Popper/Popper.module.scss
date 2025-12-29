@@ -2,13 +2,19 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 37rem;
+    max-width: 1300px;
     max-height: 60rem;
     border-radius: 8px;
     padding: 1rem;
     background-color: var(--background-color);
     box-shadow: rgb(0 0 0 / 12%) 0 2px 12px;
     min-height: 100px;
+}
+
+@media (max-width: 1350px) {
+    .wrapper {
+        max-width: calc(100vw - 1rem);
+    }
 }
 
 // media for tablet
