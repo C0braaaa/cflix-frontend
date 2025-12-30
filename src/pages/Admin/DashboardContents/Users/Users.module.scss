@@ -62,3 +62,118 @@
         }
     }
 }
+
+//table styles
+.table{
+    width: 100%;
+    border-collapse: separate; 
+    border-spacing: 0;
+
+    th{
+        background-color: var(--light-gray);
+        text-align: left;
+        font-size: 1.4rem;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+
+        &:first-child{
+            border-top-left-radius: 1rem;
+        }
+        &:last-child{
+            border-top-right-radius: 1rem;
+        }
+    }
+    td{
+        padding: 1rem;
+        font-size: 1.6rem;
+        font-weight: 450;
+        border-bottom: 1px solid var(--border-color);
+        overflow: visible;
+
+        &:nth-of-type(2){
+            display: flex;
+            align-items: center;
+
+            .avatar{
+                width: 4rem;
+                height: 4rem;
+                border-radius: 1rem;
+
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 1rem;
+                }
+            }
+        }
+        &:nth-of-type(5){
+            .admin{
+                padding: .5rem;
+                border-radius: .5rem;
+                text-transform: uppercase;
+                background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+                box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+                color: var(--text-color);
+            }
+            .user{
+                padding: .5rem;
+                border-radius: .5rem;
+                text-transform: uppercase;
+                background: linear-gradient(135deg, #f3f4f6 0%, #d1d5db 100%);
+                box-shadow:0 2px 4px rgba(0, 0, 0, 0.05);
+                color: var(--text-black);
+            }
+        }
+         &:nth-of-type(6){
+            .online {
+                padding: .5rem;
+                border-radius: .5rem;
+                background-color: #bbf7d0;
+                color: #16a34a;
+                &::before {
+                    content: "●";
+                    margin-right: 0.5rem;
+                }
+            }
+            .offline {
+                padding: .5rem;
+                border-radius: .5rem;
+                background-color: #fecaca;
+                color: #991b1b;
+                &::before {
+                    content: "●";
+                    margin-right: 0.5rem;
+                }
+            }
+        }
+        .actions{
+            position: relative; // Làm gốc tọa độ cho menu con
+            padding-left: -3rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+
+            .dropdown-test {
+                position: absolute;   // Tách biệt khỏi luồng của Table
+                top: 100%;            // Nằm ngay dưới icon
+                right: 0;             // Canh phải cho gọn
+                z-index: 999;         // Luôn nổi trên các hàng khác
+                
+                background-color: #fff;
+                border: 1px solid var(--border-color);
+                border-radius: 0.8rem;
+                padding: 1rem;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                min-width: 120px;
+
+                h1 {
+                    font-size: 1.4rem;
+                    margin: 0;
+                    color: #333;
+                    white-space: nowrap; // Không cho chữ xuống dòng làm hỏng khung
+                }
+            }
+        }
+    }
+}
