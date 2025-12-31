@@ -150,7 +150,7 @@ function Search() {
             </div>
 
             {/* ✅ Overlay click ra ngoài để đóng */}
-            {showResult && <div className={cx('overlay')} onClick={handleHideResult}></div>}
+            {showResult && <div className={cx('overlay-search')} onClick={handleHideResult}></div>}
         </>
     );
 }

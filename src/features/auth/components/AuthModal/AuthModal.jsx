@@ -7,7 +7,7 @@ function AuthModal({ isOpen, onClose, children }) {
     if (!isOpen) return null;
 
     return (
-        <div className={cx('overlay')} onClick={onClose}>
+        <div className={cx('overlay-auth')} onClick={onClose}>
             <div className={cx('modal')} onClick={(e) => e.stopPropagation()}>
                 {children}
             </div>

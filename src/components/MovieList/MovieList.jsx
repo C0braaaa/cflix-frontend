@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faFilter } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
@@ -14,11 +14,14 @@ const cx = classNames.bind(styles);
 
 function MovieList({ title, fetchFunction, type, slug }) {
     const [movies, setMovies] = useState([]);
-    const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [inputPage, setInputPage] = useState(page);
     const [isLoader, setIsLoader] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
+    const [titlePage, setTitlePage] = useState('');
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = searchParams.get('page') ? parseInt(searchParams.get('page')) : 1;
+    const [inputPage, setInputPage] = useState(page);
 
     const year = new Date().getFullYear();
 
@@ -38,6 +41,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
             try {
                 const data = await fetchFunction(pageNum, 32, slug);
                 setMovies(data.items || []);
+                setTitlePage(data.titlePage || []);
                 setTotalPages(data.params?.pagination?.totalPages || data.totalPages || 1);
             } catch (error) {
                 console.error('API Error:', error);
@@ -52,6 +56,14 @@ function MovieList({ title, fetchFunction, type, slug }) {
         fetchMovies(page);
         setInputPage(page);
     }, [page, fetchMovies]);
+
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            // Giữ lại các params cũ nếu có (ví dụ filter), chỉ update page
+            const params = Object.fromEntries([...searchParams]);
+            setSearchParams({ ...params, page: newPage }); // <--- Cập nhật URL
+        }
+    };
 
     const renderExtraInfo = (movie) => {
         // Tùy theo type mà hiển thị thông tin phụ khác nhau
@@ -97,7 +109,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
 
     return (
         <div className={cx('wrapper')}>
-            <h2 className={cx('title')}>{title}</h2>
+            <h2 className={cx('title')}>{titlePage}</h2>
             <div className={cx('filter')}>
                 <div
                     className={cx('filter__icon', { active: showFilter })}
@@ -185,7 +197,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
                 {/* Phân trang */}
                 {!isLoader && (
                     <div className={cx('pagination')}>
-                        <button className={cx('prev')} disabled={page <= 1} onClick={() => setPage(page - 1)}>
+                        <button className={cx('prev')} disabled={page <= 1} onClick={() => handlePageChange(page - 1)}>
                             <FontAwesomeIcon icon={faArrowLeft} />
                         </button>
                         <span className={cx('page')}>
@@ -200,7 +212,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
                                     if (e.key === 'Enter') {
                                         const newPage = Number(inputPage);
                                         if (newPage >= 1 && newPage <= totalPages) {
-                                            setPage(newPage);
+                                            handlePageChange(newPage);
                                         } else {
                                             alert(`Vui lòng nhập trang từ 1 đến ${totalPages}`);
                                             setInputPage(page);
@@ -211,7 +223,11 @@ function MovieList({ title, fetchFunction, type, slug }) {
                             />{' '}
                             / {totalPages}
                         </span>
-                        <button className={cx('next')} disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
+                        <button
+                            className={cx('next')}
+                            disabled={page >= totalPages}
+                            onClick={() => handlePageChange(page + 1)}
+                        >
                             <FontAwesomeIcon icon={faArrowRight} />
                         </button>
                     </div>

@@ -215,7 +215,7 @@ function Users() {
                     ))}
                 </tbody>
             </table>
-            {edittingUSer && <div className={cx('overlay')} onClick={() => setEdittingUSer(false)}></div>}
+            {edittingUSer && <div className={cx('overlay-users')} onClick={() => setEdittingUSer(false)}></div>}
             {edittingUSer && (
                 <div className={cx('modal-edit')}>
                     <form className={cx('edit-form')} onSubmit={handleSubmit(onSubmit)}>

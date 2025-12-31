@@ -90,7 +90,7 @@
     font-size: 1.6rem;
 }
 
-.overlay {
+.overlay-search {
     margin-top: 9rem;
     position: fixed;
     inset: 0;
@@ -134,7 +134,7 @@
 @media (max-width: 1355px) {
     .search {
         margin-left: 1rem;
-        width: calc(100vw - 6rem) ;
+        width: calc(100vw - 6rem);
     }
 
     .search-input {
@@ -152,7 +152,7 @@
     }
 }
 // for tablet
-@media ( min-width: 500px) and (max-width: 1080px) {
+@media (min-width: 500px) and (max-width: 1080px) {
     .search {
         margin-left: 1rem;
         width: calc(100vw - 6rem);
@@ -175,7 +175,7 @@
 // for mobile
 @media (max-width: 500px) {
     .search {
-        margin-left: .5rem;
+        margin-left: 0.5rem;
         width: calc(100vw - 6rem);
     }
 

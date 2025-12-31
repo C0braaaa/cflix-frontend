@@ -14,7 +14,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/effect-creative';
 import { faHeart, faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { slidesInfo } from './list';
-import { LatestSingleMovie, Topics } from './component/index';
+import { LatestSingleMovie, Topics, LatestSeriesMovie } from './component/index';
 
 const cx = classNames.bind(styles);
 
@@ -153,6 +153,7 @@ function Home() {
             </Swiper>
             <Topics />
             <LatestSingleMovie />
+            <LatestSeriesMovie />
         </div>
     );
 }
