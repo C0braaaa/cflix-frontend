@@ -79,7 +79,7 @@ function Search() {
                     onClickOutside={handleHideResult}
                     render={(attrs) => (
                         <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                            <PopperWrapper>
+                            <PopperWrapper bgColor={'var(--background-color)'}>
                                 {isLoading ? (
                                     <div className={cx('loader')}></div>
                                 ) : searchResult.length === 0 ? (
