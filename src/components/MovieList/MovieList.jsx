@@ -12,7 +12,7 @@ import styles from './MovieList.module.scss';
 
 const cx = classNames.bind(styles);
 
-function MovieList({ title, fetchFunction, type, slug }) {
+function MovieList({ title, fetchFunction, type, slug, year = '' }) {
     const [movies, setMovies] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoader, setIsLoader] = useState(false);
@@ -23,7 +23,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
     const page = searchParams.get('page') ? parseInt(searchParams.get('page')) : 1;
     const [inputPage, setInputPage] = useState(page);
 
-    const year = new Date().getFullYear();
+    const years = new Date().getFullYear();
 
     useEffect(() => {
         document.title = title;
@@ -39,7 +39,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
         async (pageNum) => {
             setIsLoader(true);
             try {
-                const data = await fetchFunction(pageNum, 32, slug);
+                const data = await fetchFunction(pageNum, 32, slug, year);
                 setMovies(data.items || []);
                 setTitlePage(data.titlePage || []);
                 setTotalPages(data.params?.pagination?.totalPages || data.totalPages || 1);
@@ -49,7 +49,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
                 setIsLoader(false);
             }
         },
-        [fetchFunction, slug],
+        [fetchFunction, slug, year],
     );
 
     useEffect(() => {
@@ -66,7 +66,6 @@ function MovieList({ title, fetchFunction, type, slug }) {
     };
 
     const renderExtraInfo = (movie) => {
-        // Tùy theo type mà hiển thị thông tin phụ khác nhau
         switch (type) {
             case 'single':
                 return (
@@ -151,7 +150,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
                             <div className={cx('years__list')}>
                                 <span>Tất cả</span>
                                 {[...Array(16)].map((_, index) => {
-                                    const y = year - index;
+                                    const y = years - index;
                                     return <span key={y}>{y}</span>;
                                 })}
                             </div>

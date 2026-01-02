@@ -6,30 +6,54 @@
 .wrapper-series {
     padding: 2rem 5rem;
 }
-.title {
-    background-clip: text;
-    background: linear-gradient(90deg, #6ffacf, #ffffff, #6ffacf);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
-    color: var(--text-color);
-    font-size: 2.4rem;
-    padding-right: 1.5rem;
-    margin-bottom: 1rem;
-}
-.title-series {
-    background-clip: text;
-    background: linear-gradient(90deg, #ffe082, #ffffff, #ffe082);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
-    color: var(--text-color);
-    font-size: 2.4rem;
-    padding-right: 1.5rem;
-    margin-bottom: 1rem;
+
+.heading-1 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .cat-more {
+        display: flex;
+        align-items: center;
+        color: var(--primary);
+        font-size: 1.4rem;
+        padding: 0.5rem;
+        border-radius: 50rem;
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+
+        span {
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: all 0.3s ease-in-out;
+            margin-left: 0;
+        }
+
+        &:hover {
+            color: var(--primary-color);
+
+            & > span {
+                max-width: 200px;
+                opacity: 1;
+                margin-left: 0.5rem;
+            }
+        }
+    }
 }
 
-.heading {
+.title {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    color: var(--text-color);
+    font-size: 2.4rem;
+    padding-right: 1.5rem;
+}
+
+.heading-2 {
     display: flex;
     align-items: center;
     gap: 2rem;
@@ -37,6 +61,7 @@
     .select-country {
         display: flex;
         gap: 1rem;
+        margin-top: 1rem;
         color: var(--text-color);
         font-size: 1.8rem;
 
@@ -135,6 +160,17 @@
             position: absolute;
             top: 1rem;
             left: 1.5rem;
+            color: var(--primary-color);
+            padding: 0 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 1.4rem;
+            background-color: rgba(15, 17, 26, 0.7);
+            backdrop-filter: blur(8px);
+        }
+        .current-episode {
+            position: absolute;
+            top: 1rem;
+            left: 6rem;
             color: var(--primary-color);
             padding: 0 0.5rem;
             border-radius: 0.5rem;
@@ -296,18 +332,15 @@
 // media for mobile
 @media (max-width: 500px) {
     .wrapper {
-        padding: 2rem 0;
+        padding: 2rem 0 0 0.5rem;
+        margin-top: 0;
     }
-    .wrapper-series {
-        padding: 0;
-    }
-    .title,
-    .title-series {
+    .title {
         padding-left: 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0;
         font-size: 2rem;
     }
-    .heading {
+    .heading-2 {
         flex-direction: column;
         align-items: flex-start;
         padding-left: 1rem;
@@ -382,6 +415,10 @@
             }
             .quality {
                 display: none;
+            }
+            .current-episode {
+                top: 7.5rem;
+                left: 5px;
             }
         }
     }

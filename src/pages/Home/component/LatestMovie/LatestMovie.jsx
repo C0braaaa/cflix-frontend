@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import styles from './LatestSingleMovie.module.scss';
 import { typeList } from '../../../../services/moviesServices';
-import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
-function LatestSeriesMovie() {
+function LatestMovie({ slug = '', year = '', bg = '', title = '', link = '' }) {
     const listCountries = [
         {
             id: 1,
@@ -29,13 +32,10 @@ function LatestSeriesMovie() {
             slug: 'nhat-ban',
         },
     ];
-    const slug = 'phim-bo';
 
     const [movies, setMovies] = useState([]);
     const [country, setCountry] = useState('au-my');
     const [isLoader, setIsLoader] = useState(false);
-
-    const year = new Date().getFullYear();
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
@@ -59,9 +59,17 @@ function LatestSeriesMovie() {
     }, [year, country, slug]);
 
     return (
-        <div className={cx('wrapper-series')}>
-            <h2 className={cx('title-series')}>Phim bộ mới nhất 2025</h2>
-            <div className={cx('heading')}>
+        <div className={cx('wrapper')}>
+            <div className={cx('heading-1')}>
+                <h2 className={cx('title')} style={{ backgroundImage: bg }}>
+                    {title}
+                </h2>
+                <Link to={link} className={cx('cat-more')}>
+                    <span>Xem thêm</span>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                </Link>
+            </div>
+            <div className={cx('heading-2')}>
                 <div className={cx('select-country')}>
                     {listCountries.map((value) => (
                         <div
@@ -94,6 +102,11 @@ function LatestSeriesMovie() {
                             <div className={cx('quality')}>
                                 <span>{movie.quality}</span>
                             </div>
+                            {slug === 'phim-bo' && (
+                                <div className={cx('current-episode')}>
+                                    <span>{movie.episode_current}</span>
+                                </div>
+                            )}
                         </Link>
                     ))
                 )}
@@ -102,4 +115,11 @@ function LatestSeriesMovie() {
     );
 }
 
-export default LatestSeriesMovie;
+LatestMovie.propTypes = {
+    slug: PropTypes.string.isRequired,
+    year: PropTypes.string.isRequired,
+    bg: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+};
+
+export default LatestMovie;

@@ -1,4 +1,4 @@
-.splash-screen{
+.splash-screen {
     width: 100vw;
     height: 100vh;
     background-color: var(--background-color);
@@ -7,7 +7,7 @@
     align-items: center;
     animation: fadeOutBackground 0.5s ease-in-out 2.5s forwards;
 
-    img{
+    img {
         width: 300px;
         height: auto;
         animation: popInShrinkOut 2.5s ease-in-out forwards;
@@ -44,6 +44,19 @@
 
 // 2. Animation phụ: Làm mờ cái nền đen lúc kết thúc cho đỡ gắt
 @keyframes fadeOutBackground {
-    0% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@media (max-width: 500px) {
+    .splash-screen {
+        img {
+            width: 200px;
+        }
+    }
 }

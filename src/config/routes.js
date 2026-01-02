@@ -13,6 +13,7 @@ const routes = {
     watch: '/xem-phim/:slug/:episode',
     user: '/user/:slug',
     admin: '/dashboard',
+    watchMore: 'f/:slug',
 };
 
 export default routes;

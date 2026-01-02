@@ -15,6 +15,7 @@ import FullTopics from '../pages/Topics/FullTopics';
 import TopicsDetail from '../pages/Topics/TopicsDetail';
 import MovieInfo from '../pages/MovieInfo/MovieInfo';
 import Wacth from '../pages/Watch/Watch';
+import FullLatestMovies from '../pages/FullLatestMovies/FullLatestMovies';
 
 //erorr page
 import NotFound404 from '../pages/ErorrPage/NotFound404';
@@ -35,6 +36,7 @@ const publicRoutes = [
     { path: config.routes.admin, component: DashBoard, layout: null },
     { path: config.routes.movieInfo, component: MovieInfo },
     { path: config.routes.watch, component: Wacth },
+    { path: config.routes.watchMore, component: FullLatestMovies },
     // erorr page
     { path: '*', component: NotFound404 },
 ];

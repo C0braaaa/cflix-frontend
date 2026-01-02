@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faMoon, faSun, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faMoon, faServer, faSun, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Overview, Users } from './DashboardContents';
 
 const cx = classNames.bind(styles);
@@ -73,6 +73,13 @@ function DashBoard() {
                     >
                         <span className={cx('title')}>Danh sách users</span>
                         <FontAwesomeIcon icon={faUser} />
+                    </div>
+                    <div
+                        className={cx('menu-item', { active: activeMenu === 'api' })}
+                        onClick={() => setActiveMenu('api')}
+                    >
+                        <span className={cx('title')}>Endpoit API</span>
+                        <FontAwesomeIcon icon={faServer} />
                     </div>
                     <Link to="/" className={cx('menu-link')} style={{ color: 'var(--text-black)' }}>
                         <div className={cx('menu-item')}>
