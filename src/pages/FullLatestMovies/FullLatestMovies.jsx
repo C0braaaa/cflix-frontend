@@ -8,7 +8,7 @@ import { faArrowLeft, faArrowRight, faFilter } from '@fortawesome/free-solid-svg
 
 import Button from '../../components/Button/index-button';
 import styles from './FullLatestMovies.module.scss';
-import { nations } from '../../components/Dropdown/listDropdown';
+import { nations, genres } from '../../components/Dropdown/listDropdown';
 import { typeList } from '../../services/moviesServices';
 
 const cx = classNames.bind(styles);
@@ -17,17 +17,27 @@ function FullLatestMovies() {
     const { slug } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const typeSlug = slug ? slug.split('-').slice(0, 2).join('-') : '';
+    let titleBg = '';
+    if (typeSlug === 'phim-le') {
+        titleBg = 'linear-gradient(90deg, #6ffacf, #ffffff, #6ffacf)';
+    } else if (typeSlug === 'phim-bo') {
+        titleBg = 'linear-gradient(90deg, #ffe082, #ffffff, #ffe082)';
+    }
 
     // --- 1. LẤY GIÁ TRỊ TỪ URL (Nguồn sự thật) ---
     // Nếu URL không có, trả về '' (Tất cả)
     const urlCountry = searchParams.get('country') || '';
-    const urlYear = searchParams.get('year') || '';
     const urlPage = searchParams.get('page') ? parseInt(searchParams.get('page')) : 1;
+    const urlGenre = searchParams.get('category') || '';
+    const urlLang = searchParams.get('sort_lang') || '';
+    const urlSort = searchParams.get('sort_field') || 'modified.time';
 
     // State quản lý UI (Hiển thị active trong dropdown)
     // Khởi tạo giá trị ban đầu dựa trên URL để khi F5 vẫn giữ đúng lựa chọn
-    const [selectedYear, setSelectedYear] = useState(urlYear || '2025'); // Mặc định UI chọn 2025
     const [selectedCountry, setSelectedCountry] = useState(urlCountry);
+    const [selectedGenre, setSelectedGenre] = useState(urlGenre);
+    const [selectedLang, setSelectedLang] = useState(urlLang);
+    const [selectedSort, setSelectedSort] = useState(urlSort);
 
     // State dữ liệu phim
     const [movies, setMovies] = useState([]);
@@ -36,8 +46,6 @@ function FullLatestMovies() {
     const [titlePage, setTitlePage] = useState('');
     const [showFilter, setShowFilter] = useState(false);
     const [inputPage, setInputPage] = useState(urlPage);
-
-    const currentYear = new Date().getFullYear();
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
@@ -51,7 +59,7 @@ function FullLatestMovies() {
         setIsLoader(true);
         try {
             // Truyền urlPage, urlCountry, urlYear vào API
-            const data = await typeList(urlPage, 32, typeSlug, urlCountry, urlYear);
+            const data = await typeList(urlPage, 32, typeSlug, urlCountry, 2025, urlGenre, urlLang, urlSort);
 
             setMovies(data.items || []);
             setTitlePage(data.titlePage || 'Danh sách phim');
@@ -61,7 +69,7 @@ function FullLatestMovies() {
         } finally {
             setIsLoader(false);
         }
-    }, [urlPage, typeSlug, urlCountry, urlYear]); // Dependency là các biến từ URL
+    }, [urlPage, typeSlug, urlCountry, urlGenre, urlLang, urlSort]); // Dependency là các biến từ URL
 
     // Effect này chạy khi URL thay đổi (do fetchMovies phụ thuộc vào URL)
     useEffect(() => {
@@ -73,8 +81,8 @@ function FullLatestMovies() {
     useEffect(() => {
         // Cập nhật Title trang
         const titleCountry = nations.find((n) => n.to.includes(urlCountry))?.name;
-        document.title = `${titlePage} ${urlCountry ? `- ${titleCountry}` : ''} ${urlYear ? urlYear : ''}`;
-    }, [titlePage, urlYear, urlCountry]);
+        document.title = `${titlePage} mới nhất 2025 ${urlCountry ? `- ${titleCountry}` : ''}`;
+    }, [titlePage, urlCountry]);
 
     // --- 3. CẬP NHẬT URL KHI CHUYỂN TRANG ---
     const handlePageChange = (newPage) => {
@@ -91,12 +99,11 @@ function FullLatestMovies() {
 
         // Chỉ thêm vào URL nếu giá trị khác rỗng
         if (selectedCountry) params.country = selectedCountry;
-        if (selectedYear) params.year = selectedYear;
+        if (selectedGenre) params.category = selectedGenre;
+        if (selectedLang) params.sort_lang = selectedLang;
+        if (selectedSort) params.sort_field = selectedSort;
 
-        // Luôn reset về trang 1 khi lọc mới
         params.page = 1;
-
-        // setSearchParams sẽ thay đổi URL => Kích hoạt useEffect fetchMovies ở trên
         setSearchParams(params);
         setShowFilter(false);
     };
@@ -128,12 +135,11 @@ function FullLatestMovies() {
 
     return (
         <div className={cx('wrapper')}>
-            {/* Title hiển thị dựa trên URL params */}
-            <h2 className={cx('title')}>
-                {`Danh sách ${titlePage} mới nhất ${urlYear} ${
-                    urlCountry ? `- ${nations.find((n) => n.to.includes(urlCountry))?.name || urlCountry}` : ''
-                }`}
-            </h2>
+            <div className={cx('background')} style={{ backgroundImage: titleBg }}></div>
+            <h2
+                className={cx('title')}
+                style={{ backgroundImage: titleBg }}
+            >{`Danh sách ${titlePage} mới nhất 2025`}</h2>
 
             <div className={cx('filter')}>
                 <div
@@ -168,28 +174,73 @@ function FullLatestMovies() {
                                 ))}
                             </div>
                         </div>
-                        <div className={cx('years')}>
-                            <p className={cx('years__label')}>Năm sản xuất: </p>
-                            <div className={cx('years__list')}>
+                        <div className={cx('category')}>
+                            <p className={cx('category__label')}>Thể loại: </p>
+                            <div className={cx('category__list')}>
                                 <span
-                                    className={cx({ active: selectedYear === '' })}
-                                    onClick={() => setSelectedYear('')}
+                                    className={cx({ active: selectedGenre === '' })}
+                                    onClick={() => setSelectedGenre('')}
                                 >
                                     Tất cả
                                 </span>
-                                {[...Array(16)].map((_, index) => {
-                                    const y = currentYear - index;
-                                    return (
-                                        <span
-                                            key={y}
-                                            // So sánh String với String
-                                            className={cx({ active: selectedYear === y.toString() })}
-                                            onClick={() => setSelectedYear(y.toString())}
-                                        >
-                                            {y}
-                                        </span>
-                                    );
-                                })}
+                                {genres.map((genre, index) => (
+                                    <span
+                                        key={index}
+                                        className={cx({ active: selectedGenre === genre.to.split('/').pop() })}
+                                        onClick={() => {
+                                            const slug = genre.to.split('/').pop();
+                                            setSelectedGenre(slug);
+                                        }}
+                                    >
+                                        {genre.name}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className={cx('version')}>
+                            <p className={cx('version__label')}>Phiên bản: </p>
+                            <div className={cx('version__list')}>
+                                <span
+                                    className={cx({ active: selectedLang === '' })}
+                                    onClick={() => setSelectedLang('')}
+                                >
+                                    Tất cả
+                                </span>
+                                <span
+                                    className={cx({ active: selectedLang === 'vietsub' })}
+                                    onClick={() => setSelectedLang('vietsub')}
+                                >
+                                    Vietsub
+                                </span>
+                                <span
+                                    className={cx({ active: selectedLang === 'thuyet-minh' })}
+                                    onClick={() => setSelectedLang('thuyet-minh')}
+                                >
+                                    Thuyết Minh
+                                </span>
+                            </div>
+                        </div>
+                        <div className={cx('sort')}>
+                            <p className={cx('sort__label')}>Sắp xếp: </p>
+                            <div className={cx('sort__list')}>
+                                <span
+                                    className={cx({ active: selectedSort === 'modified.time' })}
+                                    onClick={() => setSelectedSort('modified.time')}
+                                >
+                                    Thời gian cập nhật
+                                </span>
+                                <span
+                                    className={cx({ active: selectedSort === '_id' })}
+                                    onClick={() => setSelectedSort('_id')}
+                                >
+                                    Thời gian đăng
+                                </span>
+                                <span
+                                    className={cx({ active: selectedSort === 'year' })}
+                                    onClick={() => setSelectedSort('year')}
+                                >
+                                    Năm sản xuất
+                                </span>
                             </div>
                         </div>
                         <Button primary className={cx('submit-btn')} onClick={handleSubmitFilter}>
@@ -211,7 +262,7 @@ function FullLatestMovies() {
                                     <div className={cx('poster')}>
                                         {movie.poster_url ? (
                                             <img
-                                                src={`https://images.weserv.nl/?url=phimimg.com/${movie.poster_url}`}
+                                                src={`https://phimapi.com/image.php?url=https://phimimg.com/${movie.poster_url}`}
                                                 alt={movie.name}
                                                 onError={(e) => (e.target.src = 'assets/images/defaultimg.jpg')}
                                             />
@@ -221,7 +272,7 @@ function FullLatestMovies() {
                                         <div className={cx('quality')}>{renderExtraInfo(movie)}</div>
                                     </div>
                                     <div className={cx('info')}>
-                                        <h4 className={cx('name')}>{movie.name}</h4>
+                                        <h4 className={cx('name')}>{decodeHTML(movie.name)}</h4>
                                         <h4 className={cx('original-name')}>{decodeHTML(movie.origin_name)}</h4>
                                     </div>
                                 </div>

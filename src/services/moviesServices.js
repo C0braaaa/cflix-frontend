@@ -1,9 +1,18 @@
 import * as request from '../utils/httpRequest';
 
-export const typeList = async (page = 1, limit = 32, slug, country = null, year = null) => {
+export const typeList = async (
+    page = 1,
+    limit = 32,
+    slug,
+    country = null,
+    year = null,
+    category = null,
+    sort_lang = null,
+    sort_field = null,
+) => {
     try {
         const res = await request.get(`v1/api/danh-sach/${slug}`, {
-            params: { page, limit, country, year },
+            params: { page, limit, country, year, category, sort_lang, sort_field },
         });
         return res?.data || {};
     } catch (error) {

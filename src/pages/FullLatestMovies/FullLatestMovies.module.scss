@@ -1,6 +1,22 @@
 .wrapper {
+    position: relative;
     margin: 12rem 2.5px 0 2.5px;
     padding: 0 5rem;
+}
+.background {
+    position: absolute;
+    top: -15rem;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 50vh;
+    mask-image: linear-gradient(0deg, transparent 0, black);
+    -webkit-mask-image: linear-gradient(0deg, transparent 0, black);
+    opacity: 0.5;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    z-index: -1;
 }
 
 .title {
@@ -17,6 +33,7 @@
     display: inline-block;
     flex-direction: column;
     margin-bottom: 2rem;
+    z-index: 5;
 
     .filter__icon {
         cursor: pointer;
@@ -45,9 +62,11 @@
         .years,
         .sort {
             margin-bottom: 2rem;
+            padding-bottom: 1rem;
             display: flex;
             gap: 1rem;
             align-items: flex-start;
+            border-bottom: 1px dashed var(--border-color);
         }
 
         .country__label,
@@ -80,6 +99,8 @@
                     color: var(--primary-color);
                 }
                 &.active {
+                    border-radius: 0.5rem;
+                    border: 1px solid var(--border-color);
                     color: var(--primary-color);
                 }
             }
@@ -263,9 +284,9 @@
     width: 45px;
     aspect-ratio: 1;
     position: absolute;
-    top: 20rem;
+    top: 30%;
     right: 50%;
-    transform: translateX(50%);
+    transform: translateX(50%, 50%);
     --c: no-repeat linear-gradient(#ffffff 0 0);
     background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
     background-size: 20% 100%;
