@@ -125,6 +125,8 @@
     }
 
     .l-2 {
+        word-break: break-word;
+        width: 100%;
         margin-top: 0.5rem;
         color: var(--text-color);
         font-size: 1.5rem;
@@ -152,4 +154,12 @@
 .delete:hover {
     cursor: pointer;
     opacity: 1;
+}
+
+@media (max-width: 500px) {
+    .comments {
+        textarea {
+            height: 10rem;
+        }
+    }
 }

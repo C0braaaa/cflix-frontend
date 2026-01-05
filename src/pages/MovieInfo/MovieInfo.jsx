@@ -1,11 +1,10 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 import styles from './MovieInfo.module.scss';
 import Button from '../../components/Button/index-button';
-import { Link } from 'react-router-dom';
 import {
     faCaretDown,
     faCaretUp,
@@ -23,6 +22,7 @@ const cx = classNames.bind(styles);
 function MovieInfo() {
     const { slug } = useParams();
 
+    const [loading, setLoading] = useState(true);
     const [movie, setMovie] = useState([]);
     const [episodes, setEpisodes] = useState([]);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -50,11 +50,14 @@ function MovieInfo() {
     useEffect(() => {
         const fetchMovie = async () => {
             try {
+                setLoading(true);
                 const data = await detail(slug);
                 setMovie(data.movie);
                 setEpisodes(data.episodes);
             } catch (error) {
                 console.error('Chet me API no loi cho nao roi:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -113,6 +116,37 @@ function MovieInfo() {
         </>
     );
 
+    // UI Load Skeleton
+    const SkeletonDetailContent = (
+        <div className={cx('skeleton-container')}>
+            {/* Giả lập Tags */}
+            <div className={cx('skeleton-tags')}>
+                <div className={cx('skeleton', 'skeleton-tag')}></div>
+                <div className={cx('skeleton', 'skeleton-tag')}></div>
+                <div className={cx('skeleton', 'skeleton-tag')}></div>
+                <div className={cx('skeleton', 'skeleton-tag')}></div>
+            </div>
+
+            {/* Giả lập Types */}
+            <div className={cx('skeleton-tags')} style={{ marginTop: '0' }}>
+                <div className={cx('skeleton', 'skeleton-tag')} style={{ width: '8rem' }}></div>
+                <div className={cx('skeleton', 'skeleton-tag')} style={{ width: '8rem' }}></div>
+            </div>
+
+            {/* Giả lập Description */}
+            <div className={cx('skeleton', 'skeleton-text', 'short')} style={{ marginTop: '2rem' }}></div>
+            <div className={cx('skeleton', 'skeleton-text')}></div>
+            <div className={cx('skeleton', 'skeleton-text')}></div>
+            <div className={cx('skeleton', 'skeleton-text')}></div>
+            <div className={cx('skeleton', 'skeleton-text', 'medium')}></div>
+
+            {/* Giả lập Country, Actor, Director */}
+            <div className={cx('skeleton', 'skeleton-text', 'short')} style={{ marginTop: '1rem' }}></div>
+            <div className={cx('skeleton', 'skeleton-text', 'medium')}></div>
+            <div className={cx('skeleton', 'skeleton-text', 'medium')}></div>
+        </div>
+    );
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('thumbnail')}>
@@ -120,23 +154,36 @@ function MovieInfo() {
             </div>
             <div className={cx('content')}>
                 <div className={cx('left-side')}>
-                    <div className={cx('poster')}>
-                        <img src={movie.poster_url} alt={movie.name} />
+                    <div className={cx('poster', { skeleton: loading, 'skeleton-box': loading })}>
+                        {!loading && <img src={movie.poster_url} alt={movie.name} />}
                     </div>
-                    <h2 className={cx('name')}>{movie.name}</h2>
-                    <p className={cx('origin-name')}>{movie.origin_name}</p>
+                    {loading ? (
+                        <>
+                            <div className={cx('skeleton', 'skeleton-title')}></div>
+                            <div className={cx('skeleton', 'skeleton-text', 'short')}></div>
+                        </>
+                    ) : (
+                        <>
+                            <h2 className={cx('name')}>{movie.name}</h2>
+                            <p className={cx('origin-name')}>{movie.origin_name}</p>
+                        </>
+                    )}
                     {isMobile ? (
                         <>
-                            <p className={cx('more')} onClick={() => setShowMore((prev) => !prev)}>
-                                Thông tin thêm{' '}
-                                {showMore ? (
-                                    <FontAwesomeIcon icon={faCaretUp} />
-                                ) : (
-                                    <FontAwesomeIcon icon={faCaretDown} />
-                                )}
-                            </p>
-                            {showMore && DetailContent}
+                            {!loading && (
+                                <p className={cx('more')} onClick={() => setShowMore((prev) => !prev)}>
+                                    Thông tin thêm{' '}
+                                    {showMore ? (
+                                        <FontAwesomeIcon icon={faCaretUp} />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faCaretDown} />
+                                    )}
+                                </p>
+                            )}
+                            {loading ? SkeletonDetailContent : showMore && DetailContent}
                         </>
+                    ) : loading ? (
+                        SkeletonDetailContent
                     ) : (
                         DetailContent
                     )}
@@ -170,7 +217,7 @@ function MovieInfo() {
                             </div>
                         </div>
                         <div className={cx('rating')}>
-                            <span>10.0</span>
+                            <span>{movie?.tmdb?.vote_average ? movie?.tmdb?.vote_average.toFixed(1) : 'N/A'}</span>
                         </div>
                     </div>
                     {movie?.episode_total > 1 && (

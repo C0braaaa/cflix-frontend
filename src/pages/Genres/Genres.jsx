@@ -11,7 +11,7 @@ function Genres() {
         return await fetchByType(page, limit, slug);
     };
 
-    return <MovieList title={`Thể loại ${formatTitle(slug)}`} fetchFunction={fetchMoviesByGenre} type={'type'} />;
+    return <MovieList title={`Thể loại ${formatTitle(slug)}`} fetchFunction={fetchMoviesByGenre} type={'series'} />;
 }
 
 export default Genres;

@@ -129,20 +129,15 @@ function MovieList({ title, fetchFunction, type, slug }) {
             case 'cartoon':
                 return (
                     <>
-                        <Tippy content="Tập hiện tại">
-                            <span>{movie.episode_current.match(/\d+/)?.[0] || 'N/A'}</span>
-                        </Tippy>
-                        <Tippy content="Năm phát hành">
-                            <span>{movie.year}</span>
-                        </Tippy>
-                    </>
-                );
-            case 'type':
-                return (
-                    <>
-                        <Tippy content="Chất lượng">
-                            <span>{movie.quality}</span>
-                        </Tippy>
+                        {!movie.episode_current?.match(/\d+/)?.[0] ? (
+                            <Tippy content="Movies">
+                                <span>MV</span>
+                            </Tippy>
+                        ) : (
+                            <Tippy content="Tập hiện tại">
+                                <span>{movie.episode_current.match(/\d+/)?.[0] || 'MV'}</span>
+                            </Tippy>
+                        )}
                         <Tippy content="Năm phát hành">
                             <span>{movie.year}</span>
                         </Tippy>
@@ -307,7 +302,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
                                         <div className={cx('quality')}>{renderExtraInfo(movie)}</div>
                                     </div>
                                     <div className={cx('info')}>
-                                        <h4 className={cx('name')}>{movie.name}</h4>
+                                        <h4 className={cx('name')}>{decodeHTML(movie.name)}</h4>
                                         <h4 className={cx('original-name')}>{decodeHTML(movie.origin_name)}</h4>
                                     </div>
                                 </div>

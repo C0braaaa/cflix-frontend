@@ -42,7 +42,7 @@ function Comment() {
                     </g>
                 </svg>
                 <h2>
-                    Bình luận <span>{`(${comments.length})` || `(${0})`}</span>
+                    Bình luận <span>{`(${comments.length})`}</span>
                 </h2>
             </div>
             <div className={cx('comments')}>
