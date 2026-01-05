@@ -8,10 +8,10 @@ import { useAuth } from '../../../../features/auth/context/AuthContext';
 const cx = classNames.bind(styles);
 
 function Profile() {
-    const { openModal } = useAuth();
-    const [gender, setGender] = useState('other');
+    const { openModal, user } = useAuth();
+    const [gender, setGender] = useState(user.data.gender);
     const [avatar, setAvatar] = useState(
-        '//assets.manutd.com/AssetPicker/images/0/0/22/86/1464036/8_Bruno_Fernandes1751376440402.webp',
+        user.data.avatar_url || 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
     );
 
     const handleGenderChange = (e) => {
@@ -29,17 +29,11 @@ function Profile() {
                     <div className={cx('col-1')}>
                         <div className={cx('form-group')}>
                             <label htmlFor="email">Email</label>
-                            <input
-                                type="text"
-                                name="email"
-                                id="email"
-                                defaultValue="cobragaming0fo@gmail.com"
-                                disabled
-                            />
+                            <input type="text" name="email" id="email" defaultValue={user.data.email} disabled />
                         </div>
                         <div className={cx('form-group')}>
                             <label htmlFor="name">Tên hiển thị</label>
-                            <input type="text" name="name" id="name" defaultValue="C0bra" />
+                            <input type="text" name="name" id="name" defaultValue={user.data.name} />
                         </div>
                         <div className={cx('label-gender')}>
                             <label>Giới tính</label>
@@ -73,7 +67,7 @@ function Profile() {
                                     name="other"
                                     id="other"
                                     value="other"
-                                    checked={gender === 'other'}
+                                    checked={gender === 'unknown'}
                                     onChange={handleGenderChange}
                                 />
                                 <label htmlFor="other">Không xác định</label>

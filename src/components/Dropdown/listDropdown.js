@@ -84,7 +84,7 @@ export const more = [
     },
 ];
 
-export const user = [
+export const userList = [
     {
         name: 'Yêu thích',
         icon: faHeart,

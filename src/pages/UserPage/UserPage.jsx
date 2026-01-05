@@ -1,22 +1,39 @@
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
+import { useAuth } from '../../features/auth/context/AuthContext';
 import styles from './UserPage.module.scss';
 import {
     faClockRotateLeft,
     faHeart,
     faInfinity,
+    faMars,
     faPlus,
     faRightFromBracket,
     faUser,
+    faVenus,
 } from '@fortawesome/free-solid-svg-icons';
 import Profile from './mainContent/Profile/Profile';
 
 const cx = classNames.bind(styles);
 
 function UserPage() {
+    const { user, logout } = useAuth();
     const { slug } = useParams();
+    const nevigate = useNavigate();
+
+    const genderClass = user.data.gender;
+
+    const GENDER_ICONS = {
+        male: faMars,
+        female: faVenus,
+        unknown: faInfinity,
+    };
+    const handleLogout = () => {
+        logout();
+        nevigate('/');
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('sidebar')}>
@@ -43,18 +60,18 @@ function UserPage() {
                 <div className={cx('sidebar__user')}>
                     <div className={cx('user-logo')}>
                         <img
-                            src="//assets.manutd.com/AssetPicker/images/0/0/22/86/1464036/8_Bruno_Fernandes1751376440402.webp"
-                            alt="user-logo"
+                            src={user.data.avatar_url || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
+                            alt={`${user.data.name}-avatar`}
                         />
                     </div>
                     <div className={cx('user-info')}>
                         <div className={cx('name-gender')}>
-                            <p>C0bra</p>
-                            <FontAwesomeIcon icon={faInfinity} />
+                            <p>{user.data.name}</p>
+                            <FontAwesomeIcon icon={GENDER_ICONS[user.data.gender]} className={cx(genderClass)} />
                         </div>
-                        <p>abcd1234@gmail.com</p>
+                        <p>{user.data.email}</p>
                     </div>
-                    <div className={cx('logout')}>
+                    <div className={cx('logout')} onClick={handleLogout}>
                         <FontAwesomeIcon icon={faRightFromBracket} />
                         <span>Thoát</span>
                     </div>

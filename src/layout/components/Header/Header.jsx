@@ -8,16 +8,15 @@ import styles from './Header.module.scss';
 import { faBell, faDoorOpen, faUser, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import config from '../../../config/index-config.js';
-import { genres, nations, more, user } from '../../../components/Dropdown/listDropdown.js';
+import { genres, nations, more, userList } from '../../../components/Dropdown/listDropdown.js';
 import Dropdown from '../../../components/Dropdown/Dropdown.jsx';
 import Search from '../Search/Search.jsx';
 import { useAuth } from '../../../features/auth/context/AuthContext.jsx';
 const cx = classNames.bind(styles);
 
 function Header() {
-    let currentUser = true;
-
-    const { openModal } = useAuth();
+    const { openModal, user } = useAuth();
+    console.log(user);
 
     const [scroll, setScroll] = useState(false);
     const [showDropdown, setShowDropdown] = useState(null);
@@ -95,7 +94,7 @@ function Header() {
                             />
                         </div>
                     </div>
-                    {currentUser ? (
+                    {user ? (
                         <div className={cx('app-download')}>
                             <div className={cx('app-download-icon')}>
                                 <FontAwesomeIcon icon={faDoorOpen} />
@@ -117,7 +116,7 @@ function Header() {
                         </div>
                     )}
                     <div className={cx('main-user')}>
-                        {currentUser ? (
+                        {user ? (
                             <div className={cx('user-menu')}>
                                 <div className={cx('notification')}>
                                     <div className={cx('notification-icon')}>
@@ -127,12 +126,12 @@ function Header() {
                                 <Dropdown
                                     name="user"
                                     type="user"
-                                    data={user}
+                                    data={userList}
                                     showDropdown={showDropdown}
                                     setShowDropdown={setShowDropdown}
                                     userInfo={{
-                                        name: 'Cobra',
-                                        avatar: '//assets.manutd.com/AssetPicker/images/0/0/22/86/1464036/8_Bruno_Fernandes1751376440402.webp',
+                                        name: user.data.name,
+                                        avatar: user.data.avatar_url || '/assets/images/default-avatar.png',
                                     }}
                                 />
                             </div>

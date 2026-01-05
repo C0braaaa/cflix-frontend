@@ -60,39 +60,33 @@ export const slidesInfo = [
         to: '/xem-phim/phi-vu-dong-troi-2/full',
     },
     {
-        title: 'Hoa Hồng Có Gai',
-        engTitle: 'The Roses',
-        imdb: '6.9',
-        quality: null,
-        tagModel: 'T16',
-        releaseInfo: ['2025', '1h 45m'],
-        types: ['Chiếu Rạp', 'Chính Kịch', 'Tình Cảm', 'Gia Đình', 'Hài', 'Lãng Mạn'],
+        title: 'Chainsaw Man - The Movie: Chương Reze',
+        engTitle: 'Chainsaw Man - The Movie: Reze Arc',
+        imdb: '7.8',
+        quality: 'FHD',
+        tagModel: 'T18',
+        releaseInfo: ['2025', '100 phút'],
+        types: ['Hành Động', 'Viễn Tưởng', 'Tình Cảm'],
         description: `
-            Cuộc sống của Ivy và Theo tưởng chừng hoàn hảo: sự nghiệp thành công, hôn nhân hạnh phúc, con cái ngoan ngoãn. 
-            Nhưng đằng sau lớp vỏ của một gia đình lý tưởng ấy là cơn bão ngầm đang dần hình thành — khi sự nghiệp của Theo 
-            tuột dốc trong khi tham vọng của Ivy thăng hoa, thổi bùng lên ngọn lửa ganh đua và oán giận âm ỉ có thể thiêu rụi 
-            tất cả.
+            Tiếp nối series anime chuyển thể đình đám, Chainsaw Man lần đầu tiên oanh tạc màn ảnh rộng trong một cuộc phiêu lưu hoành tráng, ngập tràn các phân cảnh hành động. Ở phần trước, ta đã biết Denji từng làm Thợ Săn Quỷ cho yakuza để trả món nợ của cha mẹ nhưng bị họ phản bội và trừ khử. Trong khoảnh khắc hấp hối, chú chó quỷ cưa máy Pochita (người bạn đồng hành trung thành của Denji) đã đưa ra một khế ước, cứu sống cậu và hợp thể cùng cậu. Từ đó, một Quỷ Cưa bất khả chiến bại ra đời. Giờ đây ở Chainsaw Man – The Movie: Chương Reze, trong cuộc chiến tàn khốc giữa quỷ dữ, thợ săn quỷ và những kẻ thù trong bóng tối, một cô gái bí ẩn tên Reze xuất hiện trong thế giới của Denji. Denji buộc phải đối mặt với trận chiến sinh tử khốc liệt nhất của mình, một trận chiến được tiếp sức bởi tình yêu trong một thế giới nơi mọi người phải sinh tồn mà không biết bất kỳ luật lệ nào.
         `,
-        imgUrl: 'https://static.nutscdn.com/vimg/1920-0/d337eec84180302155cff0bdb951e62f.webp',
-        infoPage: '/phim/hoa-hong-co-gai',
-        to: '/xem-phim/hoa-hong-co-gai/full',
+        imgUrl: 'https://phimimg.com/upload/vod/20251209-1/c3096886a37e19947c1b6758f7b8829f.jpg',
+        infoPage: '/phim/chainsaw-man-the-movie-chuong-reze',
+        to: '/xem-phim/chainsaw-man-the-movie-chuong-reze/full',
     },
     {
-        title: 'Hoa Hồng Có Gai',
-        engTitle: 'The Roses',
-        imdb: '6.9',
-        quality: null,
+        title: 'Già Gân Báo Thù 2',
+        engTitle: 'Sisu: Road to Revenge',
+        imdb: '7.5',
+        quality: 'FHD',
         tagModel: 'T16',
-        releaseInfo: ['2025', '1h 45m'],
-        types: ['Chiếu Rạp', 'Chính Kịch', 'Tình Cảm', 'Gia Đình', 'Hài', 'Lãng Mạn'],
+        releaseInfo: ['2025', '89 phút'],
+        types: ['Chiếu Rạp', 'Chiến Tranh'],
         description: `
-            Cuộc sống của Ivy và Theo tưởng chừng hoàn hảo: sự nghiệp thành công, hôn nhân hạnh phúc, con cái ngoan ngoãn. 
-            Nhưng đằng sau lớp vỏ của một gia đình lý tưởng ấy là cơn bão ngầm đang dần hình thành — khi sự nghiệp của Theo 
-            tuột dốc trong khi tham vọng của Ivy thăng hoa, thổi bùng lên ngọn lửa ganh đua và oán giận âm ỉ có thể thiêu rụi 
-            tất cả.
+           Tưởng chừng đã được nghỉ hưu, kẻ thù một lần nữa buộc “già gân” phải trở lại. Khi kẻ thù mới xuất hiện, Atami một lần nữa “lên gân” đối đầu.
         `,
-        imgUrl: 'https://static.nutscdn.com/vimg/1920-0/d337eec84180302155cff0bdb951e62f.webp',
-        infoPage: '/phim/hoa-hong-co-gai',
-        to: '/xem-phim/hoa-hong-co-gai/full',
+        imgUrl: 'https://phimimg.com/upload/vod/20251216-1/d6226278881dfe7a5aac99b0357be498.jpg',
+        infoPage: '/phim/gia-gan-bao-thu-2',
+        to: '/xem-phim/gia-gan-bao-thu-2/full',
     },
 ];

@@ -3,9 +3,26 @@ import { createContext, useContext, useState } from 'react';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        const savedUser = localStorage.getItem('cflix_user');
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState('login'); // 'login' or 'register'
+
+    // login is called when login successful
+    const login = (userData, token) => {
+        setUser(userData);
+        localStorage.setItem('cflix_user', JSON.stringify(userData));
+        localStorage.setItem('cflix_token', token);
+    };
+
+    const logout = () => {
+        setUser(null);
+        localStorage.removeItem('cflix_user');
+        localStorage.removeItem('cflix_token');
+    };
 
     const openModal = (type) => {
         setModalType(type);
@@ -18,7 +35,8 @@ export function AuthProvider({ children }) {
 
     const value = {
         user,
-        setUser,
+        login,
+        logout,
         isModalOpen,
         modalType,
         openModal,

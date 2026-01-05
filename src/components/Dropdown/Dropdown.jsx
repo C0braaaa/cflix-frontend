@@ -4,6 +4,7 @@ import { faCaretDown, faRightFromBracket } from '@fortawesome/free-solid-svg-ico
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './Dropdown.module.scss';
+import { useAuth } from '../../features/auth/context/AuthContext';
 
 const cx = classNames.bind(styles);
 
@@ -20,8 +21,8 @@ function Dropdown({
     width = '20rem',
     height = 'auto',
 }) {
+    const { logout, user } = useAuth();
     const isVisible = showDropdown === name;
-    const isAdmin = true;
 
     const handleToggle = () => {
         setShowDropdown(isVisible ? null : name);
@@ -29,6 +30,11 @@ function Dropdown({
 
     const handleHide = () => {
         setShowDropdown(null);
+    };
+
+    const handleLogout = () => {
+        logout();
+        handleHide();
     };
 
     if (type === 'user') {
@@ -50,7 +56,7 @@ function Dropdown({
                                     <div className={cx('user-menu-2')}>
                                         {data
                                             .filter((value) => {
-                                                if (value.to === '/dashboard' && !isAdmin) {
+                                                if (value.to === '/dashboard' && user.data.role !== 'admin') {
                                                     return false;
                                                 }
                                                 return true;
@@ -68,7 +74,7 @@ function Dropdown({
                                             ))}
                                     </div>
                                     <hr />
-                                    <div className={cx('user-logout')}>
+                                    <div className={cx('user-logout')} onClick={handleLogout}>
                                         <FontAwesomeIcon icon={faRightFromBracket} />
                                         <span>Thoát</span>
                                     </div>

@@ -1,8 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Fragment } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { publicRoutes } from './routes/index-routes';
 import DefaultLayout from './layout/DefaultLayout';
-import { Fragment } from 'react';
 import AuthContainer from './features/auth/AuthContainer';
 import SplashScreen from './components/SplashScreen/SplashPage';
 function App() {
@@ -64,6 +67,15 @@ function App() {
                     </Routes>
                 )}
                 <AuthContainer />
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    pauseOnHover
+                    theme="light"
+                />
             </div>
         </Router>
     );

@@ -78,9 +78,16 @@
             gap: 1rem;
             align-items: center;
             margin-top: 1rem;
+            .male {
+                color: #2980b9; // Màu xanh dương nam tính
+            }
 
-            svg {
-                color: var(--text-color);
+            .female {
+                color: #e84393; // Màu hồng nữ tính
+            }
+
+            .unknown {
+                color: #b2bec3; // Màu xám bí ẩn
             }
         }
     }
