@@ -42,6 +42,15 @@ label {
     gap: 0.2rem;
     margin-bottom: 2.4rem;
 
+    .invalid {
+        border-color: #ff6666;
+        margin-bottom: 0;
+    }
+    .form-message {
+        color: #ff6666;
+        font-size: 1.2rem;
+    }
+
     &.gender {
         flex-direction: row;
         gap: 1.5rem;

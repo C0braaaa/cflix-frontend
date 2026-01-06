@@ -43,7 +43,7 @@ function DashBoard() {
                         <div className={cx('avatar')}>
                             <img src={user?.avatar_url || '/assets/images/defaultimg.jpg'} alt="avatar" />
                         </div>
-                        <div className={cx('name')}>{user?.name}</div>
+                        <div className={cx('name')}>{user?.username}</div>
                         <div className={cx('toggle-theme')} onClick={toggleTheme}>
                             <div className={cx('slider', { active: !isDarkMode })}></div>
 
@@ -77,7 +77,7 @@ function DashBoard() {
                         className={cx('menu-item', { active: activeMenu === 'api' })}
                         onClick={() => setActiveMenu('api')}
                     >
-                        <span className={cx('title')}>Endpoit API</span>
+                        <span className={cx('title')}>APIs</span>
                         <FontAwesomeIcon icon={faServer} />
                     </div>
                     <Link to="/" className={cx('menu-link')} style={{ color: 'var(--text-black)' }}>

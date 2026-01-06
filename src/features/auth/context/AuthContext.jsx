@@ -29,6 +29,12 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const updateUserState = (newUser) => {
+        const updatedUser = { ...user, ...newUser };
+        setUser(updatedUser);
+        localStorage.getItem('cflix_user', JSON.stringify(updatedUser));
+    };
+
     const openModal = (type) => {
         setModalType(type);
         setIsModalOpen(true);
@@ -42,6 +48,7 @@ export function AuthProvider({ children }) {
         user,
         login,
         logout,
+        updateUserState,
         isModalOpen,
         modalType,
         openModal,
