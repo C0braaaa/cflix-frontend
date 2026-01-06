@@ -38,16 +38,21 @@ function LoginForm() {
         formState: { errors }, // Lấy ra object chứa các lỗi
     } = useForm({
         resolver: yupResolver(validationSchema), // Kết nối Yup với Hook Form
-        mode: 'onBlur', // Validate ngay khi người dùng rời khỏi ô input (UX tốt hơn)
+        mode: 'onBlur',
     });
 
     const onSubmit = async (data) => {
         try {
             setApiError('');
             const res = await loginAPI(data);
-            login(res, res.accessToken);
-            toast.success('Đăng nhập thành công');
-            closeModal();
+            if (res && res.user) {
+                login(res.user);
+
+                toast.success('Đăng nhập thành công');
+                closeModal();
+            } else {
+                setApiError('Không lấy được thông tin người dùng!');
+            }
         } catch (error) {
             const msg = error.response?.data?.message || 'Đăng nhập thất bại, vui lòng thử lại.';
             setApiError(msg);

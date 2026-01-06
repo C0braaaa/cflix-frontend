@@ -68,6 +68,19 @@
         font-size: 1.6rem;
         color: var(--text-color);
         padding: 0 16px 6px 16px;
+
+        &.active {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            background-image: linear-gradient(
+                to right,
+                #ffd700,
+                // Vàng
+                #ff8c00 // Cam đậm
+            );
+        }
     }
 }
 

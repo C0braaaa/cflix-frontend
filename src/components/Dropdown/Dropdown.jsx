@@ -51,12 +51,14 @@ function Dropdown({
                             placement="bottom-end"
                             render={(attrs) => (
                                 <div className={cx('user-dropdown')} tabIndex="-1" {...attrs}>
-                                    <span className={cx('username')}>{userInfo?.name}</span>
+                                    <span className={cx('username', { active: user?.role === 'admin' })}>
+                                        {userInfo?.name}
+                                    </span>
                                     <hr />
                                     <div className={cx('user-menu-2')}>
                                         {data
                                             .filter((value) => {
-                                                if (value.to === '/dashboard' && user.data.role !== 'admin') {
+                                                if (value.to === '/dashboard' && user?.role !== 'admin') {
                                                     return false;
                                                 }
                                                 return true;

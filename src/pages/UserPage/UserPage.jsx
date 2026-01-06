@@ -23,7 +23,9 @@ function UserPage() {
     const { slug } = useParams();
     const nevigate = useNavigate();
 
-    const genderClass = user.data.gender;
+    if (!user) return null;
+
+    const genderClass = user?.gender;
 
     const GENDER_ICONS = {
         male: faMars,
@@ -60,16 +62,16 @@ function UserPage() {
                 <div className={cx('sidebar__user')}>
                     <div className={cx('user-logo')}>
                         <img
-                            src={user.data.avatar_url || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
-                            alt={`${user.data.name}-avatar`}
+                            src={user?.avatar_url || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
+                            alt={`${user?.username}-avatar`}
                         />
                     </div>
                     <div className={cx('user-info')}>
                         <div className={cx('name-gender')}>
-                            <p>{user.data.name}</p>
-                            <FontAwesomeIcon icon={GENDER_ICONS[user.data.gender]} className={cx(genderClass)} />
+                            <p>{user?.username}</p>
+                            <FontAwesomeIcon icon={GENDER_ICONS[user?.gender]} className={cx(genderClass)} />
                         </div>
-                        <p>{user.data.email}</p>
+                        <p>{user?.email}</p>
                     </div>
                     <div className={cx('logout')} onClick={handleLogout}>
                         <FontAwesomeIcon icon={faRightFromBracket} />

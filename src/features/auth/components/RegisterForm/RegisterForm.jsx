@@ -5,8 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 import { useAuth } from '../../context/AuthContext';
+import { registerAPI } from '../../../../services/authServices';
 import styles from './RegisterForm.module.scss';
 import Button from '../../../../components/Button/index-button';
 
@@ -30,6 +32,7 @@ function RegisterForm() {
     const { closeModal, openModal } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [typePassword, setTypePassword] = useState('password');
+    const [apiError, setApiError] = useState('');
 
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
@@ -45,8 +48,17 @@ function RegisterForm() {
         mode: 'onBlur',
     });
 
-    const onSubmit = (data) => {
-        console.log('Dữ liệu form:', data);
+    const onSubmit = async (data) => {
+        try {
+            setApiError('');
+            await registerAPI(data);
+            toast.success('Đăng ký thành công');
+            openModal('login');
+        } catch (error) {
+            const msg = error.response?.data?.message || 'Đăng ký thất bại, vui lòng thử lại.';
+            setApiError(msg);
+            toast.error(msg);
+        }
     };
 
     return (
@@ -58,6 +70,22 @@ function RegisterForm() {
                     </div>
                     <form className={cx('register-form')} onSubmit={handleSubmit(onSubmit)}>
                         <h3 className={cx('title')}>Đăng ký</h3>
+                        {apiError && (
+                            <div
+                                className={cx('error-alert')}
+                                style={{
+                                    color: 'red',
+                                    fontSize: '1.4rem',
+                                    marginBottom: '1rem',
+                                    textAlign: 'center',
+                                    background: 'rgba(255,0,0,0.1)',
+                                    padding: '0.5rem',
+                                    borderRadius: '4px',
+                                }}
+                            >
+                                {apiError}
+                            </div>
+                        )}
                         <p className={cx('switch-top-login')}>
                             Bạn đã có tài khoản,{' '}
                             <span className={cx('register')} onClick={() => openModal('login')}>

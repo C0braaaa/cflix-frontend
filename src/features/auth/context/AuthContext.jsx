@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { logoutAPI } from '../../../services/authServices';
 
 const AuthContext = createContext();
 
@@ -12,16 +13,20 @@ export function AuthProvider({ children }) {
     const [modalType, setModalType] = useState('login'); // 'login' or 'register'
 
     // login is called when login successful
-    const login = (userData, token) => {
+    const login = (userData) => {
         setUser(userData);
         localStorage.setItem('cflix_user', JSON.stringify(userData));
-        localStorage.setItem('cflix_token', token);
     };
 
-    const logout = () => {
-        setUser(null);
-        localStorage.removeItem('cflix_user');
-        localStorage.removeItem('cflix_token');
+    const logout = async () => {
+        try {
+            await logoutAPI();
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setUser(null);
+            localStorage.removeItem('cflix_user');
+        }
     };
 
     const openModal = (type) => {

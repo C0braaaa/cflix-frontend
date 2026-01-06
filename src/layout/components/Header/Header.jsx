@@ -16,7 +16,6 @@ const cx = classNames.bind(styles);
 
 function Header() {
     const { openModal, user } = useAuth();
-    console.log(user);
 
     const [scroll, setScroll] = useState(false);
     const [showDropdown, setShowDropdown] = useState(null);
@@ -130,8 +129,8 @@ function Header() {
                                     showDropdown={showDropdown}
                                     setShowDropdown={setShowDropdown}
                                     userInfo={{
-                                        name: user.data.name,
-                                        avatar: user.data.avatar_url || '/assets/images/default-avatar.png',
+                                        name: user?.username || 'user',
+                                        avatar: user?.avatar_url || '/assets/images/default-avatar.png',
                                     }}
                                 />
                             </div>

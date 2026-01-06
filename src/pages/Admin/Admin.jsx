@@ -6,10 +6,12 @@ import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faMoon, faServer, faSun, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Overview, Users } from './DashboardContents';
+import { useAuth } from '../../features/auth/context/AuthContext';
 
 const cx = classNames.bind(styles);
 
 function DashBoard() {
+    const { user } = useAuth();
     useEffect(() => {
         document.title = 'Dashboard - Admin';
     });
@@ -39,12 +41,9 @@ function DashBoard() {
                 <div className={cx('admin-options')}>
                     <div className={cx('admin-info')}>
                         <div className={cx('avatar')}>
-                            <img
-                                src="https://media-cdn-v2.laodong.vn/storage/newsportal/2025/2/4/1458351/Ronaldo-1.jpg"
-                                alt="avatar"
-                            />
+                            <img src={user?.avatar_url || '/assets/images/defaultimg.jpg'} alt="avatar" />
                         </div>
-                        <div className={cx('name')}>Thanh Hieu</div>
+                        <div className={cx('name')}>{user?.name}</div>
                         <div className={cx('toggle-theme')} onClick={toggleTheme}>
                             <div className={cx('slider', { active: !isDarkMode })}></div>
 

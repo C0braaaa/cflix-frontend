@@ -9,10 +9,8 @@ const cx = classNames.bind(styles);
 
 function Profile() {
     const { openModal, user } = useAuth();
-    const [gender, setGender] = useState(user.data.gender);
-    const [avatar, setAvatar] = useState(
-        user.data.avatar_url || 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-    );
+    const [gender, setGender] = useState(user?.gender);
+    const [avatar, setAvatar] = useState(user?.avatar_url || 'https://cdn-icons-png.flaticon.com/512/149/149071.png');
 
     const handleGenderChange = (e) => {
         setGender(e.target.value);
@@ -29,11 +27,11 @@ function Profile() {
                     <div className={cx('col-1')}>
                         <div className={cx('form-group')}>
                             <label htmlFor="email">Email</label>
-                            <input type="text" name="email" id="email" defaultValue={user.data.email} disabled />
+                            <input type="text" name="email" id="email" defaultValue={user?.email} disabled />
                         </div>
                         <div className={cx('form-group')}>
                             <label htmlFor="name">Tên hiển thị</label>
-                            <input type="text" name="name" id="name" defaultValue={user.data.name} />
+                            <input type="text" name="name" id="name" defaultValue={user?.username} />
                         </div>
                         <div className={cx('label-gender')}>
                             <label>Giới tính</label>

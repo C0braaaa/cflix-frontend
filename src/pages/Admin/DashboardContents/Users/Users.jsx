@@ -13,7 +13,7 @@ import styles from './Users.module.scss';
 const cx = classNames.bind(styles);
 
 const validationSchema = yup.object().shape({
-    username: yup
+    name: yup
         .string()
         .required('Vui lòng nhập tên hiển thị')
         .min(6, 'Ten hien thong phai co it nhat 6 ky tu')
@@ -234,12 +234,12 @@ function Users() {
                             <label htmlFor="username">Tên hiển thị</label>
                             <input
                                 id="username"
-                                className={cx('form-control', { invalid: errors.username })}
+                                className={cx('form-control', { invalid: errors.name })}
                                 type="text"
                                 placeholder="Tên hiển thị"
-                                {...register('username')}
+                                {...register('name')}
                             />
-                            {errors.username && <span className={cx('form-message')}>{errors.username.message}</span>}
+                            {errors.name && <span className={cx('form-message')}>{errors.name.message}</span>}
                         </div>
                         <div className={cx('btn-update')}>
                             <Button type="submit" primary className={cx('btn')}>
