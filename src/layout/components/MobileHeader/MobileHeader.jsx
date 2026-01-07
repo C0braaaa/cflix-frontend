@@ -7,10 +7,12 @@ import {
     faHeart,
     faInfinity,
     faMagnifyingGlass,
+    faMars,
     faPlus,
     faRightFromBracket,
     faUser,
     faUserPlus,
+    faVenus,
     faX,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,19 +26,29 @@ import { useAuth } from '../../../features/auth/context/AuthContext';
 const cx = classNames.bind(styles);
 
 function MobileHeader() {
-    const { openModal } = useAuth();
-
-    const currentUser = false;
+    const { openModal, user, logout } = useAuth();
 
     const [menuIcon, setMenuIcon] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [showSearch, setShowSearch] = useState(true);
     const [showDropdown, setShowDropdown] = useState(null);
 
+    const GENDER_ICONS = {
+        male: faMars,
+        female: faVenus,
+        unknown: faInfinity,
+    };
+
+    const genderClass = user?.gender;
+
     const closeMenu = () => {
         setShowMenu(false);
         setShowDropdown(null);
         setMenuIcon(false);
+    };
+
+    const handleLogout = () => {
+        logout();
     };
 
     return (
@@ -58,16 +70,16 @@ function MobileHeader() {
                         <div className={cx('menu__list')}>
                             {showMenu && (
                                 <div className={cx('container')}>
-                                    {currentUser && (
+                                    {user && (
                                         <div className={cx('user')}>
                                             <div className={cx('user__l-1')}>
-                                                <span>C0bra</span>
-                                                <FontAwesomeIcon icon={faInfinity} className={cx('icon__gender')} />
+                                                <span>{user.username}</span>
+                                                <FontAwesomeIcon
+                                                    icon={GENDER_ICONS[user.gender]}
+                                                    className={cx(genderClass)}
+                                                />
                                                 <div className={cx('user__avatar')}>
-                                                    <img
-                                                        src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/09/hinh-nen-ronaldo-11.jpg"
-                                                        alt="avatar"
-                                                    />
+                                                    <img src={user.avatar_url} alt={user.username} />
                                                 </div>
                                             </div>
                                             <div className={cx('user__l-2')}>
@@ -115,14 +127,14 @@ function MobileHeader() {
                                                     <FontAwesomeIcon icon={faUser} />
                                                     <span>Tài Khoản</span>
                                                 </Link>
-                                                <div className={cx('user__item')}>
+                                                <div className={cx('user__item')} onClick={handleLogout}>
                                                     <FontAwesomeIcon icon={faRightFromBracket} />
                                                     <span>Thoát</span>
                                                 </div>
                                             </div>
                                         </div>
                                     )}
-                                    {!currentUser && (
+                                    {!user && (
                                         <div className={cx('btn')}>
                                             <Button
                                                 primary

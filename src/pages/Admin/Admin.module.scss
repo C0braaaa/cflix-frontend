@@ -8,27 +8,27 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 
     // light theme
-    --bg-body: #F2EDF3;
+    --bg-body: #f2edf3;
     --bg-element: #ffffff;
     --text-primary: #333333;
     --text-secondary: #333;
     --border-color: #cbd0dd;
-    --hover-bg: #EFF2F6;
+    --hover-bg: #eff2f6;
     --active-bg: #00ffff;
     --active-text: #333;
-    --shadow: 0 2px 10px rgba(0,0,0,0.05);
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 
     // dart theme
-    &[data-theme="dark"] {
-        --bg-body: #141414;        
-        --bg-element: #1f1f1f;     
-        --text-primary: #e5e5e5;   
-        --text-secondary: #fff; 
+    &[data-theme='dark'] {
+        --bg-body: #141414;
+        --bg-element: #1f1f1f;
+        --text-primary: #e5e5e5;
+        --text-secondary: #fff;
         --border-color: #333333;
-        --hover-bg: #2a2a2a; 
+        --hover-bg: #2a2a2a;
         --active-bg: #00ffff;
         --active-text: #333;
-        --shadow: 0 4px 15px rgba(0,0,0,0.5);
+        --shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     }
 }
 //header
@@ -46,7 +46,7 @@
     align-items: center;
     padding: 0 2rem;
     transition: background-color 0.3s ease;
-.logo {
+    .logo {
         width: 14rem;
         height: 5rem;
         cursor: pointer;
@@ -74,7 +74,17 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background: conic-gradient(from 0deg, #2E86DE 0%, #2E86DE 25%, #FF6B6B 25%, #FF6B6B 50%, #FF9F43 50%, #FF9F43 75%, #1DD1A1 75%, #1DD1A1 100%);
+                background: conic-gradient(
+                    from 0deg,
+                    #2e86de 0%,
+                    #2e86de 25%,
+                    #ff6b6b 25%,
+                    #ff6b6b 50%,
+                    #ff9f43 50%,
+                    #ff9f43 75%,
+                    #1dd1a1 75%,
+                    #1dd1a1 100%
+                );
                 padding: 2.5px;
 
                 img {
@@ -90,7 +100,7 @@
                 font-size: 1.6rem;
                 font-weight: 500;
                 // Giữ màu gradient tên cho đẹp
-                background: linear-gradient(to right, #2E86DE, #FF6B6B, #FF9F43, #1DD1A1);
+                background: linear-gradient(to right, #2e86de, #ff6b6b, #ff9f43, #1dd1a1);
                 background-clip: text;
                 -webkit-background-clip: text;
                 color: transparent;
@@ -102,29 +112,29 @@
 // --- NÚT GẠT THEME (Đã căn giữa chuẩn) ---
 .toggle-theme {
     position: relative;
-    width: 6.4rem;      
-    height: 3.2rem;   
-    padding: 0.4rem;  
+    width: 6.4rem;
+    height: 3.2rem;
+    padding: 0.4rem;
     border-radius: 2rem;
-    background-color: #E6E5E0; // Màu nền toggle giữ nguyên hoặc đổi nếu thích
+    background-color: #e6e5e0; // Màu nền toggle giữ nguyên hoặc đổi nếu thích
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-    
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+
     .slider {
         position: absolute;
-        z-index: 1; 
-        top: 0.4rem; 
-        left: 0.4rem;  
-        width: 2.4rem; 
+        z-index: 1;
+        top: 0.4rem;
+        left: 0.4rem;
+        width: 2.4rem;
         height: 2.4rem;
         background-color: #ffffff;
         border-radius: 50%;
-        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
         &.active {
             transform: translateX(3.2rem); // Trượt sang phải chuẩn
         }
@@ -140,13 +150,13 @@
         font-size: 1.4rem;
         color: #999;
         transition: color 0.3s ease;
-        
+
         &.active {
-            &:nth-of-type(2){
+            &:nth-of-type(2) {
                 color: #333;
             }
-            &:nth-of-type(3){
-                color: #FECC51;
+            &:nth-of-type(3) {
+                color: #fecc51;
             }
         }
     }
@@ -160,9 +170,9 @@
     border-right: 1px solid var(--border-color);
     padding: 1rem 2rem 2rem;
     transition: background-color 0.3s ease;
-    
+
     // Cố định sidebar, chỉ content scroll
-    position: fixed; 
+    position: fixed;
     bottom: 0;
     left: 0;
 
@@ -185,6 +195,12 @@
             color: var(--text-secondary);
             text-decoration: none; // Bỏ gạch chân
             transition: all 0.2s ease;
+            .title {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 16rem;
+            }
 
             // Khi active (NavLink tự thêm class này)
             &.active {

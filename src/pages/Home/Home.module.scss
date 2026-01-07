@@ -269,6 +269,7 @@
             overflow: hidden;
             border: 2px solid transparent;
             transition: all 0.3s ease;
+            opacity: 1 !important;
 
             img {
                 width: 100%;
@@ -372,11 +373,11 @@
         height: 6rem;
         border: 2px solid var(--border-color);
         border-radius: 3rem;
-    
+
         &:hover {
             border-color: var(--primary);
         }
-    
+
         .action-item {
             cursor: auto;
             display: flex;
@@ -406,7 +407,6 @@
             }
         }
     }
-    
 }
 
 // media for mobile

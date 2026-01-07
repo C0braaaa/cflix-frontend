@@ -25,8 +25,8 @@ const profileSchema = yup.object().shape({
 });
 
 // Cloudinary
-const CLOUD_NAME = 'dbx1xoswm';
-const UPLOAD_PRESET = 'cflix-upload';
+const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
 function Profile() {
     const { openModal, user, updateUserState } = useAuth();
 

@@ -70,7 +70,7 @@ function DashBoard() {
                         className={cx('menu-item', { active: activeMenu === 'users' })}
                         onClick={() => setActiveMenu('users')}
                     >
-                        <span className={cx('title')}>Danh sách users</span>
+                        <span className={cx('title')}>Danh sách người dùng</span>
                         <FontAwesomeIcon icon={faUser} />
                     </div>
                     <div

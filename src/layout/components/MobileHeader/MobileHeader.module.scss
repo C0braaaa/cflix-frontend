@@ -15,14 +15,14 @@
     margin-left: 1rem;
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: 0.5rem;
 
     .icon--red {
         color: red;
         height: 2.2rem;
     }
 
-    span{
+    span {
         width: 2rem;
         height: 2px;
         background-color: var(--text-color);
@@ -104,8 +104,16 @@
     color: var(--text-color);
     font-size: 1.6rem;
 
-    .icon__gender {
-        color: var(--primary-color);
+    .male {
+        color: #2980b9; // Màu xanh dương nam tính
+    }
+
+    .female {
+        color: #e84393; // Màu hồng nữ tính
+    }
+
+    .unknown {
+        color: #b2bec3; // Màu xám bí ẩn
     }
 
     .user__avatar {

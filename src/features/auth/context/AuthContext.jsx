@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from 'react';
-import { logoutAPI } from '../../../services/authServices';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { logoutAPI, getMeAPI } from '../../../services/authServices';
 
 const AuthContext = createContext();
 
@@ -11,6 +11,25 @@ export function AuthProvider({ children }) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState('login'); // 'login' or 'register'
+
+    useEffect(() => {
+        const fetchCurrentUser = async () => {
+            try {
+                const res = await getMeAPI();
+                if (res && res.user) {
+                    setUser(res.user);
+                    localStorage.setItem('cflix_user', JSON.stringify(res.user));
+                }
+            } catch (error) {
+                console.log(error);
+                setUser(null);
+                localStorage.removeItem('cflix_user');
+            }
+        };
+        if (localStorage.getItem('cflix_user')) {
+            fetchCurrentUser();
+        }
+    }, []);
 
     // login is called when login successful
     const login = (userData) => {
