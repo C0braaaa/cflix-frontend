@@ -33,3 +33,8 @@ export const getAllUSersAPI = async (keyword = null, role = null, is_active = nu
     const res = await request.get('auth/all-users', { params: { keyword, role, is_active } });
     return res;
 };
+
+export const toggleFavoriteAPI = async (movieData) => {
+    const res = await request.post('auth/favorite', movieData);
+    return res;
+};

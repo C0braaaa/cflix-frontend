@@ -178,6 +178,17 @@
         }
     }
 }
+.no-data {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    height: 5rem;
+    padding: 1rem;
+    background-color: var(--warning-color);
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
 // CSS cho menu Tippy
 .dropdown-actions {
     width: 15rem;

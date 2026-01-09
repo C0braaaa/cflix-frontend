@@ -14,7 +14,7 @@ import {
     faUser,
     faVenus,
 } from '@fortawesome/free-solid-svg-icons';
-import Profile from './mainContent/Profile/Profile';
+import { Profile, Favorite } from './mainContent';
 
 const cx = classNames.bind(styles);
 
@@ -80,8 +80,8 @@ function UserPage() {
                 </div>
             </div>
             <div className={cx('main-content')}>
-                {slug === 'favorite' && <p st> Yêu thích</p>}
-                {slug === 'playlist' && <p>Danh sách</p>}
+                {slug === 'favorite' && <Favorite />}
+                {slug === 'playlist' && <p>Xem sau</p>}
                 {slug === 'xem-tiep' && <p>Xem tiếp</p>}
                 {slug === 'profile' && <Profile />}
             </div>

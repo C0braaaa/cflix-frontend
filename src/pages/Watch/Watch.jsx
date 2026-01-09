@@ -37,12 +37,11 @@ function Wacth() {
     const currentEpisode =
         episodes?.[server]?.server_data?.find((ep) => ep.slug === episode) ?? episodes?.[server]?.server_data?.[0];
 
-        const m3u8Url = currentEpisode?.link_m3u8;
+    const m3u8Url = currentEpisode?.link_m3u8;
 
-        if (!m3u8Url) {
-  return <div className={cx('loading')}>Đang tải video...</div>;
-}
-
+    if (!m3u8Url) {
+        return <div className={cx('loading')}>Đang tải video...</div>;
+    }
 
     // console.log(currentEpisode);
 
@@ -80,7 +79,7 @@ function Wacth() {
                     </div>
                     <div className={cx('action')}>
                         <FontAwesomeIcon icon={faPlus} />
-                        <span>Thêm vào</span>
+                        <span>Xem sau</span>
                     </div>
                 </div>
             </div>

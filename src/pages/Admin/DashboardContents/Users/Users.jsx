@@ -2,7 +2,16 @@ import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faGear, faLock, faPen, faSearch, faTrash, faUnlock } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCircleXmark,
+    faGear,
+    faLock,
+    faPen,
+    faSearch,
+    faTrash,
+    faUnlock,
+    faWarning,
+} from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -259,6 +268,12 @@ function Users() {
                     ))}
                 </tbody>
             </table>
+            {users.length === 0 && (
+                <div className={cx('no-data')}>
+                    <FontAwesomeIcon icon={faWarning} />
+                    <p>Không tìm thấy dữ liệu!</p>
+                </div>
+            )}
             {edittingUSer && <div className={cx('overlay-users')} onClick={() => setEdittingUSer(false)}></div>}
             {edittingUSer && (
                 <div className={cx('modal-edit')}>

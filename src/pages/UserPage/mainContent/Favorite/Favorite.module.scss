@@ -1,0 +1,96 @@
+.wrapper {
+    // position: absolute;
+    // top: 0;
+    // left: -5rem;
+    padding-right: 2rem;
+}
+
+.title {
+    color: var(--text-color);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.list-movies {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+
+    .movie {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        cursor: pointer;
+        .poster {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2/3;
+            border-radius: 1rem;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 1rem;
+            }
+
+            .remove {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: var(--primary);
+                color: var(--text-black);
+                opacity: 0.7;
+                width: 3.5rem;
+                height: 3.5rem;
+                border-radius: 0.5rem;
+                font-size: 1.2rem;
+
+                &:hover {
+                    opacity: 1;
+                    cursor: pointer;
+                }
+            }
+        }
+        .info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 0.5rem;
+
+            .name {
+                font-size: 1.5rem;
+                color: var(--text-color);
+                margin-top: 1rem;
+                max-width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            .origin-name {
+                font-size: 1.4rem;
+                color: var(--text-color);
+                opacity: 0.5;
+                font-weight: 300;
+                max-width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .wrapper {
+        padding: 0;
+    }
+    .list-movies {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

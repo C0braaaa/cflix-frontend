@@ -2,7 +2,9 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
+import { useAuth } from '../../features/auth/context/AuthContext';
 import styles from './MovieInfo.module.scss';
 import Button from '../../components/Button/index-button';
 import {
@@ -14,6 +16,7 @@ import {
     faThumbsDown,
     faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
+import { toggleFavoriteAPI, getMeAPI } from '../../services/authServices';
 import { detail } from '../../services/moviesServices';
 import Comment from '../../layout/components/Comments/Comments';
 
@@ -21,17 +24,56 @@ const cx = classNames.bind(styles);
 
 function MovieInfo() {
     const { slug } = useParams();
+    const { openModal } = useAuth();
 
     const [loading, setLoading] = useState(true);
     const [movie, setMovie] = useState([]);
     const [episodes, setEpisodes] = useState([]);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [showMore, setShowMore] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
         txt.innerHTML = html;
         return txt.value;
+    };
+
+    useEffect(() => {
+        const checkFav = async () => {
+            try {
+                const res = await getMeAPI();
+                if (res?.user?.favorite) {
+                    const exists = res.user.favorite.some((f) => f.slug === slug);
+                    setIsFavorite(exists);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        checkFav();
+    }, [slug]);
+
+    // handle click favorite
+    const handleAddFavorite = async () => {
+        try {
+            const res = await toggleFavoriteAPI({
+                _id: movie._id,
+                slug: movie.slug,
+                name: movie.name,
+                origin_name: movie.origin_name,
+                poster_url: movie.poster_url,
+            });
+
+            if (res && res.status) {
+                setIsFavorite((prev) => !prev);
+                toast.success(res.msg);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Vui lòng đăng nhập để lưu phim!');
+            openModal('login');
+        }
     };
 
     useEffect(() => {
@@ -199,13 +241,17 @@ function MovieInfo() {
                             </Button>
                         </Link>
                         <div className={cx('actions')}>
-                            <div className={cx('action')}>
+                            <div
+                                className={cx('action')}
+                                onClick={handleAddFavorite}
+                                style={{ color: isFavorite ? '#ff0000' : 'white', cursor: 'pointer' }}
+                            >
                                 <FontAwesomeIcon icon={faHeart} />
                                 <span className={cx('title')}>Yêu thích</span>
                             </div>
                             <div className={cx('action')}>
                                 <FontAwesomeIcon icon={faPlus} />
-                                <span className={cx('title')}>Thêm vào</span>
+                                <span className={cx('title')}>Xem sau</span>
                             </div>
                             <div className={cx('action')}>
                                 <FontAwesomeIcon icon={faThumbsUp} />

@@ -3,7 +3,8 @@
     margin: 15rem 0 8rem 0;
     padding: 0 13.2rem;
     display: flex;
-    gap: 10rem;
+    align-items: flex-start;
+    gap: 5rem;
 }
 
 .sidebar {
@@ -101,16 +102,11 @@
         font-size: 1.6rem;
     }
 }
-
-.main-content {
-    font-size: 3rem;
-}
-
 // Main Content
 .main-content {
-    width: 60%;
-    padding: 4rem;
-    // height: 50rem;
+    font-size: 3rem;
+    position: relative;
+    flex: 1;
     background-color: transparent;
 }
 // Media Queries
