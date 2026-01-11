@@ -98,3 +98,15 @@ hr {
     margin: 0 0 8px 0;
     border-top: 1px solid rgb(255, 255, 255, 0.2);
 }
+
+.glass-toast {
+    background: rgba(20, 20, 20, 0.55) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    color: #fff;
+}

@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import { toast } from 'react-toastify';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
@@ -15,15 +16,69 @@ import 'swiper/css/effect-creative';
 import { faHeart, faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { slidesInfo } from './list';
 import { LatestMovie, Topics } from './component/index';
+import { useAuth } from '../../features/auth/context/AuthContext';
+import { getMeAPI, toggleFavoriteAPI } from '../../services/authServices';
 
 const cx = classNames.bind(styles);
 
 function Home() {
-    const user = true;
+    const { user } = useAuth();
+    const [favoritesList, setFavoritesList] = useState([]);
 
     useEffect(() => {
         document.title = 'CFlix - Phim Hay Xem Là Ngất Ngay';
     }, []);
+
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            if (user) {
+                try {
+                    const res = await getMeAPI();
+                    if (res && res.user && res.user.favorite) {
+                        setFavoritesList(res.user.favorite);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchFavorites();
+    }, [user]);
+
+    const handleSliderFavorite = async (item) => {
+        console.log('item gom gi: ', item);
+
+        try {
+            const dataToSave = {
+                slug: item.slug,
+                name: item.name,
+                origin_name: item.origin_name,
+                poster_url: item.poster_url,
+            };
+
+            const res = await toggleFavoriteAPI(dataToSave);
+
+            if (res && res.status) {
+                toast.success(res.msg);
+
+                setFavoritesList((prev) => {
+                    // Kiểm tra xem phim này đã có trong list chưa
+                    const exists = prev.find((f) => f.slug === item.slug);
+
+                    if (exists) {
+                        // Nếu có rồi -> Đang thực hiện XÓA -> Lọc bỏ ra khỏi mảng
+                        return prev.filter((f) => f.slug !== item.slug);
+                    } else {
+                        // Nếu chưa có -> Đang thực hiện THÊM -> Push vào mảng
+                        return [...prev, { slug: item.slug }];
+                    }
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Có lỗi xảy ra!');
+        }
+    };
 
     // Ham ho trợ chạy animation không cần slide mount lại
     const handleSlideAnimation = (swiper, index) => {
@@ -61,7 +116,7 @@ function Home() {
                     clickable: true,
                     renderBullet: (index, className) => {
                         return `<span class="${className}">
-                    <img src="${slidesInfo[index].imgUrl}" alt="thumb" />
+                    <img src="${slidesInfo[index].thumb_url}" alt="thumb" />
                 </span>`;
                     },
                 }}
@@ -81,19 +136,20 @@ function Home() {
                 }}
             >
                 {slidesInfo.map((item, index) => {
+                    const isFav = favoritesList.some((fav) => fav.slug === item.slug);
                     return (
                         <SwiperSlide key={index}>
                             <div className={cx('slide')}>
                                 <div className={cx('slide-elements')}>
                                     <div className={cx('cover-fade')}>
                                         <div className={cx('cover-image')}>
-                                            <img className={cx('cover-img')} src={item.imgUrl} alt="cover" />
+                                            <img className={cx('cover-img')} src={item.thumb_url} alt="cover" />
                                         </div>
                                     </div>
                                     <div className={cx('slide-info')}>
                                         <Link to={item.infoPage}>
-                                            <h2 className={cx('movie-title')}>{item.title}</h2>
-                                            <p className={cx('movie-eng-title')}>{item.engTitle}</p>
+                                            <h2 className={cx('movie-title')}>{item.name}</h2>
+                                            <p className={cx('movie-eng-title')}>{item.origin_name}</p>
                                         </Link>
                                         <div className={cx('movie-tags-1')}>
                                             <div className={cx('IMDb-tag')}>
@@ -132,7 +188,14 @@ function Home() {
                                             {user && (
                                                 <div className={cx('group-actions')}>
                                                     <Tippy content="Yêu thích" offset={[0, -5]} placement="bottom">
-                                                        <div className={cx('action-item')}>
+                                                        <div
+                                                            className={cx('action-item')}
+                                                            onClick={() => handleSliderFavorite(item)}
+                                                            style={{
+                                                                color: isFav ? '#ff0000' : 'white',
+                                                                cursor: 'pointer',
+                                                            }}
+                                                        >
                                                             <FontAwesomeIcon icon={faHeart} />
                                                         </div>
                                                     </Tippy>

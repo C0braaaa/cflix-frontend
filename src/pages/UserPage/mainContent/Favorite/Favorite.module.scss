@@ -14,7 +14,7 @@
 .list-movies {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1.5rem;
 
     .movie {
@@ -83,6 +83,56 @@
                 text-overflow: ellipsis;
             }
         }
+    }
+}
+
+// pagination
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+    gap: 2rem;
+
+    .page-btn {
+        width: 5rem;
+        height: 5rem;
+        background-color: var(--background-color-6);
+        color: var(--text-color);
+        font-size: 1.6rem;
+        padding: 8px 14px;
+        border-radius: 1rem;
+        cursor: pointer;
+        font-weight: 500;
+        transition: 0.2s;
+
+        &:hover:not(:disabled) {
+            opacity: 0.8;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .page-info {
+        width: 22rem;
+        height: 5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--text-color);
+        background-color: var(--background-color-6);
+        padding: 8px 14px;
+        border-radius: 1rem;
+        font-size: 1.8rem;
+        font-weight: 400;
+    }
+}
+// responsive
+@media (max-width: 1600px) {
+    .list-movies {
+        grid-template-columns: repeat(5, 1fr);
     }
 }
 

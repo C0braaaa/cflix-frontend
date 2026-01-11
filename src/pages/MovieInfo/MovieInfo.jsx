@@ -21,7 +21,7 @@ import { detail } from '../../services/moviesServices';
 import Comment from '../../layout/components/Comments/Comments';
 
 const cx = classNames.bind(styles);
-
+// const ITEMS_PER_PAGE = 25;
 function MovieInfo() {
     const { slug } = useParams();
     const { openModal } = useAuth();
@@ -32,6 +32,7 @@ function MovieInfo() {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [showMore, setShowMore] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
+    // const [currentPage, setCurrentPage] = useState(1);
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
@@ -58,7 +59,6 @@ function MovieInfo() {
     const handleAddFavorite = async () => {
         try {
             const res = await toggleFavoriteAPI({
-                _id: movie._id,
                 slug: movie.slug,
                 name: movie.name,
                 origin_name: movie.origin_name,

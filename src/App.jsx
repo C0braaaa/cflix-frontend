@@ -8,6 +8,7 @@ import { publicRoutes } from './routes/index-routes';
 import DefaultLayout from './layout/DefaultLayout';
 import AuthContainer from './features/auth/AuthContainer';
 import SplashScreen from './components/SplashScreen/SplashPage';
+
 function App() {
     const [splashScreen, setSplashScreen] = useState(true);
 
@@ -68,7 +69,8 @@ function App() {
                 )}
                 <AuthContainer />
                 <ToastContainer
-                    position="top-right"
+                    toastClassName="glass-toast"
+                    position="bottom-right"
                     autoClose={3000}
                     hideProgressBar={false}
                     newestOnTop

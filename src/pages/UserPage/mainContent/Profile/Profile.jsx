@@ -20,7 +20,7 @@ const profileSchema = yup.object().shape({
         .string()
         .required('Vui lòng nhập tên hiển thị')
         .min(6, 'Tên hiển thị phải có ít nhất 6 ký tự')
-        .max(50, 'Tên hiển thị không vượt quá 50 ký tự'),
+        .max(20, 'Tên hiển thị không vượt quá 20 ký tự'),
     gender: yup.string().oneOf(['male', 'female', 'unknown'], 'Giới tính không hợp lệ').required(),
 });
 
