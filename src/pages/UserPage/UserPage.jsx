@@ -14,7 +14,8 @@ import {
     faUser,
     faVenus,
 } from '@fortawesome/free-solid-svg-icons';
-import { Profile, Favorite } from './mainContent';
+import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/authServices';
+import { Profile, MainContents } from './mainContent';
 
 const cx = classNames.bind(styles);
 
@@ -47,7 +48,7 @@ function UserPage() {
                     </Link>
                     <Link to="/user/playlist" className={cx('item', { active: slug === 'playlist' })}>
                         <FontAwesomeIcon icon={faPlus} />
-                        <span>Danh sách</span>
+                        <span>Xem sau</span>
                     </Link>
                     <Link to="/user/xem-tiep" className={cx('item', { active: slug === 'xem-tiep' })}>
                         <FontAwesomeIcon icon={faClockRotateLeft} />
@@ -80,9 +81,9 @@ function UserPage() {
                 </div>
             </div>
             <div className={cx('main-content')}>
-                {slug === 'favorite' && <Favorite />}
-                {slug === 'playlist' && <p>Xem sau</p>}
-                {slug === 'xem-tiep' && <p>Xem tiếp</p>}
+                {slug === 'favorite' && <MainContents title="Yêu thích" api={toggleFavoriteAPI} field="favorite" />}
+                {slug === 'playlist' && <MainContents title="Xem sau" api={togglePlaylistAPI} field="playlist" />}
+                {slug === 'xem-tiep' && <MainContents title="Xem tiếp" field="continue_watching" />}
                 {slug === 'profile' && <Profile />}
             </div>
         </div>

@@ -4,7 +4,6 @@
     flex-direction: column;
     margin-top: 15rem;
     margin-bottom: 5rem;
-    padding: auto;
     padding: 0 16rem;
 }
 
@@ -27,7 +26,9 @@
     margin-bottom: 1rem;
 }
 .video {
-    height: 100rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .actions {
@@ -46,6 +47,7 @@
         gap: 0.5rem;
         color: var(--text-color);
         font-size: 1.6rem;
+        margin-top: 1.5rem;
 
         &:hover {
             cursor: pointer;
@@ -63,7 +65,7 @@
     padding-right: 2rem;
 }
 .options {
-    margin-top: 8rem;
+    margin-top: 3rem;
     display: flex;
     align-items: center;
     padding-bottom: 1rem;
@@ -149,22 +151,56 @@
     }
 }
 
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 45px;
+    aspect-ratio: 1;
+    position: absolute;
+    top: 20rem;
+    right: 50%;
+    transform: translateX(50%);
+    --c: no-repeat linear-gradient(#ffffff 0 0);
+    background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
+    background-size: 20% 100%;
+    animation: l1 1s infinite linear;
+}
+@keyframes l1 {
+    0% {
+        background-size: 20% 100%, 20% 100%, 20% 100%;
+    }
+    33% {
+        background-size: 20% 10%, 20% 100%, 20% 100%;
+    }
+    50% {
+        background-size: 20% 100%, 20% 10%, 20% 100%;
+    }
+    66% {
+        background-size: 20% 100%, 20% 100%, 20% 10%;
+    }
+    100% {
+        background-size: 20% 100%, 20% 100%, 20% 100%;
+    }
+}
+
 // mobile responsive
 @media screen and (max-width: 500px) {
     .wrapper {
         margin-top: 2rem;
-        padding: 0 0.5rem;
+        padding: 0;
     }
     .l-1 {
+        padding-left: 1rem;
         .title {
             font-size: 1.5rem;
         }
     }
     .video {
-        height: 23.5rem;
+        border-radius: 0;
+        height: auto;
 
         .action {
             font-size: 1.6rem;
+            margin-top: 1rem;
 
             span {
                 display: none;
@@ -174,7 +210,7 @@
     .options {
         flex-direction: column;
         align-items: flex-start;
-        margin-top: 5rem;
+        margin-top: 1rem;
 
         h2 {
             font-size: 1.6rem;

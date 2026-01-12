@@ -15,15 +15,16 @@ import 'swiper/css/navigation';
 import 'swiper/css/effect-creative';
 import { faHeart, faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { slidesInfo } from './list';
-import { LatestMovie, Topics } from './component/index';
+import { LatestMovie, Topics, ContinueWatching } from './component/index';
 import { useAuth } from '../../features/auth/context/AuthContext';
-import { getMeAPI, toggleFavoriteAPI } from '../../services/authServices';
+import { getMeAPI, toggleFavoriteAPI, togglePlaylistAPI } from '../../services/authServices';
 
 const cx = classNames.bind(styles);
 
 function Home() {
     const { user } = useAuth();
     const [favoritesList, setFavoritesList] = useState([]);
+    const [playlistList, setPlaylistList] = useState([]);
 
     useEffect(() => {
         document.title = 'CFlix - Phim Hay Xem Là Ngất Ngay';
@@ -34,8 +35,13 @@ function Home() {
             if (user) {
                 try {
                     const res = await getMeAPI();
-                    if (res && res.user && res.user.favorite) {
-                        setFavoritesList(res.user.favorite);
+                    if (res && res.user) {
+                        if (res.user.favorite) {
+                            setFavoritesList(res.user.favorite);
+                        }
+                        if (res.user.playlist) {
+                            setPlaylistList(res.user.playlist);
+                        }
                     }
                 } catch (error) {
                     console.log(error);
@@ -45,9 +51,8 @@ function Home() {
         fetchFavorites();
     }, [user]);
 
+    // favorite slider action
     const handleSliderFavorite = async (item) => {
-        console.log('item gom gi: ', item);
-
         try {
             const dataToSave = {
                 slug: item.slug,
@@ -80,6 +85,39 @@ function Home() {
         }
     };
 
+    // playlist slider action
+    const handleSliderPlaylist = async (item) => {
+        try {
+            const dataToSave = {
+                slug: item.slug,
+                name: item.name,
+                origin_name: item.origin_name,
+                poster_url: item.poster_url,
+            };
+
+            const res = await togglePlaylistAPI(dataToSave);
+
+            if (res && res.status) {
+                toast.success(res.msg);
+
+                setPlaylistList((prev) => {
+                    // Kiểm tra xem phim này đã có trong list chưa
+                    const exists = prev.find((f) => f.slug === item.slug);
+
+                    if (exists) {
+                        // Nếu có rồi -> Đang thực hiện XÓA -> Lọc bỏ ra khỏi mảng
+                        return prev.filter((f) => f.slug !== item.slug);
+                    } else {
+                        // Nếu chưa có -> Đang thực hiện THÊM -> Push vào mảng
+                        return [...prev, { slug: item.slug }];
+                    }
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Có lỗi xảy ra!');
+        }
+    };
     // Ham ho trợ chạy animation không cần slide mount lại
     const handleSlideAnimation = (swiper, index) => {
         const slide = swiper.slides[index];
@@ -137,6 +175,7 @@ function Home() {
             >
                 {slidesInfo.map((item, index) => {
                     const isFav = favoritesList.some((fav) => fav.slug === item.slug);
+                    const isPla = playlistList.some((pla) => pla.slug === item.slug);
                     return (
                         <SwiperSlide key={index}>
                             <div className={cx('slide')}>
@@ -200,7 +239,14 @@ function Home() {
                                                         </div>
                                                     </Tippy>
                                                     <Tippy content="Xem sau" offset={[0, -5]} placement="bottom">
-                                                        <div className={cx('action-item')}>
+                                                        <div
+                                                            className={cx('action-item')}
+                                                            onClick={() => handleSliderPlaylist(item)}
+                                                            style={{
+                                                                color: isPla ? 'var(--primary-color)' : 'white',
+                                                                cursor: 'pointer',
+                                                            }}
+                                                        >
                                                             <FontAwesomeIcon icon={faPlus} />
                                                         </div>
                                                     </Tippy>
@@ -215,6 +261,7 @@ function Home() {
                 })}
             </Swiper>
             <Topics />
+            {user && <ContinueWatching />}
             <LatestMovie
                 slug="phim-le"
                 year="2025"

@@ -16,12 +16,11 @@ import {
     faThumbsDown,
     faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { toggleFavoriteAPI, getMeAPI } from '../../services/authServices';
+import { toggleFavoriteAPI, togglePlaylistAPI, getMeAPI } from '../../services/authServices';
 import { detail } from '../../services/moviesServices';
 import Comment from '../../layout/components/Comments/Comments';
 
 const cx = classNames.bind(styles);
-// const ITEMS_PER_PAGE = 25;
 function MovieInfo() {
     const { slug } = useParams();
     const { openModal } = useAuth();
@@ -32,7 +31,7 @@ function MovieInfo() {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [showMore, setShowMore] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
-    // const [currentPage, setCurrentPage] = useState(1);
+    const [isPlaylist, setIsPlaylist] = useState(false);
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
@@ -40,6 +39,7 @@ function MovieInfo() {
         return txt.value;
     };
 
+    // check favorite movie
     useEffect(() => {
         const checkFav = async () => {
             try {
@@ -55,6 +55,22 @@ function MovieInfo() {
         checkFav();
     }, [slug]);
 
+    // check playlist movie
+    useEffect(() => {
+        const checkPlaylist = async () => {
+            try {
+                const res = await getMeAPI();
+                if (res?.user?.playlist) {
+                    const exists = res.user.playlist.some((p) => p.slug === slug);
+                    setIsPlaylist(exists);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        checkPlaylist();
+    }, [slug]);
+
     // handle click favorite
     const handleAddFavorite = async () => {
         try {
@@ -67,6 +83,27 @@ function MovieInfo() {
 
             if (res && res.status) {
                 setIsFavorite((prev) => !prev);
+                toast.success(res.msg);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Vui lòng đăng nhập để lưu phim!');
+            openModal('login');
+        }
+    };
+
+    // handle click playlist
+    const handleAddPlaylist = async () => {
+        try {
+            const res = await togglePlaylistAPI({
+                slug: movie.slug,
+                name: movie.name,
+                origin_name: movie.origin_name,
+                poster_url: movie.poster_url,
+            });
+
+            if (res && res.status) {
+                setIsPlaylist((prev) => !prev);
                 toast.success(res.msg);
             }
         } catch (error) {
@@ -249,7 +286,11 @@ function MovieInfo() {
                                 <FontAwesomeIcon icon={faHeart} />
                                 <span className={cx('title')}>Yêu thích</span>
                             </div>
-                            <div className={cx('action')}>
+                            <div
+                                className={cx('action')}
+                                onClick={handleAddPlaylist}
+                                style={{ color: isPlaylist ? 'var(--primary-color)' : 'white', cursor: 'pointer' }}
+                            >
                                 <FontAwesomeIcon icon={faPlus} />
                                 <span className={cx('title')}>Xem sau</span>
                             </div>

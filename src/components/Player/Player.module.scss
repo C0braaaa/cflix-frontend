@@ -1,0 +1,77 @@
+/* src/components/Player/Player.module.scss */
+
+.wrapper {
+    width: 100%;
+    // height: 100%;
+    // position: relative;
+    overflow: hidden;
+
+    // --- CUSTOM CSS CHO ARTPLAYER ---
+    :global {
+        // 1. Chỉnh khoảng cách chung
+        .art-control {
+            padding: 0 5px; // Giảm khoảng cách để các nút gần nhau hơn
+
+            .art-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        // 2. CSS Cho nút Tua 10s (Custom Control)
+        .custom-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            margin: 0 2px; // Khoảng cách giữa 2 nút tua
+
+            &:hover {
+                opacity: 1;
+            }
+
+            // Số 10 nằm giữa
+            span {
+                position: absolute;
+                font-size: 7px;
+                font-weight: 900;
+                color: #fff;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -40%);
+                pointer-events: none;
+            }
+        }
+
+        // 3. ẨN CÁC NÚT KHÔNG CẦN THIẾT BÊN PHẢI (Theo yêu cầu)
+        // Mặc định ẩn hết Setting, PIP, Screenshot... chỉ để lại Fullscreen
+        .art-control-setting,
+        .art-control-pip,
+        .art-control-screenshot,
+        .art-control-indicator {
+            display: none !important;
+        }
+
+        // 4. Đảm bảo nút Fullscreen luôn hiện
+        .art-control-fullscreen {
+            display: flex !important;
+        }
+
+        // --- TÙY CHỈNH CHO MOBILE ---
+        // Khi ở Mobile dọc (chưa phóng to)
+        .art-video-player.art-mobile {
+            .art-controls-bottom {
+                padding: 0 5px; // Padding lề sát hơn
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .wrapper {
+        border-radius: 0;
+    }
+}

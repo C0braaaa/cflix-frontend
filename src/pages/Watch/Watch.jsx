@@ -4,17 +4,23 @@ import classNames from 'classnames/bind';
 
 import styles from './Watch.module.scss';
 import { detail } from '../../services/moviesServices';
+import { getMeAPI } from '../../services/authServices';
+import { useAuth } from '../../features/auth/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Comment from '../../layout/components/Comments/Comments';
+import Player from '../../components/Player/Player';
 
 const cx = classNames.bind(styles);
 
 function Wacth() {
+    const { user } = useAuth();
     const { slug, episode } = useParams();
     const [movie, setMovie] = useState([]);
     const [episodes, setEpisodes] = useState([]);
     const [server, setServer] = useState(0);
+    const [savedTime, setSavedTime] = useState(0);
+    const [isProgressChecked, setIsProgressChecked] = useState(false);
 
     useEffect(() => {
         movie.name ? (document.title = `Xem Phim ${movie.name}`) : (document.title = 'Xem Phim');
@@ -34,14 +40,49 @@ function Wacth() {
         fetchMovie();
     }, [slug]);
 
+    useEffect(() => {
+        const fetchProgress = async () => {
+            if (!user || episodes.length === 0) {
+                setIsProgressChecked(true);
+                return;
+            }
+
+            try {
+                setIsProgressChecked(false);
+
+                const res = await getMeAPI();
+                const watchingList = res.user?.continue_watching || [];
+                const currentEpSlug = episode || episodes?.[server]?.server_data?.[0]?.slug;
+
+                const savedData = watchingList.find(
+                    (item) => item.slug === slug && item.episode_slug === currentEpSlug,
+                );
+
+                if (savedData && savedData.current_time > 0) {
+                    setSavedTime(savedData.current_time);
+                } else {
+                    setSavedTime(0);
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsProgressChecked(true);
+            }
+        };
+        if (episodes.length > 0) {
+            fetchProgress();
+        }
+    }, [user, slug, episode, episodes, server]);
+
     const currentEpisode =
         episodes?.[server]?.server_data?.find((ep) => ep.slug === episode) ?? episodes?.[server]?.server_data?.[0];
 
     const m3u8Url = currentEpisode?.link_m3u8;
 
     if (!m3u8Url) {
-        return <div className={cx('loading')}>Đang tải video...</div>;
+        return <div className={cx('loader')}></div>;
     }
+    const shouldRenderPlayer = m3u8Url && isProgressChecked;
 
     // console.log(currentEpisode);
 
@@ -61,17 +102,32 @@ function Wacth() {
                 </h2>
             </div>
             <div className={cx('video')}>
-                <iframe
-                    key={movie._id}
-                    src={currentEpisode?.link_embed}
-                    width="100%"
-                    height="100%"
-                    allowFullScreen
-                    loading="lazy"
-                    frameBorder="0"
-                    title={movie.name}
-                    style={{ borderRadius: ' 1rem 1rem 0 0' }}
-                ></iframe>
+                {shouldRenderPlayer ? (
+                    <Player
+                        option={{
+                            url: m3u8Url, // Link m3u8
+                            seekTime: savedTime, // Thời gian cần tua tới
+                            poster: movie.poster_url, // Ảnh nền khi chưa play
+                            title: currentEpisode?.name,
+                        }}
+                        movieData={{
+                            slug: movie.slug,
+                            name: movie.name,
+                            origin_name: movie.origin_name,
+                            poster_url: movie.poster_url,
+                            episode_slug: currentEpisode?.slug,
+                            episode_name: currentEpisode?.name,
+                        }}
+                        style={{
+                            width: '100%',
+                            aspectRatio: '16/9',
+                            borderRadius: '1rem 1rem 0 0',
+                            overflow: 'hidden',
+                        }}
+                    />
+                ) : (
+                    <div className={cx('loader')}></div>
+                )}
                 <div className={cx('actions')}>
                     <div className={cx('action')}>
                         <FontAwesomeIcon icon={faHeart} />

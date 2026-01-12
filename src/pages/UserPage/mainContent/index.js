@@ -1,2 +1,2 @@
 export { default as Profile } from './Profile/Profile.jsx';
-export { default as Favorite } from './Favorite/Favorite.jsx';
+export { default as MainContents } from './MainContents/MainContents.jsx';

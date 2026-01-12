@@ -91,7 +91,7 @@ export const userList = [
         to: '/user/favorite',
     },
     {
-        name: 'Danh sách',
+        name: 'Xem sau',
         icon: faPlus,
         to: '/user/playlist',
     },

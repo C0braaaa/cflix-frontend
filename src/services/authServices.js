@@ -38,3 +38,12 @@ export const toggleFavoriteAPI = async (movieData) => {
     const res = await request.post('auth/favorite', movieData);
     return res;
 };
+export const togglePlaylistAPI = async (movieData) => {
+    const res = await request.post('auth/playlist', movieData);
+    return res;
+};
+
+export const saveProgressAPI = async (movieData) => {
+    const res = await request.post('auth/continue-watching', movieData);
+    return res;
+};
