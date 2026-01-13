@@ -44,7 +44,7 @@ function ContinueWatching() {
             </div>
             <div className={cx('content')}>
                 <div className={cx('list-items')}>
-                    {continueWatchingList.reverse().map((item) => (
+                    {continueWatchingList.map((item) => (
                         <Link to={`/xem-phim/${item.slug}/${item.episode_slug}`} className={cx('item')} key={item.slug}>
                             <div className={cx('poster')}>
                                 <img src={item.poster_url} alt={`Poster của ${item.name}`} />

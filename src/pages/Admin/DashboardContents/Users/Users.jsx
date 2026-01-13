@@ -20,7 +20,7 @@ import * as yup from 'yup';
 
 import Button from '../../../../components/Button/index-button';
 import styles from './Users.module.scss';
-import { getAllUSersAPI, updateUserByIDAPI } from '../../../../services/authServices';
+import { getAllUSersAPI, updateUserByIDAPI, deleteUserAPI } from '../../../../services/authServices';
 const cx = classNames.bind(styles);
 
 const validationSchema = yup.object().shape({
@@ -39,6 +39,7 @@ function Users() {
     const [isActive, setIsActive] = useState();
     const [searchTerm, setSearchTerm] = useState('');
     const [submittingSearch, setSubmittingSearch] = useState('');
+    const [confirmDelete, setConfirmDelete] = useState(false);
 
     const {
         register,
@@ -49,9 +50,23 @@ function Users() {
         resolver: yupResolver(validationSchema),
         mode: 'onBlur',
     });
-    const onSubmit = (data) => {
-        console.log('ID cần sửa:', edittingUSer._id);
-        console.log('Dữ liệu mới:', data);
+    const onSubmit = async (data) => {
+        try {
+            await updateUserByIDAPI(edittingUSer._id, {
+                username: data.username,
+                role: data.role,
+            });
+
+            toast.success('Cập nhật user thành công');
+
+            setUsers((prev) =>
+                prev.map((u) => (u._id === edittingUSer._id ? { ...u, username: data.username, role: data.role } : u)),
+            );
+            setEdittingUSer(false);
+        } catch (error) {
+            console.error('Update info failed:', error);
+            toast.error(error?.response?.data?.message || 'Cập nhật thất bại');
+        }
     };
 
     const handleToggleActive = async (user) => {
@@ -69,6 +84,23 @@ function Users() {
         }
     };
 
+    const handleDeleteUser = async () => {
+        if (!confirmDelete || !confirmDelete._id) return;
+
+        try {
+            await deleteUserAPI(confirmDelete._id);
+
+            toast.success('Xóa user thành công');
+
+            setUsers((prev) => prev.filter((u) => u._id !== confirmDelete._id));
+
+            setConfirmDelete(false);
+        } catch (error) {
+            console.error('Delete user failed:', error);
+            toast.error(error?.response?.data?.message || 'Xóa người dùng thất bại');
+        }
+    };
+
     const handleCloseMenu = () => {
         setActiveMenuId(null);
     };
@@ -76,6 +108,11 @@ function Users() {
     const handleShowEdittingUSer = (user) => {
         setEdittingUSer(user); // Lưu user đang chọn vào state
         setActiveMenuId(null); // Đóng menu dropdown
+    };
+
+    const handleShowDeleteUser = (user) => {
+        setConfirmDelete(user);
+        setActiveMenuId(null);
     };
 
     const handleSearch = () => {
@@ -220,10 +257,15 @@ function Users() {
                                         render={(attrs) => (
                                             <>
                                                 <div className={cx('dropdown-actions')} tabIndex="-1" {...attrs}>
-                                                    <div className={cx('dropdown-item')}>
-                                                        <FontAwesomeIcon icon={faTrash} />
-                                                        <span>Xóa</span>
-                                                    </div>
+                                                    {user.role !== 'admin' && (
+                                                        <div
+                                                            className={cx('dropdown-item')}
+                                                            onClick={() => handleShowDeleteUser(user)}
+                                                        >
+                                                            <FontAwesomeIcon icon={faTrash} />
+                                                            <span>Xóa</span>
+                                                        </div>
+                                                    )}
                                                     <div
                                                         className={cx('dropdown-item')}
                                                         onClick={() => handleToggleActive(user)}
@@ -275,6 +317,7 @@ function Users() {
                 </div>
             )}
             {edittingUSer && <div className={cx('overlay-users')} onClick={() => setEdittingUSer(false)}></div>}
+            {confirmDelete && <div className={cx('overlay-delete')} onClick={() => setConfirmDelete(false)}></div>}
             {edittingUSer && (
                 <div className={cx('modal-edit')}>
                     <form className={cx('edit-form')} onSubmit={handleSubmit(onSubmit)}>
@@ -303,7 +346,13 @@ function Users() {
                         </div>
                         <div className={cx('form-group')}>
                             <label htmlFor="role">Role</label>
-                            <select name="role" id="role" className={cx('role')} defaultValue={edittingUSer.role}>
+                            <select
+                                name="role"
+                                id="role"
+                                className={cx('role')}
+                                {...register('role')}
+                                defaultValue={edittingUSer.role}
+                            >
                                 <option value="admin">admin</option>
                                 <option value="user">user</option>
                             </select>
@@ -324,6 +373,26 @@ function Users() {
                             </Button>
                         </div>
                     </form>
+                </div>
+            )}
+            {confirmDelete && (
+                <div className={cx('confirm-delete')}>
+                    <div className={cx('delete-box')}>
+                        <span className={cx('close-confirm-delete')} onClick={() => setConfirmDelete(false)}>
+                            &times;
+                        </span>
+                        <p className={cx('title')}>
+                            Xác nhận xóa người dùng <strong>{confirmDelete.username}</strong>
+                        </p>
+                        <div className={cx('delete-btn')}>
+                            <Button primary className={cx('btn')} onClick={handleDeleteUser}>
+                                Xóa
+                            </Button>
+                            <Button primary className={cx('btn')} onClick={() => setConfirmDelete(false)}>
+                                Hủy
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

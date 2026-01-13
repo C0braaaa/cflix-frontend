@@ -4,10 +4,11 @@ import { Fragment } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { publicRoutes } from './routes/index-routes';
+import { privateRoutes, publicRoutes } from './routes/index-routes';
 import DefaultLayout from './layout/DefaultLayout';
 import AuthContainer from './features/auth/AuthContainer';
 import SplashScreen from './components/SplashScreen/SplashPage';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 function App() {
     const [splashScreen, setSplashScreen] = useState(true);
@@ -65,6 +66,32 @@ function App() {
                                 />
                             );
                         })}
+                        // Private routes
+                        <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+                            {privateRoutes.map((route, index) => {
+                                const Page = route.component;
+
+                                let Layout = DefaultLayout;
+
+                                if (route.layout) {
+                                    Layout = route.layout;
+                                } else if (route.layout === null) {
+                                    Layout = Fragment;
+                                }
+
+                                return (
+                                    <Route
+                                        key={index}
+                                        path={route.path}
+                                        element={
+                                            <Layout>
+                                                <Page />
+                                            </Layout>
+                                        }
+                                    />
+                                );
+                            })}
+                        </Route>
                     </Routes>
                 )}
                 <AuthContainer />

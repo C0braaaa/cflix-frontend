@@ -14,7 +14,7 @@ import {
     faUser,
     faVenus,
 } from '@fortawesome/free-solid-svg-icons';
-import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/authServices';
+import { togglePlaylistAPI, toggleFavoriteAPI, removeContinueWatchingAPI } from '../../services/authServices';
 import { Profile, MainContents } from './mainContent';
 
 const cx = classNames.bind(styles);
@@ -83,7 +83,9 @@ function UserPage() {
             <div className={cx('main-content')}>
                 {slug === 'favorite' && <MainContents title="Yêu thích" api={toggleFavoriteAPI} field="favorite" />}
                 {slug === 'playlist' && <MainContents title="Xem sau" api={togglePlaylistAPI} field="playlist" />}
-                {slug === 'xem-tiep' && <MainContents title="Xem tiếp" field="continue_watching" />}
+                {slug === 'xem-tiep' && (
+                    <MainContents title="Xem tiếp" api={removeContinueWatchingAPI} field="continue_watching" />
+                )}
                 {slug === 'profile' && <Profile />}
             </div>
         </div>

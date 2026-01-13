@@ -90,7 +90,7 @@ function MainContents({ title = '', api = null, field = '' }) {
                 {isLoader ? (
                     <div className={cx('loader')}></div>
                 ) : currentItems && currentItems.length > 0 ? (
-                    currentItems.reverse().map((item) => (
+                    currentItems.map((item) => (
                         <Link
                             to={
                                 field !== 'continue_watching'
@@ -98,7 +98,7 @@ function MainContents({ title = '', api = null, field = '' }) {
                                     : `/xem-phim/${item.slug}/${item.episode_slug}`
                             }
                             className={cx('movie')}
-                            key={item.id}
+                            key={item.slug}
                         >
                             <div className={cx('poster')}>
                                 <img src={item.poster_url} alt="poster" />

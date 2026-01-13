@@ -45,7 +45,7 @@ export default function Player({ option, style, getInstance, movieData }) {
             },
 
             // --- CẤU HÌNH GIAO DIỆN ---
-            volume: 0.7,
+            volume: 1,
             isLive: false,
             muted: false,
             autoplay: true,

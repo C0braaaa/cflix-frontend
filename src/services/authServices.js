@@ -47,3 +47,13 @@ export const saveProgressAPI = async (movieData) => {
     const res = await request.post('auth/continue-watching', movieData);
     return res;
 };
+
+export const removeContinueWatchingAPI = async (movileSlug) => {
+    const res = await request.remove('auth/continue-watching', { data: movileSlug });
+    return res;
+};
+
+export const deleteUserAPI = async (userId) => {
+    const res = await request.remove(`auth/user/${userId}`);
+    return res;
+};

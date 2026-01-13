@@ -53,6 +53,10 @@ function DefaultLayout({ children }) {
                     <Button square leftIcon={<FontAwesomeIcon icon={faArrowUp} />}></Button>
                 </div>
             )}
+
+            <div className={cx('chatbot')}>
+                <img src="/assets/images/chatbot_logo.png" alt="chatbot-logo" />
+            </div>
         </div>
     );
 }

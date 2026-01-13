@@ -23,8 +23,11 @@ const cx = classNames.bind(styles);
 
 function Home() {
     const { user } = useAuth();
+    console.log(user);
+
     const [favoritesList, setFavoritesList] = useState([]);
     const [playlistList, setPlaylistList] = useState([]);
+    const [continueWatchingList, setContinueWatchingList] = useState([]);
 
     useEffect(() => {
         document.title = 'CFlix - Phim Hay Xem Là Ngất Ngay';
@@ -41,6 +44,9 @@ function Home() {
                         }
                         if (res.user.playlist) {
                             setPlaylistList(res.user.playlist);
+                        }
+                        if (res.user.continue_watching) {
+                            setContinueWatchingList(res.user.continue_watching);
                         }
                     }
                 } catch (error) {
@@ -261,7 +267,7 @@ function Home() {
                 })}
             </Swiper>
             <Topics />
-            {user && <ContinueWatching />}
+            {user && continueWatchingList.length > 0 && <ContinueWatching />}
             <LatestMovie
                 slug="phim-le"
                 year="2025"

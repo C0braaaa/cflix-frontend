@@ -33,7 +33,6 @@ const publicRoutes = [
     { path: config.routes.topics, component: FullTopics },
     { path: config.routes.topicsDetail, component: TopicsDetail },
     { path: config.routes.user, component: UserPage },
-    { path: config.routes.admin, component: DashBoard, layout: null },
     { path: config.routes.movieInfo, component: MovieInfo },
     { path: config.routes.watch, component: Wacth },
     { path: config.routes.watchMore, component: FullLatestMovies },
@@ -42,6 +41,6 @@ const publicRoutes = [
 ];
 
 // private routes
-const privateRoutes = [];
+const privateRoutes = [{ path: config.routes.admin, component: DashBoard, layout: null, role: ['admin'] }];
 
 export { publicRoutes, privateRoutes };

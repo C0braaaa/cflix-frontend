@@ -219,15 +219,19 @@
     }
 }
 
-.overlay-users {
+.overlay-users,
+.overlay-delete {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.2);
     z-index: 5;
     cursor: pointer;
+}
+
+.overlay-users {
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 //modal edit
@@ -311,6 +315,58 @@
             transform: translate(-50%);
             background-color: var(--primary-color);
             color: var(--text-black);
+        }
+    }
+}
+
+//modal delete
+.confirm-delete {
+    z-index: 10;
+    position: absolute;
+    border-radius: 1rem;
+    width: 35rem;
+    height: 15rem;
+    top: 40%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    background-color: var(--primary);
+    padding: 1rem;
+
+    .delete-box {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .close-confirm-delete {
+            position: absolute;
+            right: 0;
+            top: -1rem;
+            font-size: 1.8rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .title {
+            padding-top: 2rem;
+            font-weight: 500;
+        }
+
+        .delete-btn {
+            padding-top: 4rem;
+            display: flex;
+
+            .btn {
+                &:first-child {
+                    background-color: rgb(244, 29, 29);
+                    color: var(--text-color);
+                }
+                &:last-child {
+                    background-color: var(--primary-color);
+                }
+            }
         }
     }
 }
