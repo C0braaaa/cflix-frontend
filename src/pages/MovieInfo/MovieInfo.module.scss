@@ -483,7 +483,7 @@
 @media (max-width: 500px) {
     .thumbnail {
         width: 100%;
-        height: 30rem;
+        height: 25rem;
         border-radius: 1rem;
         background-image: none;
 
@@ -532,8 +532,8 @@
             top: 1rem;
             left: 50%;
             transform: translate(-50%);
-            width: 15rem;
-            height: 22rem;
+            width: 13rem;
+            height: 20rem;
         }
         .more {
             text-align: center;
@@ -542,7 +542,7 @@
             color: var(--primary-text);
         }
         .name {
-            margin-top: 22rem;
+            margin-top: 20rem;
             text-align: center;
         }
         .origin-name {

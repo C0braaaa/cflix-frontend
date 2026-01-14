@@ -17,13 +17,14 @@ import { faHeart, faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { slidesInfo } from './list';
 import { LatestMovie, Topics, ContinueWatching } from './component/index';
 import { useAuth } from '../../features/auth/context/AuthContext';
-import { getMeAPI, toggleFavoriteAPI, togglePlaylistAPI } from '../../services/authServices';
+import { togglePlaylistAPI } from '../../services/authServices';
+import { toggleFavoriteAPI } from '../../services/userServices';
+import { getMeAPI } from '../../services/userServices';
 
 const cx = classNames.bind(styles);
 
 function Home() {
     const { user } = useAuth();
-    console.log(user);
 
     const [favoritesList, setFavoritesList] = useState([]);
     const [playlistList, setPlaylistList] = useState([]);

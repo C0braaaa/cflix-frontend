@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 
 import styles from './Watch.module.scss';
 import { detail } from '../../services/moviesServices';
-import { getMeAPI } from '../../services/authServices';
+import { getMeAPI } from '../../services/userServices';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons';

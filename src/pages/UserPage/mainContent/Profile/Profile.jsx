@@ -10,7 +10,7 @@ import styles from './Profile.module.scss';
 import Button from '../../../../components/Button/index-button';
 import { useAuth } from '../../../../features/auth/context/AuthContext';
 // Đảm bảo bạn import đúng đường dẫn API update user
-import { updateProfileAPI } from '../../../../services/authServices';
+import { updateProfileAPI } from '../../../../services/userServices';
 
 const cx = classNames.bind(styles);
 
@@ -196,7 +196,7 @@ function Profile() {
 
                     <div className={cx('col-2')}>
                         <div className={cx('avatar')}>
-                            <img src={avatarDisplay} alt="avatar" />
+                            <img src={avatarDisplay} alt="avatar" referrerPolicy="no-referrer" />
                         </div>
                         <div className={cx('change-avatar')}>
                             <label htmlFor="fileUpload">Đổi avatar</label>

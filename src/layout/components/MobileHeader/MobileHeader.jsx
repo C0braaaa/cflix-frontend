@@ -79,7 +79,11 @@ function MobileHeader() {
                                                     className={cx(genderClass)}
                                                 />
                                                 <div className={cx('user__avatar')}>
-                                                    <img src={user.avatar_url} alt={user.username} />
+                                                    <img
+                                                        src={user.avatar_url}
+                                                        alt={user.username}
+                                                        referrerPolicy="no-referrer"
+                                                    />
                                                 </div>
                                             </div>
                                             <div className={cx('user__l-2')}>

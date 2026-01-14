@@ -4,15 +4,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from './components/GlobalStyles';
 import { AuthProvider } from './features/auth/context/AuthContext';
+import { GoogleOAuthProvider as Google } from '@react-oauth/google';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 root.render(
     <React.StrictMode>
-        <AuthProvider>
-            <GlobalStyles>
-                <App />
-            </GlobalStyles>
-        </AuthProvider>
+        <Google clientId={clientId}>
+            <AuthProvider>
+                <GlobalStyles>
+                    <App />
+                </GlobalStyles>
+            </AuthProvider>
+        </Google>
     </React.StrictMode>,
 );
 

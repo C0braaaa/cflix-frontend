@@ -5,9 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
+import { GoogleLogin } from '@react-oauth/google';
 
 import { useAuth } from '../../context/AuthContext';
-import { loginAPI } from '../../../../services/authServices';
+import { loginAPI, loginGoogleAPI } from '../../../../services/authServices';
 import styles from './LoginForm.module.scss';
 import Button from '../../../../components/Button/index-button';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -54,6 +55,24 @@ function LoginForm() {
                 setApiError('Không lấy được thông tin người dùng!');
             }
         } catch (error) {
+            const msg = error.response?.data?.message || 'Đăng nhập thất bại, vui lòng thử lại.';
+            setApiError(msg);
+            toast.error(msg);
+        }
+    };
+
+    const handleLoginGoogle = async (credentialResponse) => {
+        try {
+            setApiError('');
+            const res = await loginGoogleAPI(credentialResponse.credential);
+
+            if (res && res.user) {
+                login(res.user);
+                toast.success('Đăng nhập thành công!');
+                closeModal();
+            }
+        } catch (error) {
+            console.log(error);
             const msg = error.response?.data?.message || 'Đăng nhập thất bại, vui lòng thử lại.';
             setApiError(msg);
             toast.error(msg);
@@ -127,20 +146,16 @@ function LoginForm() {
                         </Button>
 
                         {/* Button Google không phải submit form nên để type="button" để tránh trigger submit */}
-                        <Button
-                            type="button"
-                            primary
-                            className={cx('btn')}
-                            leftIcon={
-                                <img
-                                    src="/assets/images/google-icon-logo-svgrepo-com.svg"
-                                    alt="Google"
-                                    className={cx('google-icon')}
-                                />
-                            }
-                        >
-                            Đăng nhập bằng Google
-                        </Button>
+                        <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                            <GoogleLogin
+                                onSuccess={handleLoginGoogle}
+                                onError={() => toast.error('Lỗi kết nối đến Google')}
+                                theme="filled_blue" // Hoặc 'outline', 'filled_black'
+                                shape="rectangular" // Hoặc 'pill', 'circle'
+                                text="signin_with"
+                                width="320" // Độ rộng nút (ước lượng cho khớp với modal)
+                            />
+                        </div>
                     </div>
 
                     <p className={cx('forgot-password')} onClick={() => openModal('forgot')}>

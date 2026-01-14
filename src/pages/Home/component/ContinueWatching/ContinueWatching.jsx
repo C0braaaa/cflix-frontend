@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faX } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
-import { getMeAPI } from '../../../../services/authServices';
+import { getMeAPI } from '../../../../services/userServices';
 import 'tippy.js/dist/tippy.css';
 
 import styles from './ContinueWatching.module.scss';

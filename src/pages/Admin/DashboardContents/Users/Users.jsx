@@ -20,7 +20,9 @@ import * as yup from 'yup';
 
 import Button from '../../../../components/Button/index-button';
 import styles from './Users.module.scss';
-import { getAllUSersAPI, updateUserByIDAPI, deleteUserAPI } from '../../../../services/authServices';
+import { deleteUserAPI } from '../../../../services/authServices';
+import { updateUserByIDAPI } from '../../../../services/userServices';
+import { getAllUSersAPI } from '../../../../services/userServices';
 const cx = classNames.bind(styles);
 
 const validationSchema = yup.object().shape({

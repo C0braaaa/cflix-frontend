@@ -5,6 +5,11 @@ export const loginAPI = async (data) => {
     return res;
 };
 
+export const loginGoogleAPI = async (credential) => {
+    const res = await request.post('auth/login-google', { credential });
+    return res;
+};
+
 export const logoutAPI = async () => {
     const res = await request.post('auth/logout');
     return res;
@@ -15,29 +20,6 @@ export const registerAPI = async (data) => {
     return res;
 };
 
-export const updateProfileAPI = async (data) => {
-    const res = await request.put('auth/update', data);
-    return res;
-};
-
-export const updateUserByIDAPI = async (id, data) => {
-    const res = await request.put(`auth/admin/update/${id}`, data);
-    return res;
-};
-export const getMeAPI = async () => {
-    const res = await request.get('auth/me');
-    return res;
-};
-
-export const getAllUSersAPI = async (keyword = null, role = null, is_active = null) => {
-    const res = await request.get('auth/all-users', { params: { keyword, role, is_active } });
-    return res;
-};
-
-export const toggleFavoriteAPI = async (movieData) => {
-    const res = await request.post('auth/favorite', movieData);
-    return res;
-};
 export const togglePlaylistAPI = async (movieData) => {
     const res = await request.post('auth/playlist', movieData);
     return res;
@@ -55,5 +37,18 @@ export const removeContinueWatchingAPI = async (movileSlug) => {
 
 export const deleteUserAPI = async (userId) => {
     const res = await request.remove(`auth/user/${userId}`);
+    return res;
+};
+
+export const getFavoritesAPI = async (page = 1, limit = 18) => {
+    const res = await request.get('auth/favorite', { params: { page, limit } });
+    return res;
+};
+export const getPlaylistAPI = async (page = 1, limit = 18) => {
+    const res = await request.get('auth/playlist', { params: { page, limit } });
+    return res;
+};
+export const getContinueWatchingAPI = async (page = 1, limit = 18) => {
+    const res = await request.get('auth/continue-watching', { params: { page, limit } });
     return res;
 };

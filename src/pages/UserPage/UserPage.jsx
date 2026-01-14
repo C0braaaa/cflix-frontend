@@ -14,7 +14,14 @@ import {
     faUser,
     faVenus,
 } from '@fortawesome/free-solid-svg-icons';
-import { togglePlaylistAPI, toggleFavoriteAPI, removeContinueWatchingAPI } from '../../services/authServices';
+import {
+    togglePlaylistAPI,
+    removeContinueWatchingAPI,
+    getFavoritesAPI,
+    getPlaylistAPI,
+    getContinueWatchingAPI,
+} from '../../services/authServices';
+import { toggleFavoriteAPI } from '../../services/userServices';
 import { Profile, MainContents } from './mainContent';
 
 const cx = classNames.bind(styles);
@@ -65,6 +72,7 @@ function UserPage() {
                         <img
                             src={user?.avatar_url || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
                             alt={`${user?.username}-avatar`}
+                            referrerPolicy="no-referrer"
                         />
                     </div>
                     <div className={cx('user-info')}>
@@ -81,10 +89,24 @@ function UserPage() {
                 </div>
             </div>
             <div className={cx('main-content')}>
-                {slug === 'favorite' && <MainContents title="Yêu thích" api={toggleFavoriteAPI} field="favorite" />}
-                {slug === 'playlist' && <MainContents title="Xem sau" api={togglePlaylistAPI} field="playlist" />}
+                {slug === 'favorite' && (
+                    <MainContents
+                        title="Yêu thích"
+                        api={getFavoritesAPI}
+                        apiToggle={toggleFavoriteAPI}
+                        field="favorite"
+                    />
+                )}
+                {slug === 'playlist' && (
+                    <MainContents title="Xem sau" api={getPlaylistAPI} apiToggle={togglePlaylistAPI} field="playlist" />
+                )}
                 {slug === 'xem-tiep' && (
-                    <MainContents title="Xem tiếp" api={removeContinueWatchingAPI} field="continue_watching" />
+                    <MainContents
+                        title="Xem tiếp"
+                        api={getContinueWatchingAPI}
+                        apiToggle={removeContinueWatchingAPI}
+                        field="continue_watching"
+                    />
                 )}
                 {slug === 'profile' && <Profile />}
             </div>

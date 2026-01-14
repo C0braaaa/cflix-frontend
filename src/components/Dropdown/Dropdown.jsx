@@ -96,7 +96,12 @@ function Dropdown({
                 ) : (
                     <div className={cx('user')} onClick={handleToggle}>
                         <div className={cx('avatar')}>
-                            <img src={userInfo?.avatar} alt="avatar" className={cx('avatar-img')} />
+                            <img
+                                src={userInfo?.avatar}
+                                alt="avatar"
+                                className={cx('avatar-img')}
+                                referrerPolicy="no-referrer"
+                            />
                         </div>
                         <div className={cx('arrow-down')}>
                             <FontAwesomeIcon icon={faCaretDown} />
