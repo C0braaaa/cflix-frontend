@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import Artplayer from 'artplayer';
 import Hls from 'hls.js';
 import classNames from 'classnames/bind';
-import { saveProgressAPI } from '../../services/authServices';
+import { saveProgressAPI } from '../../services/userServices';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
 import styles from './Player.module.scss';

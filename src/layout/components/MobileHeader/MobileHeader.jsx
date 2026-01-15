@@ -6,6 +6,7 @@ import {
     faClockRotateLeft,
     faHeart,
     faInfinity,
+    faKey,
     faMagnifyingGlass,
     faMars,
     faPlus,
@@ -131,6 +132,10 @@ function MobileHeader() {
                                                     <FontAwesomeIcon icon={faUser} />
                                                     <span>Tài Khoản</span>
                                                 </Link>
+                                                <div className={cx('user__item')}>
+                                                    <FontAwesomeIcon icon={faKey} />
+                                                    <span>Đổi mật khẩu</span>
+                                                </div>
                                                 <div className={cx('user__item')} onClick={handleLogout}>
                                                     <FontAwesomeIcon icon={faRightFromBracket} />
                                                     <span>Thoát</span>

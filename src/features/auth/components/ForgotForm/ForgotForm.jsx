@@ -2,10 +2,12 @@ import classNames from 'classnames/bind';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 
 import { useAuth } from '../../context/AuthContext';
 import styles from './ForgotForm.module.scss';
 import Button from '../../../../components/Button/index-button';
+import { forgotPasswordAPI } from '../../../../services/authServices';
 const cx = classNames.bind(styles);
 
 const validationSchema = yup.object().shape({
@@ -17,14 +19,25 @@ function ForgotForm() {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm({
         resolver: yupResolver(validationSchema),
         mode: 'onBlur',
     });
 
-    const onSubmit = (data) => {
-        console.log('Dữ liệu form:', data);
+    const onSubmit = async (data) => {
+        try {
+            const res = await forgotPasswordAPI(data.email);
+
+            if (res && res.status) {
+                toast.success(res.msg || 'Vui lòng kiểm tra email để đặt lại mật khẩu!');
+
+                closeModal();
+            }
+        } catch (error) {
+            const msg = error.response?.data?.message || error.message || 'Có lỗi xảy ra!';
+            toast.error(msg);
+        }
     };
 
     return (
@@ -53,8 +66,8 @@ function ForgotForm() {
                         </div>
 
                         <div className={cx('btn-forgot')}>
-                            <Button primary className={cx('btn')}>
-                                Gửi yêu cầu
+                            <Button primary className={cx('btn')} type="submit" disabled={isSubmitting}>
+                                {isSubmitting ? 'Đang gửi...' : 'Gửi yêu cầu'}
                             </Button>
                         </div>
                     </form>

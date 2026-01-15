@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -17,18 +17,35 @@ import { faHeart, faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { slidesInfo } from './list';
 import { LatestMovie, Topics, ContinueWatching } from './component/index';
 import { useAuth } from '../../features/auth/context/AuthContext';
-import { togglePlaylistAPI } from '../../services/authServices';
-import { toggleFavoriteAPI } from '../../services/userServices';
+import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/userServices';
 import { getMeAPI } from '../../services/userServices';
 
 const cx = classNames.bind(styles);
 
 function Home() {
-    const { user } = useAuth();
+    const { user, openModal } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const [favoritesList, setFavoritesList] = useState([]);
     const [playlistList, setPlaylistList] = useState([]);
     const [continueWatchingList, setContinueWatchingList] = useState([]);
+
+    const decodeHTML = (html) => {
+        const txt = document.createElement('textarea');
+        txt.innerHTML = html;
+        return txt.value;
+    };
+
+    useEffect(() => {
+        if (location.state?.openModal === 'login') {
+            if (openModal) {
+                openModal('login');
+            }
+
+            navigate('/', { replace: true, state: {} });
+        }
+    }, [location, navigate, openModal]);
 
     useEffect(() => {
         document.title = 'CFlix - Phim Hay Xem Là Ngất Ngay';
@@ -226,7 +243,7 @@ function Home() {
                                                 );
                                             })}
                                         </div>
-                                        <p className={cx('movie-description')}>{item.description}</p>
+                                        <p className={cx('movie-description')}>{decodeHTML(item.description)}</p>
                                         <div className={cx('movie-actions')}>
                                             <Link to={item.to} className={cx('play')}>
                                                 <FontAwesomeIcon className={cx('play-icon')} icon={faPlay} />

@@ -24,3 +24,36 @@ export const toggleFavoriteAPI = async (movieData) => {
     const res = await request.post('user/favorite', movieData);
     return res;
 };
+
+export const togglePlaylistAPI = async (movieData) => {
+    const res = await request.post('user/playlist', movieData);
+    return res;
+};
+
+export const saveProgressAPI = async (movieData) => {
+    const res = await request.post('user/continue-watching', movieData);
+    return res;
+};
+
+export const removeContinueWatchingAPI = async (movileSlug) => {
+    const res = await request.remove('user/continue-watching', { data: movileSlug });
+    return res;
+};
+
+export const deleteUserAPI = async (userId) => {
+    const res = await request.remove(`user/user/${userId}`);
+    return res;
+};
+
+export const getFavoritesAPI = async (page = 1, limit = 18) => {
+    const res = await request.get('user/favorite', { params: { page, limit } });
+    return res;
+};
+export const getPlaylistAPI = async (page = 1, limit = 18) => {
+    const res = await request.get('user/playlist', { params: { page, limit } });
+    return res;
+};
+export const getContinueWatchingAPI = async (page = 1, limit = 18) => {
+    const res = await request.get('user/continue-watching', { params: { page, limit } });
+    return res;
+};

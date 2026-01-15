@@ -16,6 +16,7 @@ import TopicsDetail from '../pages/Topics/TopicsDetail';
 import MovieInfo from '../pages/MovieInfo/MovieInfo';
 import Wacth from '../pages/Watch/Watch';
 import FullLatestMovies from '../pages/FullLatestMovies/FullLatestMovies';
+import ForgotPassPage from '../features/auth/components/ForgotPassPage/ForgotPassPage';
 
 //erorr page
 import NotFound404 from '../pages/ErorrPage/NotFound404';
@@ -36,6 +37,7 @@ const publicRoutes = [
     { path: config.routes.movieInfo, component: MovieInfo },
     { path: config.routes.watch, component: Wacth },
     { path: config.routes.watchMore, component: FullLatestMovies },
+    { path: config.routes.forgotPass, component: ForgotPassPage, layout: null },
     // erorr page
     { path: '*', component: NotFound404 },
 ];

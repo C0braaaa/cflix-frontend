@@ -16,8 +16,7 @@ import {
     faThumbsDown,
     faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { togglePlaylistAPI } from '../../services/authServices';
-import { toggleFavoriteAPI } from '../../services/userServices';
+import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/userServices';
 import { getMeAPI } from '../../services/userServices';
 import { detail } from '../../services/moviesServices';
 import Comment from '../../layout/components/Comments/Comments';

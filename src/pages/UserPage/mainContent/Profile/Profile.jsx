@@ -187,7 +187,7 @@ function Profile() {
                                 </Button>
                             </div>
                             <div className={cx('btn-change-pass')}>
-                                <Button primary large type="button" onClick={() => openModal('forgot')}>
+                                <Button primary large type="button" onClick={() => openModal('change-pass')}>
                                     Đổi mật khẩu
                                 </Button>
                             </div>

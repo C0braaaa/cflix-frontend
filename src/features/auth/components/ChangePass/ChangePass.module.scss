@@ -1,0 +1,149 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color-5);
+    border-radius: 1rem;
+    animation: modalFadeIn 0.8s forwards;
+}
+
+.forgot-modal {
+    width: 80rem;
+}
+
+.modal-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 6.4rem 6.4rem 6.4rem 45rem;
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 50%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        border-radius: 1rem 0 0 1rem;
+        background-image: url(../../../../../public/assets/images/posterfakev2.jpg);
+        background-size: cover;
+        background-position: bottom center;
+        background-repeat: no-repeat;
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: -0.3rem;
+    right: 1.3rem;
+    font-size: 3rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--primary-text);
+    }
+}
+
+.forgot-form {
+    flex: 1;
+
+    .switch-top-login {
+        font-size: 1.4rem;
+        color: var(--text-color-1);
+        margin-bottom: 3rem;
+
+        span {
+            color: var(--primary-text);
+            cursor: pointer;
+        }
+    }
+}
+
+.btn-forgot {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .btn {
+        width: 100%;
+        margin: 0;
+        display: flex;
+        gap: 0.5rem;
+    }
+}
+.form-group {
+    position: relative;
+    input {
+        margin-bottom: 2.5rem;
+        color: white;
+        font-size: 1.4rem;
+        width: 100%;
+        border-radius: 0.5rem;
+        padding: 1.2rem 1.4rem;
+        background: transparent;
+        border: 1px solid var(--border-color);
+
+        &:focus {
+            outline: none;
+            border-color: var(--primary-text);
+        }
+        &.invalid {
+            border-color: #ff6666;
+            margin-bottom: 0;
+        }
+    }
+
+    .form-message {
+        color: #ff6666;
+        font-size: 1.2rem;
+    }
+}
+
+.eye-icon {
+    position: absolute;
+    top: 20%;
+    right: 1rem;
+    cursor: pointer;
+    font-size: 1.6rem;
+    color: var(--text-color);
+}
+
+.forgot-password {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    color: var(--text-color-1);
+    transform: translateX(10rem);
+    cursor: pointer;
+
+    &:hover {
+        color: var(--primary-text);
+    }
+}
+
+// animation
+@keyframes modalFadeIn {
+    from {
+        transform: translateY(-2rem);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+//media query
+//for mobile
+@media (max-width: 500px) {
+    .forgot-modal {
+        width: calc(100vw - 2rem);
+        height: 35vh;
+    }
+    .modal-content {
+        padding: 2rem;
+
+        &::before {
+            display: none;
+        }
+    }
+}

@@ -20,8 +20,7 @@ import * as yup from 'yup';
 
 import Button from '../../../../components/Button/index-button';
 import styles from './Users.module.scss';
-import { deleteUserAPI } from '../../../../services/authServices';
-import { updateUserByIDAPI } from '../../../../services/userServices';
+import { updateUserByIDAPI, deleteUserAPI } from '../../../../services/userServices';
 import { getAllUSersAPI } from '../../../../services/userServices';
 const cx = classNames.bind(styles);
 
@@ -229,7 +228,7 @@ function Users() {
                             <td>{index + 1}</td>
                             <td>
                                 <div className={cx('avatar')}>
-                                    <img src={user.avatar_url} alt={user.username} />
+                                    <img src={user.avatar_url} alt={user.username} referrerPolicy="no-referrer" />
                                 </div>
                             </td>
                             <td>{user.username}</td>

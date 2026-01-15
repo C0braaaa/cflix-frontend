@@ -15,13 +15,13 @@ import {
     faVenus,
 } from '@fortawesome/free-solid-svg-icons';
 import {
+    toggleFavoriteAPI,
     togglePlaylistAPI,
     removeContinueWatchingAPI,
     getFavoritesAPI,
     getPlaylistAPI,
     getContinueWatchingAPI,
-} from '../../services/authServices';
-import { toggleFavoriteAPI } from '../../services/userServices';
+} from '../../services/userServices';
 import { Profile, MainContents } from './mainContent';
 
 const cx = classNames.bind(styles);
