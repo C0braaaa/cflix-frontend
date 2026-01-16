@@ -82,6 +82,18 @@
     }
 }
 
+.btn-google {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-google > div {
+    width: 100% !important;
+}
+.btn-google iframe {
+    width: 100% !important;
+}
 .form-group {
     position: relative;
     input {
@@ -156,6 +168,13 @@
         &::before {
             display: none;
         }
+    }
+    .login-form {
+        width: 100%;
+    }
+
+    .btn-login {
+        width: 100%;
     }
     .forgot-password {
         position: absolute;

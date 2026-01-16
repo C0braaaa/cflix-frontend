@@ -1,6 +1,6 @@
 .wrapper {
     margin-top: 2rem;
-    padding: 2rem 2rem 0 2rem;
+    padding: 2rem 5rem 0 5rem;
 }
 
 .title {
@@ -156,6 +156,12 @@
     }
 }
 
+//responsive
+@media (max-width: 1600px) {
+    .wrapper {
+        padding: 2rem 2rem 0 2rem;
+    }
+}
 @media (max-width: 500px) {
     .wrapper {
         padding-right: 0;

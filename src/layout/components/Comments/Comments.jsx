@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faInfinity, faPaperPlane, faReply, faTrash } from '@fortawesome/free-solid-svg-icons';
 import styles from './Comments.module.scss';
+import { useAuth } from '../../../features/auth/context/AuthContext';
 
 const cx = classNames.bind(styles);
 function Comment() {
+    const { user } = useAuth();
     const [input, setInput] = useState('');
     const [comments, setComments] = useState([]);
     // const [reply, setReply] = useState(false);
-
-    let isAdmin = true;
 
     const handleSend = () => {
         if (!input.trim()) return;
@@ -70,15 +70,12 @@ function Comment() {
                 {comments.map((c) => (
                     <div key={c.id} className={cx('item')}>
                         <div className={cx('left-side')}>
-                            <img
-                                src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aphelios_20.jpg"
-                                alt="avatar"
-                            />
+                            <img src={user.avatar_url} alt={`Avatar ${user.username}`} />
                         </div>
                         <div className={cx('right-side')}>
                             <div className={cx('l-1')}>
-                                <span>Aphelios</span>
-                                {isAdmin && <span>ADMIN</span>}
+                                <span>{user.username}</span>
+                                {user.role === 'admin' && <span>ADMIN</span>}
                                 <span>
                                     <FontAwesomeIcon icon={faInfinity} />
                                 </span>

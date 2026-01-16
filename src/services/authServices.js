@@ -34,3 +34,8 @@ export const verifyTokenResetPassAPI = async (token) => {
     const res = await request.post('auth/verify-token', { token });
     return res;
 };
+
+export const changePasswordAPI = async (data) => {
+    const res = await request.put('auth/change-password', data);
+    return res;
+};

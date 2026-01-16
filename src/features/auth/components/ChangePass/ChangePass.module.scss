@@ -6,7 +6,7 @@
     animation: modalFadeIn 0.8s forwards;
 }
 
-.forgot-modal {
+.change-pass-modal {
     width: 80rem;
 }
 
@@ -45,7 +45,7 @@
     }
 }
 
-.forgot-form {
+.change-pass-form {
     flex: 1;
 
     .switch-top-login {
@@ -60,7 +60,7 @@
     }
 }
 
-.btn-forgot {
+.btn-change {
     margin-top: 3.5rem;
     display: flex;
     flex-direction: column;

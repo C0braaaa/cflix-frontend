@@ -48,7 +48,7 @@ export default function Player({ option, style, getInstance, movieData }) {
             volume: 1,
             isLive: false,
             muted: false,
-            autoplay: true,
+            // autoplay: true,
             autoSize: true,
             theme: '#ff0000',
             autoOrientation: true,

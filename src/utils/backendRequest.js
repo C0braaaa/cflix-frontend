@@ -20,7 +20,7 @@ backendRequest.interceptors.response.use(
             console.warn('Token hết hạn hoặc không hợp lệ! Đang đăng xuất...');
             localStorage.removeItem('cflix_user');
             localStorage.removeItem('cflix_token');
-            window.location.href = '/';
+            // window.location.href = '/';
 
             return Promise.reject(error);
         }

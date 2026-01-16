@@ -146,14 +146,13 @@ function LoginForm() {
                         </Button>
 
                         {/* Button Google không phải submit form nên để type="button" để tránh trigger submit */}
-                        <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                        <div className={cx('btn-google')}>
                             <GoogleLogin
                                 onSuccess={handleLoginGoogle}
                                 onError={() => toast.error('Lỗi kết nối đến Google')}
                                 theme="filled_blue" // Hoặc 'outline', 'filled_black'
                                 shape="rectangular" // Hoặc 'pill', 'circle'
                                 text="signin_with"
-                                width="320" // Độ rộng nút (ước lượng cho khớp với modal)
                             />
                         </div>
                     </div>
