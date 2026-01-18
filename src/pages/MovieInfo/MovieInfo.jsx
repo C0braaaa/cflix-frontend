@@ -13,8 +13,8 @@ import {
     faHeart,
     faPlay,
     faPlus,
+    faShare,
     faThumbsDown,
-    faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/userServices';
 import { getMeAPI } from '../../services/userServices';
@@ -296,8 +296,8 @@ function MovieInfo() {
                                 <span className={cx('title')}>Xem sau</span>
                             </div>
                             <div className={cx('action')}>
-                                <FontAwesomeIcon icon={faThumbsUp} />
-                                <span className={cx('title')}>Thích</span>
+                                <FontAwesomeIcon icon={faShare} />
+                                <span className={cx('title')}>Chia sẻ</span>
                             </div>
                             <div className={cx('action')}>
                                 <FontAwesomeIcon icon={faThumbsDown} />

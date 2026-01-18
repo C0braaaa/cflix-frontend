@@ -1,10 +1,12 @@
 import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, Legend } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignal, faUser, faUserClock } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Overview.module.scss';
+import { getAllUSersAPI } from '../../../../services/userServices';
 
 const cx = classNames.bind(styles);
 // Mock data cho biểu đồ lưu lượng truy cập
@@ -27,13 +29,26 @@ const dataDevice = [
 ];
 const COLORS = ['#2E86DE', '#1DD1A1', '#FF9F43']; // Blue, Green, Orange
 function Overview() {
+    const [countUser, setCountUser] = useState(0);
+
+    useEffect(() => {
+        const getAllUser = async () => {
+            try {
+                const res = await getAllUSersAPI();
+                setCountUser(res.totalUsers);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getAllUser();
+    }, []);
     return (
         <>
             <div className={cx('stats-card')}>
                 <div className={cx('card')}>
                     <div className={cx('card-left-side')}>
                         <h3 className={cx('card-title')}>Tổng User</h3>
-                        <span className={cx('card-value')}>100</span>
+                        <span className={cx('card-value')}>{countUser}</span>
                     </div>
                     <FontAwesomeIcon icon={faUser} />
                 </div>
