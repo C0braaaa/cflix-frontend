@@ -8,10 +8,12 @@ import { useAuth } from '../../context/AuthContext';
 import styles from './ForgotForm.module.scss';
 import Button from '../../../../components/Button/index-button';
 import { forgotPasswordAPI } from '../../../../services/authServices';
+import InputField from '../../../../components/Input/InputField';
+import { commonRules } from '../../../../utils/validationSchema';
 const cx = classNames.bind(styles);
 
 const validationSchema = yup.object().shape({
-    email: yup.string().required('Vui lòng nhập email').email('Email không hợp lệ (ví dụ: abc@gmail.com)'),
+    email: commonRules.email,
 });
 function ForgotForm() {
     const { closeModal, openModal } = useAuth();
@@ -55,15 +57,7 @@ function ForgotForm() {
                                 đăng nhập ngay
                             </span>
                         </p>
-                        <div className={cx('form-group')}>
-                            <input
-                                className={cx('form-control', { invalid: errors.email })}
-                                type="text"
-                                placeholder="Email"
-                                {...register('email')}
-                            />
-                            {errors.email && <span className={cx('form-message')}>{errors.email.message}</span>}
-                        </div>
+                        <InputField placeholder="Email" error={errors.email} {...register('email')} />
 
                         <div className={cx('btn-forgot')}>
                             <Button primary className={cx('btn')} type="submit" disabled={isSubmitting}>

@@ -3,42 +3,34 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
 import { GoogleLogin } from '@react-oauth/google';
 
 import { useAuth } from '../../context/AuthContext';
+import { commonRules } from '../../../../utils/validationSchema';
+import InputField from '../../../../components/Input/InputField';
+import PasswordInput from '../../../../components/Input/PasswordInput';
 import { loginAPI, loginGoogleAPI } from '../../../../services/authServices';
 import styles from './LoginForm.module.scss';
 import Button from '../../../../components/Button/index-button';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-// 4. Định nghĩa Schema Validation (Quy tắc kiểm tra)
-// Phần này tách biệt hoàn toàn logic check lỗi ra khỏi UI
 const validationSchema = yup.object().shape({
-    email: yup.string().required('Vui lòng nhập email').email('Email không hợp lệ (ví dụ: abc@gmail.com)'),
-    password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
+    email: commonRules.email,
+    password: commonRules.password,
 });
 
 function LoginForm() {
     const { closeModal, openModal, login } = useAuth();
     const [apiError, setApiError] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [typePassword, setTypePassword] = useState('password');
-    const togglePasswordVisibility = () => {
-        setShowPassword((prev) => !prev);
-        setTypePassword((prev) => (prev === 'password' ? 'text' : 'password'));
-    };
 
-    // 5. Khởi tạo form với useForm
     const {
-        register, // Dùng để đăng ký input vào hook form
-        handleSubmit, // Hàm xử lý khi submit form
-        formState: { errors }, // Lấy ra object chứa các lỗi
+        register,
+        handleSubmit,
+        formState: { errors },
     } = useForm({
-        resolver: yupResolver(validationSchema), // Kết nối Yup với Hook Form
+        resolver: yupResolver(validationSchema),
         mode: 'onBlur',
     });
 
@@ -112,32 +104,8 @@ function LoginForm() {
                     </p>
 
                     {/* INPUT EMAIL */}
-                    <div className={cx('form-group')}>
-                        <input
-                            className={cx('form-control', { invalid: errors.email })}
-                            type="text"
-                            placeholder="Email"
-                            {...register('email')} // Đăng ký input này tên là 'email'
-                        />
-                        {/* Hiển thị lỗi nếu có */}
-                        {errors.email && <span className={cx('form-message')}>{errors.email.message}</span>}
-                    </div>
-
-                    {/* INPUT PASSWORD */}
-                    <div className={cx('form-group')}>
-                        <input
-                            className={cx('form-control', { invalid: errors.password })}
-                            type={typePassword}
-                            placeholder="Mật khẩu"
-                            {...register('password')} // Đăng ký input này tên là 'password'
-                        />
-                        <FontAwesomeIcon
-                            className={cx('eye-icon')}
-                            icon={showPassword ? faEye : faEyeSlash}
-                            onClick={togglePasswordVisibility}
-                        />
-                        {errors.password && <span className={cx('form-message')}>{errors.password.message}</span>}
-                    </div>
+                    <InputField placeholder="Email" error={errors.email} {...register('email')} />
+                    <PasswordInput placeholder="Mật khẩu" error={errors.password} {...register('password')} />
 
                     <div className={cx('btn-login')}>
                         {/* Button submit phải có type="submit" hoặc nằm trong form */}

@@ -10,14 +10,13 @@ import styles from './ForgotPassPage.module.scss';
 import { resetPasswordAPi, verifyTokenResetPassAPI } from '../../../../services/authServices';
 import Button from '../../../../components/Button/index-button';
 import { useAuth } from '../../context/AuthContext';
+import PasswordInput from '../../../../components/Input/PasswordInput';
+import { commonRules } from '../../../../utils/validationSchema';
 const cx = classNames.bind(styles);
 
 const validationSchema = yup.object().shape({
-    newPass: yup.string().required('Vui lòng nhập mật khẩu mới').min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
-    confirmPass: yup
-        .string()
-        .required('Vui lòng xác nhận mật khẩu')
-        .oneOf([yup.ref('newPass'), null], 'Mật khẩu xác nhận không khớp'),
+    newPass: commonRules.newPass,
+    confirmNewPass: commonRules.confirmNewPass,
 });
 function ForgotPassPage() {
     const navigate = useNavigate();
@@ -91,26 +90,12 @@ function ForgotPassPage() {
                     <div className={cx('content')}>
                         <form className={cx('forgot-form')} onSubmit={handleSubmit(onSubmit)}>
                             <h5 className={cx('title')}>Đặt lại mật khẩu</h5>
-                            <div className={cx('form-group')}>
-                                <input
-                                    className={cx('form-control', { invalid: errors.newPass })}
-                                    type="password"
-                                    placeholder="Mật khẩu mới"
-                                    {...register('newPass')}
-                                />
-                                {errors.newPass && <span className={cx('form-message')}>{errors.newPass.message}</span>}
-                            </div>
-                            <div className={cx('form-group')}>
-                                <input
-                                    className={cx('form-control', { invalid: errors.confirmPass })}
-                                    type="password"
-                                    placeholder="Xác nhận mật khẩu mới"
-                                    {...register('confirmPass')}
-                                />
-                                {errors.confirmPass && (
-                                    <span className={cx('form-message')}>{errors.confirmPass.message}</span>
-                                )}
-                            </div>
+                            <PasswordInput placeholder="Mật khẩu mới" error={errors.newPass} {...register('newPass')} />
+                            <PasswordInput
+                                placeholder="Xác nhận mật khẩu mới"
+                                error={errors.confirmNewPass}
+                                {...register('confirmNewPass')}
+                            />
                             <Button primary className={cx('btn-forgot')} type="submit" disabled={isSubmitting}>
                                 {isSubmitting ? 'Đang xử lí...' : 'Xác nhận'}
                             </Button>

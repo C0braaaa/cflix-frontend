@@ -99,14 +99,19 @@ hr {
     border-top: 1px solid rgb(255, 255, 255, 0.2);
 }
 
-.glass-toast {
-    background: rgba(20, 20, 20, 0.55) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+/* GlobalStyles.module.scss */
 
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+/* Thêm :global vào trước class hoặc bao bọc nó */
+:global(.glass-toast) {
+    background: rgba(40, 40, 40, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+    color: #fff !important;
+}
 
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    color: #fff;
+:global(.Toastify__progress-bar) {
+    background: linear-gradient(to right, #4cd964, #5ac8fa) !important;
 }

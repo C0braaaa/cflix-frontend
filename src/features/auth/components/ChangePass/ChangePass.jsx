@@ -1,36 +1,24 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 
 import { useAuth } from '../../context/AuthContext';
 import styles from './ChangePass.module.scss';
 import Button from '../../../../components/Button/index-button';
 import { changePasswordAPI } from '../../../../services/authServices';
+import PasswordInput from '../../../../components/Input/PasswordInput';
+import { commonRules } from '../../../../utils/validationSchema';
 const cx = classNames.bind(styles);
 
 const validationSchema = yup.object().shape({
-    currentPass: yup.string().required('Vui lòng nhập mật khẩu hiện tại').min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
-    newPass: yup.string().required('Vui lòng nhập mật khẩu mới').min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
-    confirmPass: yup
-        .string()
-        .required('Vui lòng xác nhận mật khẩu')
-        .oneOf([yup.ref('newPass'), null], 'Mật khẩu xác nhận không khớp'),
+    currentPass: commonRules.currentPass,
+    newPass: commonRules.newPass,
+    confirmNewPass: commonRules.confirmNewPass,
 });
 function ChangePass() {
     const { closeModal } = useAuth();
-
-    const [showPassword, setShowPassword] = useState(false);
-    const [typePassword, setTypePassword] = useState('password');
-
-    const togglePasswordVisibility = () => {
-        setShowPassword((prev) => !prev);
-        setTypePassword((prev) => (prev === 'password' ? 'text' : 'password'));
-    };
 
     const {
         register,
@@ -69,54 +57,17 @@ function ChangePass() {
                     </div>
                     <form className={cx('change-pass-form')} onSubmit={handleSubmit(onSubmit)}>
                         <h3 className={cx('title')}>Đổi mật khẩu</h3>
-                        <div className={cx('form-group')}>
-                            <input
-                                className={cx('form-control', { invalid: errors.currentPass })}
-                                type={typePassword}
-                                placeholder="Mật khẩu hiện tại"
-                                {...register('currentPass')}
-                            />
-                            <FontAwesomeIcon
-                                className={cx('eye-icon')}
-                                icon={showPassword ? faEye : faEyeSlash}
-                                onClick={togglePasswordVisibility}
-                            />
-                            {errors.currentPass && (
-                                <span className={cx('form-message')}>{errors.currentPass.message}</span>
-                            )}
-                        </div>
-
-                        <div className={cx('form-group')}>
-                            <input
-                                className={cx('form-control', { invalid: errors.newPass })}
-                                type={typePassword}
-                                placeholder="Mật khẩu mới"
-                                {...register('newPass')}
-                            />
-                            <FontAwesomeIcon
-                                className={cx('eye-icon')}
-                                icon={showPassword ? faEye : faEyeSlash}
-                                onClick={togglePasswordVisibility}
-                            />
-                            {errors.newPass && <span className={cx('form-message')}>{errors.newPass.message}</span>}
-                        </div>
-
-                        <div className={cx('form-group')}>
-                            <input
-                                className={cx('form-control', { invalid: errors.confirmPass })}
-                                type={typePassword}
-                                placeholder="Xác nhận mật khẩu"
-                                {...register('confirmPass')}
-                            />
-                            <FontAwesomeIcon
-                                className={cx('eye-icon')}
-                                icon={showPassword ? faEye : faEyeSlash}
-                                onClick={togglePasswordVisibility}
-                            />
-                            {errors.confirmPass && (
-                                <span className={cx('form-message')}>{errors.confirmPass.message}</span>
-                            )}
-                        </div>
+                        <PasswordInput
+                            placeholder="Mật khẩu hiện tại"
+                            error={errors.currentPass}
+                            {...register('currentPass')}
+                        />
+                        <PasswordInput placeholder="Mật khẩu mới" error={errors.newPass} {...register('newPass')} />
+                        <PasswordInput
+                            placeholder="Xác nhận mật khẩu mới"
+                            error={errors.confirmNewPass}
+                            {...register('confirmNewPass')}
+                        />
 
                         <div className={cx('btn-change')}>
                             <Button primary className={cx('btn')}>

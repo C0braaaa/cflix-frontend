@@ -103,7 +103,7 @@ function App() {
                     newestOnTop
                     closeOnClick
                     pauseOnHover
-                    theme="light"
+                    theme="dark"
                 />
             </div>
         </Router>
