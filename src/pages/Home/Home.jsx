@@ -1,41 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
-import { toast } from 'react-toastify';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-creative';
-import { faHeart, faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { slidesInfo } from './list';
-import { LatestMovie, Topics, ContinueWatching } from './component/index';
+import { Slider, LatestMovie, Topics, ContinueWatching } from './component/index';
 import { useAuth } from '../../features/auth/context/AuthContext';
-import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/userServices';
-import { getMeAPI } from '../../services/userServices';
 
 const cx = classNames.bind(styles);
 
 function Home() {
     const { user, openModal } = useAuth();
+
     const location = useLocation();
     const navigate = useNavigate();
-
-    const [favoritesList, setFavoritesList] = useState([]);
-    const [playlistList, setPlaylistList] = useState([]);
-    const [continueWatchingList, setContinueWatchingList] = useState([]);
-
-    const decodeHTML = (html) => {
-        const txt = document.createElement('textarea');
-        txt.innerHTML = html;
-        return txt.value;
-    };
 
     useEffect(() => {
         if (location.state?.openModal === 'login') {
@@ -51,241 +28,11 @@ function Home() {
         document.title = 'CFlix - Phim Hay Xem Là Ngất Ngay';
     }, []);
 
-    useEffect(() => {
-        const fetchFavorites = async () => {
-            if (user) {
-                try {
-                    const res = await getMeAPI();
-                    if (res && res.user) {
-                        if (res.user.favorite) {
-                            setFavoritesList(res.user.favorite);
-                        }
-                        if (res.user.playlist) {
-                            setPlaylistList(res.user.playlist);
-                        }
-                        if (res.user.continue_watching) {
-                            setContinueWatchingList(res.user.continue_watching);
-                        }
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        };
-        fetchFavorites();
-    }, [user]);
-
-    // favorite slider action
-    const handleSliderFavorite = async (item) => {
-        try {
-            const dataToSave = {
-                slug: item.slug,
-                name: item.name,
-                origin_name: item.origin_name,
-                poster_url: item.poster_url,
-            };
-
-            const res = await toggleFavoriteAPI(dataToSave);
-
-            if (res && res.status) {
-                toast.success(res.msg);
-
-                setFavoritesList((prev) => {
-                    // Kiểm tra xem phim này đã có trong list chưa
-                    const exists = prev.find((f) => f.slug === item.slug);
-
-                    if (exists) {
-                        // Nếu có rồi -> Đang thực hiện XÓA -> Lọc bỏ ra khỏi mảng
-                        return prev.filter((f) => f.slug !== item.slug);
-                    } else {
-                        // Nếu chưa có -> Đang thực hiện THÊM -> Push vào mảng
-                        return [...prev, { slug: item.slug }];
-                    }
-                });
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error('Có lỗi xảy ra!');
-        }
-    };
-
-    // playlist slider action
-    const handleSliderPlaylist = async (item) => {
-        try {
-            const dataToSave = {
-                slug: item.slug,
-                name: item.name,
-                origin_name: item.origin_name,
-                poster_url: item.poster_url,
-            };
-
-            const res = await togglePlaylistAPI(dataToSave);
-
-            if (res && res.status) {
-                toast.success(res.msg);
-
-                setPlaylistList((prev) => {
-                    // Kiểm tra xem phim này đã có trong list chưa
-                    const exists = prev.find((f) => f.slug === item.slug);
-
-                    if (exists) {
-                        // Nếu có rồi -> Đang thực hiện XÓA -> Lọc bỏ ra khỏi mảng
-                        return prev.filter((f) => f.slug !== item.slug);
-                    } else {
-                        // Nếu chưa có -> Đang thực hiện THÊM -> Push vào mảng
-                        return [...prev, { slug: item.slug }];
-                    }
-                });
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error('Có lỗi xảy ra!');
-        }
-    };
-    // Ham ho trợ chạy animation không cần slide mount lại
-    const handleSlideAnimation = (swiper, index) => {
-        const slide = swiper.slides[index];
-        if (!slide) return;
-
-        const img = slide.querySelector(`.${cx('cover-image')}`);
-        const info = slide.querySelector(`.${cx('slide-info')}`);
-
-        img?.classList.add(cx('slideInRight'));
-        info?.classList.add(cx('slideInLeft'));
-    };
-
-    const resetSlideAnimation = (slide) => {
-        if (!slide) return;
-        slide.querySelector(`.${cx('cover-image')}`)?.classList.remove(cx('slideInRight'));
-        slide.querySelector(`.${cx('slide-info')}`)?.classList.remove(cx('slideInLeft'));
-    };
-
-    const playSlideAnimation = (slide) => {
-        if (!slide) return;
-        const img = slide.querySelector(`.${cx('cover-image')}`);
-        const info = slide.querySelector(`.${cx('slide-info')}`);
-
-        requestAnimationFrame(() => {
-            img?.classList.add(cx('slideInRight'));
-            info?.classList.add(cx('slideInLeft'));
-        });
-    };
     return (
         <div className={cx('wrapper')}>
-            <Swiper
-                modules={[Pagination, Autoplay, EffectFade]}
-                pagination={{
-                    clickable: true,
-                    renderBullet: (index, className) => {
-                        return `<span class="${className}">
-                    <img src="${slidesInfo[index].thumb_url}" alt="thumb" />
-                </span>`;
-                    },
-                }}
-                autoplay={{ delay: 50000, disableOnInteraction: false }}
-                loop={true}
-                slidesPerView={1}
-                resistance={true}
-                resistanceRatio={0.85}
-                effect="fade"
-                fadeEffect={{ crossFade: true }}
-                speed={1200}
-                className={cx('slide')}
-                onInit={(swiper) => handleSlideAnimation(swiper, swiper.activeIndex)}
-                onSlideChangeTransitionStart={(swiper) => {
-                    resetSlideAnimation(swiper.slides[swiper.previousIndex]);
-                    playSlideAnimation(swiper.slides[swiper.activeIndex]);
-                }}
-            >
-                {slidesInfo.map((item, index) => {
-                    const isFav = favoritesList.some((fav) => fav.slug === item.slug);
-                    const isPla = playlistList.some((pla) => pla.slug === item.slug);
-                    return (
-                        <SwiperSlide key={index}>
-                            <div className={cx('slide')}>
-                                <div className={cx('slide-elements')}>
-                                    <div className={cx('cover-fade')}>
-                                        <div className={cx('cover-image')}>
-                                            <img className={cx('cover-img')} src={item.thumb_url} alt="cover" />
-                                        </div>
-                                    </div>
-                                    <div className={cx('slide-info')}>
-                                        <Link to={item.infoPage}>
-                                            <h2 className={cx('movie-title')}>{item.name}</h2>
-                                            <p className={cx('movie-eng-title')}>{item.origin_name}</p>
-                                        </Link>
-                                        <div className={cx('movie-tags-1')}>
-                                            <div className={cx('IMDb-tag')}>
-                                                <span>{item.imdb}</span>
-                                            </div>
-                                            {item.quality && (
-                                                <div className={cx('quality-tag')}>
-                                                    <span>{item.quality}</span>
-                                                </div>
-                                            )}
-                                            <div className={cx('tag-model')}>
-                                                <span>{item.tagModel}</span>
-                                            </div>
-                                            {item.releaseInfo.map((info, index) => {
-                                                return (
-                                                    <div className={cx('tag-classic')} key={index}>
-                                                        <span>{info}</span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                        <div className={cx('movie-tags-2')}>
-                                            {item.types.slice(0, 6).map((topic, index) => {
-                                                return (
-                                                    <div className={cx('tag-topic')} key={index}>
-                                                        <span>{topic}</span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                        <p className={cx('movie-description')}>{decodeHTML(item.description)}</p>
-                                        <div className={cx('movie-actions')}>
-                                            <Link to={item.to} className={cx('play')}>
-                                                <FontAwesomeIcon className={cx('play-icon')} icon={faPlay} />
-                                            </Link>
-                                            {user && (
-                                                <div className={cx('group-actions')}>
-                                                    <Tippy content="Yêu thích" offset={[0, -5]} placement="bottom">
-                                                        <div
-                                                            className={cx('action-item')}
-                                                            onClick={() => handleSliderFavorite(item)}
-                                                            style={{
-                                                                color: isFav ? '#ff0000' : 'white',
-                                                                cursor: 'pointer',
-                                                            }}
-                                                        >
-                                                            <FontAwesomeIcon icon={faHeart} />
-                                                        </div>
-                                                    </Tippy>
-                                                    <Tippy content="Xem sau" offset={[0, -5]} placement="bottom">
-                                                        <div
-                                                            className={cx('action-item')}
-                                                            onClick={() => handleSliderPlaylist(item)}
-                                                            style={{
-                                                                color: isPla ? 'var(--primary-color)' : 'white',
-                                                                cursor: 'pointer',
-                                                            }}
-                                                        >
-                                                            <FontAwesomeIcon icon={faPlus} />
-                                                        </div>
-                                                    </Tippy>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                    );
-                })}
-            </Swiper>
+            <Slider />
             <Topics />
-            {user && continueWatchingList.length > 0 && <ContinueWatching />}
+            {user && <ContinueWatching />}
             <LatestMovie
                 slug="phim-le"
                 year="2025"

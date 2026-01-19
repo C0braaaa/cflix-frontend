@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faX } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
-import { getMeAPI } from '../../../../services/userServices';
+import { getContinueWatchingAPI } from '../../../../services/userServices';
 import 'tippy.js/dist/tippy.css';
 
 import styles from './ContinueWatching.module.scss';
@@ -21,14 +21,18 @@ function ContinueWatching() {
         return `${m}p`;
     };
     const [continueWatchingList, setContinueWatchingList] = useState([]);
+    const [isLoader, setIsLoader] = useState(false);
 
     useEffect(() => {
         const fetchContinueWatching = async () => {
             try {
-                const res = await getMeAPI();
-                setContinueWatchingList(res.user?.continue_watching || []);
+                setIsLoader(true);
+                const res = await getContinueWatchingAPI();
+                setContinueWatchingList(res.data.items || []);
             } catch (error) {
                 console.error('Lỗi khi lấy danh sách xem tiếp:', error);
+            } finally {
+                setIsLoader(false);
             }
         };
         fetchContinueWatching();
@@ -42,40 +46,50 @@ function ContinueWatching() {
                     <FontAwesomeIcon icon={faAngleRight} />
                 </Link>
             </div>
-            <div className={cx('content')}>
-                <div className={cx('list-items')}>
-                    {continueWatchingList.map((item) => (
-                        <Link to={`/xem-phim/${item.slug}/${item.episode_slug}`} className={cx('item')} key={item.slug}>
-                            <div className={cx('poster')}>
-                                <img src={item.poster_url} alt={`Poster của ${item.name}`} />
-                                <Tippy content="Xóa">
-                                    <div className={cx('removed')}>
-                                        <FontAwesomeIcon icon={faX} />
-                                    </div>
-                                </Tippy>
-                            </div>
-                            <div className={cx('progress')}>
-                                <div
-                                    className={cx('progress-bar')}
-                                    style={{ width: `${Math.min((item.current_time / item.duration) * 100, 100)}%` }}
-                                ></div>
-                            </div>
-                            <div className={cx('time')}>
-                                {item.episode_name.toLowerCase() !== 'full' && (
-                                    <span className={cx('episode-name')}>{item.episode_name}&nbsp;•&nbsp;</span>
-                                )}
-                                <span className={cx('current-time')}>
-                                    {`${formatDuration(item.current_time)} / ${formatDuration(item.duration)}`}
-                                </span>
-                            </div>
-                            <div className={cx('info')}>
-                                <h5 className={cx('name')}>{item.name}</h5>
-                                <p className={cx('origin-name')}>{item.origin_name}</p>
-                            </div>
-                        </Link>
-                    ))}
+            {isLoader ? (
+                <div className={cx('loader')}></div>
+            ) : (
+                <div className={cx('content')}>
+                    <div className={cx('list-items')}>
+                        {continueWatchingList.map((item) => (
+                            <Link
+                                to={`/xem-phim/${item.slug}/${item.episode_slug}`}
+                                className={cx('item')}
+                                key={item.slug}
+                            >
+                                <div className={cx('poster')}>
+                                    <img src={item.poster_url} alt={`Poster của ${item.name}`} />
+                                    <Tippy content="Xóa">
+                                        <div className={cx('removed')}>
+                                            <FontAwesomeIcon icon={faX} />
+                                        </div>
+                                    </Tippy>
+                                </div>
+                                <div className={cx('progress')}>
+                                    <div
+                                        className={cx('progress-bar')}
+                                        style={{
+                                            width: `${Math.min((item.current_time / item.duration) * 100, 100)}%`,
+                                        }}
+                                    ></div>
+                                </div>
+                                <div className={cx('time')}>
+                                    {item.episode_name.toLowerCase() !== 'full' && (
+                                        <span className={cx('episode-name')}>{item.episode_name}&nbsp;•&nbsp;</span>
+                                    )}
+                                    <span className={cx('current-time')}>
+                                        {`${formatDuration(item.current_time)} / ${formatDuration(item.duration)}`}
+                                    </span>
+                                </div>
+                                <div className={cx('info')}>
+                                    <h5 className={cx('name')}>{item.name}</h5>
+                                    <p className={cx('origin-name')}>{item.origin_name}</p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }
