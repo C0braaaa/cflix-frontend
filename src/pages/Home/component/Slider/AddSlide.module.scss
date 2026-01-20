@@ -1,0 +1,135 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 998;
+}
+
+.add-form {
+    position: fixed;
+    top: 35rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50rem;
+    height: 85vh;
+    background-color: var(--primary);
+    z-index: 999;
+    border-radius: 1rem;
+    padding: 1rem 3rem 2rem 3rem;
+    overflow-y: auto;
+}
+
+.close {
+    position: absolute;
+    top: 0.2rem;
+    right: 1rem;
+    font-size: 2rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.form-title {
+    color: var(--text-black);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    background: linear-gradient(90deg, #0323f3, #f9adad, #0323f3);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.form-control {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+
+        label {
+            color: var(--text-black);
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+
+        input {
+            border: 1px solid var(--text-black);
+            border-radius: 0.5rem;
+            padding: 1.2rem 1rem;
+            font-size: 1.4rem;
+            color: var(--text-black);
+            caret-color: var(--text-black);
+        }
+
+        textarea {
+            border: 1px solid var(--text-black);
+            border-radius: 0.5rem;
+            padding: 1.2rem 1rem;
+            caret-color: var(--text-black);
+        }
+    }
+
+    .add-btn {
+        margin-top: 1.5rem;
+        transform: translateX(15rem);
+        background-color: #8ac44b;
+        width: 3rem;
+        cursor: pointer;
+    }
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 4px;
+    background-color: white;
+
+    &:focus-within {
+        border-color: var(--primary); // Highlight khi focus
+    }
+
+    input {
+        border: none;
+        outline: none;
+        flex: 1;
+        min-width: 100%;
+        padding: 0.5rem;
+    }
+}
+
+.tag-item {
+    display: flex;
+    align-items: center;
+    background-color: #eee;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 1.4rem;
+    color: #333;
+
+    .remove-tag {
+        margin-left: 0.5rem;
+        cursor: pointer;
+        background-color: #ccc;
+        border-radius: 50%;
+        width: 1.6rem;
+        height: 1.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: bold;
+        color: white;
+
+        &:hover {
+            background-color: #ff4757;
+        }
+    }
+}

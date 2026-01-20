@@ -17,35 +17,20 @@ import { faHeart, faPen, faPlay, faPlus, faTrash } from '@fortawesome/free-solid
 import { toggleFavoriteAPI, togglePlaylistAPI } from '../../../../services/userServices';
 import { getMeAPI } from '../../../../services/userServices';
 import { useAuth } from '../../../../features/auth/context/AuthContext';
-import { getAllSliderAPI } from '../../../../services/sliderServices';
 const cx = classNames.bind(styles);
 
-function Slider() {
+function Slider({ sliders }) {
     const [favoritesList, setFavoritesList] = useState([]);
     const [playlistList, setPlaylistList] = useState([]);
-    const [sliderList, setSliderList] = useState([]);
-
     const { user } = useAuth();
+
+    console.log(sliders);
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
         txt.innerHTML = html;
         return txt.value;
     };
-
-    useEffect(() => {
-        const fetchSlider = async () => {
-            try {
-                const res = await getAllSliderAPI();
-                setSliderList(res);
-            } catch (error) {
-                toast.error(error.message);
-            }
-        };
-        fetchSlider();
-    }, []);
-
-    console.log(sliderList);
 
     useEffect(() => {
         const fetchFavorites = async () => {
@@ -171,13 +156,13 @@ function Slider() {
                 clickable: true,
                 renderBullet: (index, className) => {
                     return `<span class="${className}">
-                            <img src="${sliderList[index]?.thumb_url || ''}" alt="thumb" />
+                            <img src="${sliders[index]?.poster_url || ''}" alt="thumb" />
                             </span>
                             `;
                 },
             }}
             autoplay={{ delay: 50000, disableOnInteraction: false }}
-            loop={true}
+            loop={sliders.length > 1}
             slidesPerView={1}
             resistance={true}
             resistanceRatio={0.85}
@@ -191,7 +176,7 @@ function Slider() {
                 playSlideAnimation(swiper.slides[swiper.activeIndex]);
             }}
         >
-            {sliderList.map((item) => {
+            {sliders.map((item) => {
                 const isFav = favoritesList.some((fav) => fav.slug === item.slug);
                 const isPla = playlistList.some((pla) => pla.slug === item.slug);
                 return (
@@ -238,7 +223,7 @@ function Slider() {
                                     </div>
                                     <p className={cx('movie-description')}>{decodeHTML(item.content)}</p>
                                     <div className={cx('movie-actions')}>
-                                        <Link to={item.to} className={cx('play')}>
+                                        <Link to={item.to_watch_page} className={cx('play')}>
                                             <FontAwesomeIcon className={cx('play-icon')} icon={faPlay} />
                                         </Link>
                                         {user && (
