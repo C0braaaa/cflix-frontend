@@ -199,17 +199,17 @@ function Slider({ sliders, onSuccess, onEdit }) {
                             <div className={cx('slide-elements')}>
                                 <div className={cx('cover-fade')}>
                                     <div className={cx('cover-image')}>
-                                        <img className={cx('cover-img')} src={item.thumb_url} alt="cover" />
+                                        <img className={cx('cover-img')} src={item?.thumb_url} alt="cover" />
                                     </div>
                                 </div>
                                 <div className={cx('slide-info')}>
-                                    <Link to={item.to_info_page}>
-                                        <h2 className={cx('movie-title')}>{item.name}</h2>
-                                        <p className={cx('movie-eng-title')}>{item.origin_name}</p>
+                                    <Link to={item?.to_info_page}>
+                                        <h2 className={cx('movie-title')}>{item?.name}</h2>
+                                        <p className={cx('movie-eng-title')}>{item?.origin_name}</p>
                                     </Link>
                                     <div className={cx('movie-tags-1')}>
                                         <div className={cx('IMDb-tag')}>
-                                            <span>{item.imdb}</span>
+                                            <span>{item?.imdb}</span>
                                         </div>
                                         <div className={cx('quality-tag')}>
                                             <span>{item.quality}</span>

@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Comment from '../../layout/components/Comments/Comments';
 import Player from '../../components/Player/Player';
+import RelatedMovies from './Content/RelatedMovies';
 
 const cx = classNames.bind(styles);
 
@@ -120,7 +121,10 @@ function Wacth() {
                         }}
                         style={{
                             width: '100%',
-                            aspectRatio: '16/9',
+                            // aspectRatio: '16/9',
+                            // height: 'auto',
+                            display: 'flex',
+                            alignItems: 'center',
                             borderRadius: '1rem 1rem 0 0',
                             overflow: 'hidden',
                         }}
@@ -139,72 +143,83 @@ function Wacth() {
                     </div>
                 </div>
             </div>
-            <div className={cx('options')}>
-                <h2>Các bản chiếu</h2>
+            <div className={cx('content')}>
+                <div className={cx('left-side')}>
+                    <div className={cx('options')}>
+                        <h2>Các bản chiếu</h2>
 
-                {episodes?.map((sv, i) => (
-                    <div key={i} className={cx('option', { active: server === i })} onClick={() => setServer(i)}>
-                        {/* Icon Vietsub */}
-                        {sv.server_name.toLowerCase().includes('viet') && (
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="21"
-                                height="21"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
+                        {episodes?.map((sv, i) => (
+                            <div
+                                key={i}
+                                className={cx('option', { active: server === i })}
+                                onClick={() => setServer(i)}
                             >
-                                <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
-                                <line x1="7" y1="12" x2="17" y2="12" />
-                                <line x1="7" y1="16" x2="13" y2="16" />
-                            </svg>
-                        )}
+                                {/* Icon Vietsub */}
+                                {sv.server_name.toLowerCase().includes('viet') && (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="21"
+                                        height="21"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
+                                        <line x1="7" y1="12" x2="17" y2="12" />
+                                        <line x1="7" y1="16" x2="13" y2="16" />
+                                    </svg>
+                                )}
 
-                        {/* Icon Thuyết Minh */}
-                        {sv.server_name.toLowerCase().includes('thuy') && (
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <path d="M12 1a4 4 0 0 1 4 4v7a4 4 0 0 1 -8 0V5a4 4 0 0 1 4 -4z" />
-                                <path d="M19 10v2a7 7 0 0 1 -14 0v-2" />
-                                <line x1="12" y1="19" x2="12" y2="23" />
-                                <line x1="8" y1="23" x2="16" y2="23" />
-                            </svg>
-                        )}
+                                {/* Icon Thuyết Minh */}
+                                {sv.server_name.toLowerCase().includes('thuy') && (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path d="M12 1a4 4 0 0 1 4 4v7a4 4 0 0 1 -8 0V5a4 4 0 0 1 4 -4z" />
+                                        <path d="M19 10v2a7 7 0 0 1 -14 0v-2" />
+                                        <line x1="12" y1="19" x2="12" y2="23" />
+                                        <line x1="8" y1="23" x2="16" y2="23" />
+                                    </svg>
+                                )}
 
-                        <span>{getTextInBrackets(sv.server_name)}</span>
-                    </div>
-                ))}
-            </div>
-            {movie?.episode_total > 1 && (
-                <>
-                    <h2 className={cx('title-2')}>Danh sách tập</h2>
-                    <div className={cx('episodes')}>
-                        {episodes?.[server]?.server_data?.map((ep, index) => (
-                            <Link
-                                to={`/xem-phim/${slug}/${ep.slug}`}
-                                className={cx('episode', { active: ep.slug === episode })}
-                                key={index}
-                            >
-                                {ep.name.split(' ')[1]?.replace(/\D/g, '')}
-                            </Link>
+                                <span>{getTextInBrackets(sv.server_name)}</span>
+                            </div>
                         ))}
                     </div>
-                </>
-            )}
-            {/* Comments */}
-            <Comment />
+                    {movie?.episode_total > 1 && (
+                        <>
+                            <h2 className={cx('title-2')}>Danh sách tập</h2>
+                            <div className={cx('episodes')}>
+                                {episodes?.[server]?.server_data?.map((ep, index) => (
+                                    <Link
+                                        to={`/xem-phim/${slug}/${ep.slug}`}
+                                        className={cx('episode', { active: ep.slug === episode })}
+                                        key={index}
+                                    >
+                                        {ep.name.split(' ')[1]?.replace(/\D/g, '')}
+                                    </Link>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                    {/* Comments */}
+                    <Comment />
+                </div>
+                <div className={cx('right-side')}>
+                    <RelatedMovies />
+                </div>
+            </div>
         </div>
     );
 }

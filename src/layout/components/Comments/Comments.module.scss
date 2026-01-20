@@ -7,8 +7,20 @@
     align-items: center;
     gap: 2rem;
 }
-.title {
+
+.heading {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 1rem;
+
+    .title {
+        margin-bottom: 0;
+    }
+
+    svg {
+        color: var(--text-color);
+    }
 }
 
 .warning {

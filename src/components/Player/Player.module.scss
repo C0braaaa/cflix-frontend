@@ -1,16 +1,15 @@
-/* src/components/Player/Player.module.scss */
-
 .wrapper {
+    position: relative;
     width: 100%;
-    // height: 100%;
-    // position: relative;
+    aspect-ratio: 16/9;
+    background-color: #000;
     overflow: hidden;
 
     // --- CUSTOM CSS CHO ARTPLAYER ---
     :global {
         // 1. Chỉnh khoảng cách chung
         .art-control {
-            padding: 0 5px; // Giảm khoảng cách để các nút gần nhau hơn
+            padding: 0 5px;
 
             .art-icon svg {
                 width: 20px;
