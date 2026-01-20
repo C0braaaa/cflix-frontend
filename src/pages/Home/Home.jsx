@@ -17,6 +17,7 @@ function Home() {
     const { user, openModal } = useAuth();
     const [isShowAddSlide, setIsShowAddSlide] = useState(false);
     const [sliderList, setSliderList] = useState([]);
+    const [dataToEdit, setDataToEdit] = useState(null);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -51,17 +52,27 @@ function Home() {
         run();
     }, [fetchSlider]);
 
+    const handleAddClick = () => {
+        setDataToEdit(null);
+        setIsShowAddSlide(true);
+    };
+
+    const handleEditClick = (item) => {
+        setDataToEdit(item);
+        setIsShowAddSlide(true);
+    };
+
     return (
         <div className={cx('wrapper')}>
             {user && user?.role === 'admin' && (
                 <Tippy content="Thêm Slide" placement="bottom">
-                    <div className={cx('add-slide')} onClick={() => setIsShowAddSlide((prev) => !prev)}>
+                    <div className={cx('add-slide')} onClick={handleAddClick}>
                         <FontAwesomeIcon icon={faPlus} />
                     </div>
                 </Tippy>
             )}
-            {isShowAddSlide && <AddSlide setShow={setIsShowAddSlide} onSuccess={fetchSlider} />}
-            <Slider sliders={sliderList} />
+            {isShowAddSlide && <AddSlide setShow={setIsShowAddSlide} onSuccess={fetchSlider} dataToEdit={dataToEdit} />}
+            <Slider sliders={sliderList} onSuccess={fetchSlider} onEdit={handleEditClick} />
             <Topics />
             {user && <ContinueWatching />}
             <LatestMovie

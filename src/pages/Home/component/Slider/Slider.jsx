@@ -17,14 +17,13 @@ import { faHeart, faPen, faPlay, faPlus, faTrash } from '@fortawesome/free-solid
 import { toggleFavoriteAPI, togglePlaylistAPI } from '../../../../services/userServices';
 import { getMeAPI } from '../../../../services/userServices';
 import { useAuth } from '../../../../features/auth/context/AuthContext';
+import { deleteSliderAPI } from '../../../../services/sliderServices';
 const cx = classNames.bind(styles);
 
-function Slider({ sliders }) {
+function Slider({ sliders, onSuccess, onEdit }) {
     const [favoritesList, setFavoritesList] = useState([]);
     const [playlistList, setPlaylistList] = useState([]);
     const { user } = useAuth();
-
-    console.log(sliders);
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
@@ -118,6 +117,21 @@ function Slider({ sliders }) {
         } catch (error) {
             console.log(error);
             toast.error('Có lỗi xảy ra!');
+        }
+    };
+
+    const handleDeleteSlider = async (id) => {
+        try {
+            const res = await deleteSliderAPI(id);
+            if (res && res.status) {
+                toast.success('Xóa slide thành công!');
+                if (onSuccess) onSuccess();
+            } else {
+                toast.error('Xóa slide thất bại!');
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Có lỗi xảy ra khi xóa!');
         }
     };
     // Ham ho trợ chạy animation không cần slide mount lại
@@ -259,7 +273,10 @@ function Slider({ sliders }) {
                                                             offset={[0, -5]}
                                                             placement="bottom"
                                                         >
-                                                            <div className={cx('action-item')}>
+                                                            <div
+                                                                className={cx('action-item')}
+                                                                onClick={() => handleDeleteSlider(item._id)}
+                                                            >
                                                                 <FontAwesomeIcon icon={faTrash} />
                                                             </div>
                                                         </Tippy>
@@ -268,7 +285,12 @@ function Slider({ sliders }) {
                                                             offset={[0, -5]}
                                                             placement="bottom"
                                                         >
-                                                            <div className={cx('action-item')}>
+                                                            <div
+                                                                className={cx('action-item')}
+                                                                onClick={() => {
+                                                                    if (onEdit) onEdit(item);
+                                                                }}
+                                                            >
                                                                 <FontAwesomeIcon icon={faPen} />
                                                             </div>
                                                         </Tippy>

@@ -4,25 +4,25 @@ import { toast } from 'react-toastify';
 
 import styles from './AddSlide.module.scss';
 import Button from '../../../../components/Button/index-button';
-import { createNewSliderAPI } from '../../../../services/sliderServices';
+import { createNewSliderAPI, updateSliderAPI } from '../../../../services/sliderServices';
 
 const cx = classNames.bind(styles);
 
-function AddSlide({ setShow, onSuccess }) {
+function AddSlide({ setShow, onSuccess, dataToEdit }) {
     const [formData, setFormData] = useState({
-        name: '',
-        origin_name: '',
-        slug: '',
-        imdb: '',
-        quality: '',
-        tag_model: '',
-        content: '',
-        thumb_url: '',
-        poster_url: '',
-        to_info_page: '',
-        to_watch_page: '',
-        tag_classic: [],
-        types: [],
+        name: dataToEdit?.name || '',
+        origin_name: dataToEdit?.origin_name || '',
+        slug: dataToEdit?.slug || '',
+        imdb: dataToEdit?.imdb || '',
+        quality: dataToEdit?.quality || '',
+        tag_model: dataToEdit?.tag_model || '',
+        content: dataToEdit?.content || '',
+        thumb_url: dataToEdit?.thumb_url || '',
+        poster_url: dataToEdit?.poster_url || '',
+        to_info_page: dataToEdit?.to_info_page || '',
+        to_watch_page: dataToEdit?.to_watch_page || '',
+        tag_classic: dataToEdit?.tag_classic || [],
+        types: dataToEdit?.types || [],
     });
 
     const handleChange = (e) => {
@@ -57,10 +57,16 @@ function AddSlide({ setShow, onSuccess }) {
         e.preventDefault();
 
         try {
-            const res = await createNewSliderAPI(formData);
+            let res;
+
+            if (dataToEdit) {
+                res = await updateSliderAPI(dataToEdit._id, formData);
+            } else {
+                res = await createNewSliderAPI(formData);
+            }
+
             if (res) {
-                // Check kỹ response
-                toast.success('Thêm slide thành công!');
+                toast.success(dataToEdit ? 'Cập nhật slide thành công!' : 'Thêm slide thành công!');
 
                 setFormData({
                     name: '',
@@ -95,7 +101,7 @@ function AddSlide({ setShow, onSuccess }) {
                 <span className={cx('close')} onClick={() => setShow(false)}>
                     &times;
                 </span>
-                <h5 className={cx('form-title')}>Thêm Slide</h5>
+                <h5 className={cx('form-title')}>{dataToEdit ? 'Cập nhật Slide' : 'Thêm Slide'}</h5>
 
                 <form className={cx('form-control')} onSubmit={handleSubmit}>
                     <div className={cx('form-group')}>
@@ -250,7 +256,7 @@ function AddSlide({ setShow, onSuccess }) {
                     </div>
 
                     <Button primary className={cx('add-btn')} type="submit">
-                        Thêm
+                        {dataToEdit ? 'Lưu thay đổi' : 'Thêm'}
                     </Button>
                 </form>
             </div>
