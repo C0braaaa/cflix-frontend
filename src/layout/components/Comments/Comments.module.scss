@@ -109,4 +109,105 @@
     }
 }
 
+.list-comments {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 5rem;
+
+    .comment {
+        display: flex;
+        gap: 2rem;
+
+        .username,
+        .content {
+            color: var(--text-color);
+        }
+        .username {
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            display: flex;
+            gap: 1.5rem;
+
+            .usernameadmin {
+                background: linear-gradient(90deg, #f3084f, #ffffff, #f3084f);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 600;
+            }
+            .gender {
+                .male {
+                    color: #2980b9;
+                }
+
+                .female {
+                    color: #e84393;
+                }
+
+                .unknown {
+                    color: #b2bec3;
+                }
+            }
+            .admin {
+                display: flex;
+                align-items: center;
+                padding: 0 0.5rem;
+                font-size: 1.2rem;
+                border-radius: 0.5rem;
+                background: #f6638f;
+                color: #1f1f1f;
+                font-weight: 500;
+                border: 2px solid #f3084f;
+            }
+            .time {
+                display: flex;
+                align-items: center;
+                font-size: 1.2rem;
+                opacity: 0.5;
+                text-align: center;
+            }
+        }
+    }
+    .content {
+        font-size: 1.4rem;
+        opacity: 0.6;
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        color: #75767c;
+        font-size: 1.3rem;
+        margin-top: 1rem;
+
+        .like,
+        .dislike,
+        .reply,
+        .delete {
+            cursor: pointer;
+        }
+        .like.active {
+            color: greenyellow;
+        }
+        .like:hover {
+            color: greenyellow;
+        }
+        .dislike.active {
+            color: red;
+        }
+        .dislike:hover,
+        .delete:hover {
+            color: red;
+            &.active {
+                color: red;
+            }
+        }
+        .reply:hover {
+            color: var(--primary-color);
+        }
+    }
+}
+
 // animation
