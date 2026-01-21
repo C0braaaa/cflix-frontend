@@ -5,7 +5,12 @@ import { useParams } from 'react-router-dom';
 
 import styles from './Comments.module.scss';
 import { useAuth } from '../../../features/auth/context/AuthContext';
-import { addCommentAPI, getCommentBySlugAPI, toggleVoteCommentAPI } from '../../../services/commentServices';
+import {
+    addCommentAPI,
+    getCommentBySlugAPI,
+    toggleVoteCommentAPI,
+    deleteCommentAPI,
+} from '../../../services/commentServices';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faInfinity,
@@ -25,6 +30,37 @@ function Comment() {
     const [text, setText] = useState('');
     const [commentList, setCommentList] = useState([]);
 
+    // format time
+    const formatTimeAgo = (dateString) => {
+        const now = new Date();
+        const created = new Date(dateString);
+
+        // Tính khoảng cách thời gian bằng giây
+        const seconds = Math.floor((now - created) / 1000);
+
+        // Cấu hình các mốc thời gian (giây)
+        const intervals = [
+            { label: 'năm', seconds: 31536000 },
+            { label: 'tháng', seconds: 2592000 },
+            { label: 'ngày', seconds: 86400 },
+            { label: 'giờ', seconds: 3600 },
+            { label: 'phút', seconds: 60 },
+        ];
+
+        // Vòng lặp thần thánh: Tự động tìm mốc phù hợp
+        for (const interval of intervals) {
+            // Lấy tổng giây chia cho số giây của đơn vị (ví dụ chia 60 để ra phút)
+            const count = Math.floor(seconds / interval.seconds);
+
+            // Nếu kết quả >= 1 thì trả về ngay (Ví dụ: 2 phút, 5 giờ)
+            if (count >= 1) {
+                return `${count} ${interval.label} trước`;
+            }
+        }
+
+        // Nếu nhỏ hơn 60 giây
+        return 'Vừa xong';
+    };
     const GENDER_ICONS = {
         male: faMars,
         female: faVenus,
@@ -85,6 +121,19 @@ function Comment() {
             const res = await toggleVoteCommentAPI(commentId, type);
             if (res && res.status) {
                 setCommentList((prev) => prev.map((comment) => (comment._id === commentId ? res.data : comment)));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // delete comment
+    const handleDeleteComment = async (commentId) => {
+        try {
+            const res = await deleteCommentAPI(commentId);
+            if (res && res.status) {
+                setCommentList((prev) => prev.filter((comment) => comment._id !== commentId));
+                toast.success('Xóa bình luận thành công!');
             }
         } catch (error) {
             console.log(error);
@@ -160,6 +209,11 @@ function Comment() {
                 {commentList.map((comment) => {
                     const isLiked = comment?.likes?.includes(user?._id);
                     const isDisliked = comment?.dislikes?.includes(user?._id);
+                    const isOwner = comment?.user_id === user?._id;
+                    const isAdmin = user?.role === 'admin';
+                    const commentByAdmin = comment?.user_role === 'admin';
+
+                    const canDelete = isOwner || (isAdmin && !commentByAdmin);
                     return (
                         <div className={cx('comment')} key={comment?._id}>
                             <div className={cx('left-side')}>
@@ -179,7 +233,7 @@ function Comment() {
                                         />
                                     </span>
                                     {comment?.user_role === 'admin' && <span className={cx('admin')}>ADMIN</span>}
-                                    <span className={cx('time')}>10 phút trước</span>
+                                    <span className={cx('time')}>{formatTimeAgo(comment?.createdAt)}</span>
                                 </div>
                                 <div className={cx('content')}>
                                     <p>{comment?.content}</p>
@@ -201,8 +255,8 @@ function Comment() {
                                         <FontAwesomeIcon icon={faReply} />
                                         Trả lời
                                     </span>
-                                    {comment.user_id === user?._id && (
-                                        <span className={cx('delete')}>
+                                    {canDelete && (
+                                        <span className={cx('delete')} onClick={() => handleDeleteComment(comment._id)}>
                                             <FontAwesomeIcon icon={faTrash} /> Xóa
                                         </span>
                                     )}

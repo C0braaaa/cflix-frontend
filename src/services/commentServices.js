@@ -13,3 +13,8 @@ export const toggleVoteCommentAPI = async (id, type) => {
     const res = await request.put(`comment/vote/${id}`, { type });
     return res;
 };
+
+export const deleteCommentAPI = async (id) => {
+    const res = await request.remove(`comment/${id}`);
+    return res;
+};
