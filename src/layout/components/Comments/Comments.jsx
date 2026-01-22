@@ -20,6 +20,8 @@ import {
     faMars,
     faVenus,
     faTrash,
+    faChevronUp,
+    faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
@@ -28,7 +30,10 @@ function Comment() {
     const { user, openModal } = useAuth();
     const { slug } = useParams();
     const [text, setText] = useState('');
+    const [replyText, setReplyText] = useState('');
+    const [replyInputId, setReplyInputId] = useState(null);
     const [commentList, setCommentList] = useState([]);
+    const [expandedComments, setExpandedComments] = useState({});
 
     // format time
     const formatTimeAgo = (dateString) => {
@@ -110,6 +115,38 @@ function Comment() {
         }
     };
 
+    // send reply
+    const handleSendReply = async (parentId) => {
+        if (!user) {
+            toast.error('Vui lòng đăng nhập!');
+            openModal('login');
+            return;
+        }
+        if (!replyText.trim()) return;
+        try {
+            const dataPayload = {
+                user_id: user._id,
+                username: user.username,
+                user_avatar: user.avatar_url,
+                user_role: user.role,
+                gender: user.gender,
+                movie_slug: slug,
+                content: replyText,
+                parent_id: parentId,
+            };
+            const newReply = await addCommentAPI(dataPayload);
+            if (newReply && newReply.status) {
+                setCommentList([newReply.data, ...commentList]);
+                setReplyText('');
+                setReplyInputId(null);
+                toast.success('Đã trả lời!');
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Trả lời thất bại!');
+        }
+    };
+
     // vote comment
     const handleVoteComment = async (commentId, type) => {
         if (!user) {
@@ -148,6 +185,145 @@ function Comment() {
         setText('');
     };
 
+    const handleOnChangeReply = (e, username) => {
+        const value = e.target.value;
+        const prefix = `@${username} `;
+
+        if (!value.startsWith(prefix)) {
+            return;
+        }
+
+        setReplyText(value);
+    };
+
+    // toggle expand comment
+    const toggleReplyVisibility = (commentId) => {
+        setExpandedComments((prev) => ({
+            ...prev,
+            [commentId]: !prev[commentId],
+        }));
+    };
+
+    // filter root comments
+    const rootComments = commentList.filter((c) => !c.parent_id);
+    // filter replies
+    const getReplies = (parentId) => {
+        return commentList
+            .filter((c) => c.parent_id === parentId)
+            .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    };
+
+    // render comments for root and replies
+    const renderSingleComment = (comment) => {
+        const isLiked = comment?.likes?.includes(user?._id);
+        const isDisliked = comment?.dislikes?.includes(user?._id);
+        const isOwner = comment?.user_id === user?._id;
+        const isAdmin = user?.role === 'admin';
+        const commentByAdmin = comment?.user_role === 'admin';
+        const canDelete = isOwner || (isAdmin && !commentByAdmin);
+
+        return (
+            <div className={cx('comment')} key={comment?._id}>
+                <div className={cx('left-side')}>
+                    <div className={cx('avatar', { avatarreply: comment?.parent_id })}>
+                        <img src={comment?.user_avatar} alt={`avatar`} />
+                    </div>
+                </div>
+                <div className={cx('right-side')}>
+                    <div className={cx('username')}>
+                        <span className={cx({ usernameadmin: comment?.user_role === 'admin' })}>
+                            {comment?.username}
+                        </span>
+                        <span className={cx('gender')}>
+                            <FontAwesomeIcon icon={GENDER_ICONS[comment?.gender]} className={cx(comment?.gender)} />
+                        </span>
+                        {comment?.user_role === 'admin' && <span className={cx('admin')}>ADMIN</span>}
+                        <span className={cx('time')}>{formatTimeAgo(comment?.createdAt)}</span>
+                    </div>
+                    <div className={cx('content')}>
+                        <p>{comment?.content}</p>
+                    </div>
+                    <div className={cx('actions')}>
+                        <span
+                            className={cx('like', { active: isLiked })}
+                            onClick={() => handleVoteComment(comment._id, 'like')}
+                        >
+                            <FontAwesomeIcon icon={faThumbsUp} /> {comment?.likes?.length || 0}
+                        </span>
+                        <span
+                            className={cx('dislike', { active: isDisliked })}
+                            onClick={() => handleVoteComment(comment._id, 'dislike')}
+                        >
+                            <FontAwesomeIcon icon={faThumbsDown} /> {comment?.dislikes?.length || 0}
+                        </span>
+
+                        <span
+                            className={cx('reply')}
+                            onClick={() => {
+                                if (replyInputId === comment._id) {
+                                    setReplyInputId(null);
+                                    setReplyText('');
+                                } else {
+                                    setReplyInputId(comment._id);
+                                    setReplyText(`@${comment.username} `);
+                                }
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faReply} /> Trả lời
+                        </span>
+
+                        {canDelete && (
+                            <span className={cx('delete')} onClick={() => handleDeleteComment(comment._id)}>
+                                <FontAwesomeIcon icon={faTrash} /> Xóa
+                            </span>
+                        )}
+                    </div>
+
+                    {/* FORM NHẬP REPLY */}
+                    {replyInputId === comment._id && (
+                        <div className={cx('reply-input')}>
+                            <textarea
+                                className={cx('reply-textarea')}
+                                placeholder={`Trả lời ${comment.username}...`}
+                                rows={1}
+                                maxLength={1000}
+                                value={replyText}
+                                onChange={(e) => handleOnChangeReply(e, comment.username)}
+                                autoFocus
+                                onFocus={(e) => {
+                                    const val = e.target.value;
+                                    e.target.value = '';
+                                    e.target.value = val;
+                                }}
+                            />
+                            <div className={cx('actions-btn-reply')}>
+                                <div
+                                    className={cx('cancel')}
+                                    onClick={() => {
+                                        setReplyText('');
+                                        setReplyInputId(null);
+                                    }}
+                                >
+                                    <span>Hủy</span>
+                                </div>
+
+                                <div
+                                    className={cx('send')}
+                                    onClick={() => {
+                                        const rootId = comment.parent_id ? comment.parent_id : comment._id;
+                                        handleSendReply(rootId);
+                                    }}
+                                >
+                                    <span>Bình luận</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('heading')}>
@@ -166,12 +342,7 @@ function Comment() {
                 <h3 className={cx('warning')}>
                     Vui lòng{' '}
                     <span
-                        style={{
-                            color: 'var(--primary-color',
-                            fontSize: '1.4rem',
-                            fontWeight: '400',
-                            cursor: 'pointer',
-                        }}
+                        style={{ color: 'var(--primary-color)', cursor: 'pointer' }}
                         onClick={() => openModal('login')}
                     >
                         đăng nhập
@@ -179,19 +350,20 @@ function Comment() {
                     để bình luận
                 </h3>
             )}
+
             <div className={cx('main-comment')}>
                 {user && (
                     <div className={cx('left-side')}>
                         <div className={cx('avatar')}>
-                            <img src={user.avatar_url} alt={`avatar-${user.username}`} />
+                            <img src={user.avatar_url} alt="avatar" />
                         </div>
                     </div>
                 )}
                 <div className={cx('right-side')}>
                     <textarea
+                        className={cx('main-textarea')}
                         placeholder="Viết bình luận..."
                         rows={1}
-                        maxLength={1000}
                         value={text}
                         onChange={handleTextArea}
                     />
@@ -205,63 +377,34 @@ function Comment() {
                     </div>
                 </div>
             </div>
-            <div className={cx('list-comments')}>
-                {commentList.map((comment) => {
-                    const isLiked = comment?.likes?.includes(user?._id);
-                    const isDisliked = comment?.dislikes?.includes(user?._id);
-                    const isOwner = comment?.user_id === user?._id;
-                    const isAdmin = user?.role === 'admin';
-                    const commentByAdmin = comment?.user_role === 'admin';
 
-                    const canDelete = isOwner || (isAdmin && !commentByAdmin);
+            {/* replies comment and thread ui */}
+            <div className={cx('list-comments')}>
+                {rootComments.map((root) => {
+                    const replies = getReplies(root._id);
+                    const isExpanded = expandedComments[root._id];
                     return (
-                        <div className={cx('comment')} key={comment?._id}>
-                            <div className={cx('left-side')}>
-                                <div className={cx('avatar')}>
-                                    <img src={comment?.user_avatar} alt={`avatar-${comment?.username}`} />
+                        <div key={root._id} className={cx('comment-thread')}>
+                            {renderSingleComment(root)}
+                            {replies.length > 0 && (
+                                <div className={cx('view-replies')} onClick={() => toggleReplyVisibility(root._id)}>
+                                    <FontAwesomeIcon icon={isExpanded ? faChevronUp : faChevronDown} />
+                                    <span>{`${replies.length} câu trả lời`}</span>
                                 </div>
-                            </div>
-                            <div className={cx('right-side')}>
-                                <div className={cx('username')}>
-                                    <span className={cx({ usernameadmin: comment?.user_role === 'admin' })}>
-                                        {comment?.username}
-                                    </span>
-                                    <span className={cx('gender')}>
-                                        <FontAwesomeIcon
-                                            icon={GENDER_ICONS[comment?.gender]}
-                                            className={cx(comment?.gender)}
-                                        />
-                                    </span>
-                                    {comment?.user_role === 'admin' && <span className={cx('admin')}>ADMIN</span>}
-                                    <span className={cx('time')}>{formatTimeAgo(comment?.createdAt)}</span>
+                            )}
+                            {isExpanded && (
+                                <div className={cx('replies-container')}>
+                                    {replies.map((reply) => (
+                                        <div key={reply._id} className={cx('reply-item')}>
+                                            <div className={cx('tree-line')}>
+                                                <div className={cx('vertical')}></div>
+                                                <div className={cx('horizontal')}></div>
+                                            </div>
+                                            {renderSingleComment(reply)}
+                                        </div>
+                                    ))}
                                 </div>
-                                <div className={cx('content')}>
-                                    <p>{comment?.content}</p>
-                                </div>
-                                <div className={cx('actions')}>
-                                    <span
-                                        className={cx('like', { active: isLiked })}
-                                        onClick={() => handleVoteComment(comment._id, 'like')}
-                                    >
-                                        <FontAwesomeIcon icon={faThumbsUp} /> {comment?.likes?.length || 0}
-                                    </span>
-                                    <span
-                                        className={cx('dislike', { active: isDisliked })}
-                                        onClick={() => handleVoteComment(comment._id, 'dislike')}
-                                    >
-                                        <FontAwesomeIcon icon={faThumbsDown} /> {comment?.dislikes?.length || 0}
-                                    </span>
-                                    <span className={cx('reply')}>
-                                        <FontAwesomeIcon icon={faReply} />
-                                        Trả lời
-                                    </span>
-                                    {canDelete && (
-                                        <span className={cx('delete')} onClick={() => handleDeleteComment(comment._id)}>
-                                            <FontAwesomeIcon icon={faTrash} /> Xóa
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
+                            )}
                         </div>
                     );
                 })}

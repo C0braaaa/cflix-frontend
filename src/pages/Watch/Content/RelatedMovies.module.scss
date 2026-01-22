@@ -52,3 +52,11 @@
         }
     }
 }
+
+// responsive
+@media (max-width: 500px) {
+    .title {
+        font-size: 1.6rem;
+        padding-left: 1.5rem;
+    }
+}
