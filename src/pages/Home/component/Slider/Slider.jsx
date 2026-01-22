@@ -14,8 +14,7 @@ import { toast } from 'react-toastify';
 
 import styles from './Slider.module.scss';
 import { faHeart, faPen, faPlay, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { toggleFavoriteAPI, togglePlaylistAPI } from '../../../../services/userServices';
-import { getMeAPI } from '../../../../services/userServices';
+import { toggleFavoriteAPI, togglePlaylistAPI, checkMovieStatusAPI } from '../../../../services/userServices';
 import { useAuth } from '../../../../features/auth/context/AuthContext';
 import { deleteSliderAPI } from '../../../../services/sliderServices';
 const cx = classNames.bind(styles);
@@ -32,25 +31,34 @@ function Slider({ sliders, onSuccess, onEdit }) {
     };
 
     useEffect(() => {
-        const fetchFavorites = async () => {
-            if (user) {
+        const fetchSliderStatus = async () => {
+            if (user && sliders.length > 0) {
                 try {
-                    const res = await getMeAPI();
-                    if (res && res.user) {
-                        if (res.user.favorite) {
-                            setFavoritesList(res.user.favorite);
+                    const promises = sliders.map((item) => checkMovieStatusAPI(item.slug));
+
+                    const results = await Promise.all(promises);
+
+                    const newFavs = [];
+                    const newPlaylists = [];
+
+                    results.forEach((res, index) => {
+                        if (res?.data?.isFavorite) {
+                            newFavs.push({ slug: sliders[index].slug });
                         }
-                        if (res.user.playlist) {
-                            setPlaylistList(res.user.playlist);
+                        if (res?.data?.isPlaylist) {
+                            newPlaylists.push({ slug: sliders[index].slug });
                         }
-                    }
+                    });
+
+                    setFavoritesList(newFavs);
+                    setPlaylistList(newPlaylists);
                 } catch (error) {
                     console.log(error);
                 }
             }
         };
-        fetchFavorites();
-    }, [user]);
+        fetchSliderStatus();
+    }, [user, sliders]);
 
     // favorite slider action
     const handleSliderFavorite = async (item) => {

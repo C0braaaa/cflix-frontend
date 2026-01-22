@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 
 import styles from './Watch.module.scss';
 import { detail } from '../../services/moviesServices';
-import { getMeAPI } from '../../services/userServices';
+import { getProgressAPI } from '../../services/userServices';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -43,23 +43,20 @@ function Wacth() {
 
     useEffect(() => {
         const fetchProgress = async () => {
-            if (!user || episodes.length === 0) {
+            if (!user) {
                 setIsProgressChecked(true);
                 return;
             }
-
             try {
                 setIsProgressChecked(false);
 
-                const res = await getMeAPI();
-                const watchingList = res.user?.continue_watching || [];
+                const res = await getProgressAPI(slug);
+
+                const savedData = res.data;
+
                 const currentEpSlug = episode || episodes?.[server]?.server_data?.[0]?.slug;
 
-                const savedData = watchingList.find(
-                    (item) => item.slug === slug && item.episode_slug === currentEpSlug,
-                );
-
-                if (savedData && savedData.current_time > 0) {
+                if (savedData && savedData.episode_slug === currentEpSlug && savedData.current_time > 0) {
                     setSavedTime(savedData.current_time);
                 } else {
                     setSavedTime(0);
@@ -70,6 +67,7 @@ function Wacth() {
                 setIsProgressChecked(true);
             }
         };
+
         if (episodes.length > 0) {
             fetchProgress();
         }

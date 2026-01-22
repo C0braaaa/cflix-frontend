@@ -209,6 +209,13 @@
         color: var(--text-color);
         cursor: pointer;
 
+        &:nth-child(4):hover {
+            color: greenyellow;
+        }
+        &:nth-child(5):hover {
+            color: red;
+        }
+
         &:hover {
             color: var(--primary-color);
         }
@@ -574,10 +581,11 @@
         justify-content: center;
         flex-direction: column;
         gap: 2rem;
-        padding-left: 4rem;
+        padding-left: 2rem;
         border: none;
 
         .btn {
+            margin-left: 2rem;
             width: 25rem;
             background-color: var(--primary-text);
             color: var(--text-black);
@@ -586,9 +594,12 @@
             padding: 1.5rem 5rem;
         }
         .actions {
+            width: 100%;
             gap: 2rem;
+            font-size: 1.2rem;
         }
         .action {
+            white-space: nowrap;
             font-size: 1.4rem;
         }
         .rating {

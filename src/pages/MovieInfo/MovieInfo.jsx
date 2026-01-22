@@ -15,16 +15,16 @@ import {
     faPlus,
     faShare,
     faThumbsDown,
+    faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/userServices';
-import { getMeAPI } from '../../services/userServices';
+import { toggleFavoriteAPI, togglePlaylistAPI, checkMovieStatusAPI } from '../../services/userServices';
 import { detail } from '../../services/moviesServices';
 import Comment from '../../layout/components/Comments/Comments';
 
 const cx = classNames.bind(styles);
 function MovieInfo() {
     const { slug } = useParams();
-    const { openModal } = useAuth();
+    const { openModal, user } = useAuth();
 
     const [loading, setLoading] = useState(true);
     const [movie, setMovie] = useState([]);
@@ -40,37 +40,22 @@ function MovieInfo() {
         return txt.value;
     };
 
-    // check favorite movie
     useEffect(() => {
-        const checkFav = async () => {
-            try {
-                const res = await getMeAPI();
-                if (res?.user?.favorite) {
-                    const exists = res.user.favorite.some((f) => f.slug === slug);
-                    setIsFavorite(exists);
+        const checkStatus = async () => {
+            if (slug && user) {
+                try {
+                    const res = await checkMovieStatusAPI(slug);
+                    if (res && res.data) {
+                        setIsFavorite(res.data.isFavorite);
+                        setIsPlaylist(res.data.isPlaylist);
+                    }
+                } catch (error) {
+                    console.log(error);
                 }
-            } catch (error) {
-                console.log(error);
             }
         };
-        checkFav();
-    }, [slug]);
-
-    // check playlist movie
-    useEffect(() => {
-        const checkPlaylist = async () => {
-            try {
-                const res = await getMeAPI();
-                if (res?.user?.playlist) {
-                    const exists = res.user.playlist.some((p) => p.slug === slug);
-                    setIsPlaylist(exists);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        checkPlaylist();
-    }, [slug]);
+        checkStatus();
+    }, [slug, user]);
 
     // handle click favorite
     const handleAddFavorite = async () => {
@@ -300,8 +285,12 @@ function MovieInfo() {
                                 <span className={cx('title')}>Chia sẻ</span>
                             </div>
                             <div className={cx('action')}>
+                                <FontAwesomeIcon icon={faThumbsUp} />
+                                <span className={cx('title')}>0</span>
+                            </div>
+                            <div className={cx('action')}>
                                 <FontAwesomeIcon icon={faThumbsDown} />
-                                <span className={cx('title')}>Không thích</span>
+                                <span className={cx('title')}>0</span>
                             </div>
                         </div>
                         <div className={cx('rating')}>

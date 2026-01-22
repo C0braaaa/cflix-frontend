@@ -35,6 +35,11 @@ export const saveProgressAPI = async (movieData) => {
     return res;
 };
 
+export const getProgressAPI = async (slug) => {
+    const res = await request.get(`user/progress/${slug}`);
+    return res;
+};
+
 export const removeContinueWatchingAPI = async (movileSlug) => {
     const res = await request.remove('user/continue-watching', { data: movileSlug });
     return res;
@@ -55,5 +60,10 @@ export const getPlaylistAPI = async (page = 1, limit = 18) => {
 };
 export const getContinueWatchingAPI = async (page = 1, limit = 18) => {
     const res = await request.get('user/continue-watching', { params: { page, limit } });
+    return res;
+};
+
+export const checkMovieStatusAPI = async (slug) => {
+    const res = await request.get(`user/check-status/${slug}`);
     return res;
 };
