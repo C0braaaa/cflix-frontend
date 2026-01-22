@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import { io } from 'socket.io-client';
 
 import styles from './Comments.module.scss';
 import { useAuth } from '../../../features/auth/context/AuthContext';
@@ -25,6 +26,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
+
+const socket = io('http://localhost:5001/', {
+    // transports: ['websocket'],
+    autoConnect: false,
+});
 
 function Comment() {
     const { user, openModal } = useAuth();
@@ -86,6 +92,34 @@ function Comment() {
         fetchComment();
     }, [slug]);
 
+    // config socket.io
+    useEffect(() => {
+        socket.connect();
+
+        if (slug) {
+            socket.emit('join_room', slug);
+        }
+
+        socket.on('receive_comment', (newComment) => {
+            setCommentList((prev) => {
+                const isExist = prev.some((c) => c._id === newComment._id);
+                if (isExist) return prev;
+                return [newComment, ...prev];
+            });
+        });
+
+        socket.on('delete_comment', (deletedId) => {
+            setCommentList((prev) => prev.filter((c) => c._id !== deletedId));
+        });
+
+        return () => {
+            socket.emit('leave_room', slug);
+            socket.off('receive_comment');
+            socket.off('delete_comment');
+            socket.disconnect();
+        };
+    }, [slug]);
+
     // send comment
     const handleSend = async () => {
         if (!user) {
@@ -103,11 +137,10 @@ function Comment() {
                 content: text,
             };
 
-            const newComment = await addCommentAPI(dataPayload);
-            if (newComment) {
-                setCommentList([newComment.data, ...commentList]);
+            const res = await addCommentAPI(dataPayload);
+            if (res && res.status) {
                 setText('');
-                toast.success('Bình luận thành công!');
+                toast.success('Bình luận thành công!');
             }
         } catch (error) {
             console.log(error);
@@ -134,12 +167,13 @@ function Comment() {
                 content: replyText,
                 parent_id: parentId,
             };
-            const newReply = await addCommentAPI(dataPayload);
-            if (newReply && newReply.status) {
-                setCommentList([newReply.data, ...commentList]);
+            const res = await addCommentAPI(dataPayload);
+
+            if (res && res.data) {
                 setReplyText('');
                 setReplyInputId(null);
                 toast.success('Đã trả lời!');
+                setExpandedComments((prev) => ({ ...prev, [parentId]: true }));
             }
         } catch (error) {
             console.log(error);

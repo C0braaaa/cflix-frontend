@@ -393,6 +393,9 @@
         }
     }
     .list-comments {
+        .view-replies {
+            padding-left: 7rem;
+        }
         .comment {
             gap: 1rem;
             .username {
