@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import { io } from 'socket.io-client';
+import { socket } from '../../../utils/socket';
 
 import styles from './Comments.module.scss';
 import { useAuth } from '../../../features/auth/context/AuthContext';
@@ -26,11 +26,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
-
-const socket = io('http://localhost:5001/', {
-    // transports: ['websocket'],
-    autoConnect: false,
-});
 
 function Comment() {
     const { user, openModal } = useAuth();

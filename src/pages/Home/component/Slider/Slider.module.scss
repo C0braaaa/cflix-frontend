@@ -329,6 +329,13 @@
 @media (max-width: 1600px) {
     .slide {
         max-height: 70rem;
+
+        :global {
+            .swiper-pagination-bullet {
+                width: 6.5rem;
+                height: 4.5rem;
+            }
+        }
     }
 }
 

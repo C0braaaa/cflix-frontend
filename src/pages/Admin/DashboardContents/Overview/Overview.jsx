@@ -4,6 +4,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, Legend } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignal, faUser, faUserClock } from '@fortawesome/free-solid-svg-icons';
+import { socket } from '../../../../utils/socket';
 
 import styles from './Overview.module.scss';
 import { getAllUSersAPI } from '../../../../services/userServices';
@@ -30,7 +31,9 @@ const dataDevice = [
 const COLORS = ['#2E86DE', '#1DD1A1', '#FF9F43']; // Blue, Green, Orange
 function Overview() {
     const [countUser, setCountUser] = useState(0);
+    const [onlineUsers, setOnlineUsers] = useState(0);
 
+    // total users
     useEffect(() => {
         const getAllUser = async () => {
             try {
@@ -41,6 +44,18 @@ function Overview() {
             }
         };
         getAllUser();
+    }, []);
+
+    // socket io - online users
+    useEffect(() => {
+        socket.on('online_users', (count) => {
+            setOnlineUsers(count);
+        });
+
+        socket.emit('req_online_users');
+        return () => {
+            socket.off('online_users');
+        };
     }, []);
     return (
         <>
@@ -55,7 +70,7 @@ function Overview() {
                 <div className={cx('card')}>
                     <div className={cx('card-left-side')}>
                         <h3 className={cx('card-title')}>Đang truy cập</h3>
-                        <span className={cx('card-value')}>50</span>
+                        <span className={cx('card-value')}>{onlineUsers}</span>
                     </div>
                     <FontAwesomeIcon icon={faSignal} />
                 </div>

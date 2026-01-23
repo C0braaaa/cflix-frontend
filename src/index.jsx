@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import GlobalStyles from './components/GlobalStyles';
 import { AuthProvider } from './features/auth/context/AuthContext';
 import { GoogleOAuthProvider as Google } from '@react-oauth/google';
+// import { socket } from './utils/socket';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
