@@ -580,6 +580,7 @@
     .l-1 {
         justify-content: center;
         flex-direction: column;
+        align-items: center;
         gap: 2rem;
         padding-left: 2rem;
         border: none;
@@ -597,14 +598,20 @@
             width: 100%;
             gap: 2rem;
             font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
         }
         .action {
             white-space: nowrap;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
+            &:nth-child(-n + 3) .title {
+                display: none;
+            }
+            flex-direction: row;
         }
         .rating {
             position: absolute;
-            top: -8rem;
+            top: -5rem;
             right: 0;
             height: 4.5rem;
             background-color: rgba(15, 17, 26, 0.9);

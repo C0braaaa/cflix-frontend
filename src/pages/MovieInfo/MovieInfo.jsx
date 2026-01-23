@@ -18,6 +18,7 @@ import {
     faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { toggleFavoriteAPI, togglePlaylistAPI, checkMovieStatusAPI } from '../../services/userServices';
+import { toggleDislikeAPI, toggleLikeAPI, getRatingAPI } from '../../services/ratingService';
 import { detail } from '../../services/moviesServices';
 import Comment from '../../layout/components/Comments/Comments';
 
@@ -33,6 +34,11 @@ function MovieInfo() {
     const [showMore, setShowMore] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isPlaylist, setIsPlaylist] = useState(false);
+    const [ratingInfo, setRatingInfo] = useState({
+        totalLikes: 0,
+        totalDislikes: 0,
+        userStatus: 'neutral',
+    });
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
@@ -98,6 +104,83 @@ function MovieInfo() {
             openModal('login');
         }
     };
+
+    // rating movie
+    useEffect(() => {
+        const fetchRating = async () => {
+            if (slug) {
+                try {
+                    const res = await getRatingAPI(slug);
+                    if (res && res.status && res.data) {
+                        setRatingInfo(res.data);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchRating();
+    }, [slug, user]);
+    // toggle like
+    const handleToggleLike = async () => {
+        if (!user) {
+            toast.error('Vui lòng đăng nhập để đánh giá phim!');
+            return;
+        }
+        const oldStatus = ratingInfo.userStatus;
+        let newStatus = oldStatus === 'liked' ? 'neutral' : 'liked';
+        let newLikes = ratingInfo.totalLikes + (newStatus === 'liked' ? 1 : -1);
+        let newDislikes = ratingInfo.totalDislikes;
+        if (oldStatus === 'disliked' && newStatus === 'liked') {
+            newDislikes -= 1;
+        }
+        setRatingInfo({
+            totalLikes: newLikes,
+            totalDislikes: newDislikes,
+            userStatus: newStatus,
+        });
+        try {
+            await toggleLikeAPI(slug);
+        } catch (error) {
+            setRatingInfo({ ...ratingInfo, userStatus: oldStatus });
+            toast.error('Lỗi kết nối');
+            console.log(error);
+        }
+    };
+    // toggle dislike
+    const handleToggleDislike = async () => {
+        if (!user) {
+            toast.error('Vui lòng đăng nhập để đánh giá phim!');
+            return;
+        }
+        const oldStatus = ratingInfo.userStatus;
+        let newStatus = oldStatus === 'disliked' ? 'neutral' : 'disliked';
+        let newDislikes = ratingInfo.totalDislikes + (newStatus === 'disliked' ? 1 : -1);
+        let newLikes = ratingInfo.totalLikes;
+        if (oldStatus === 'liked' && newStatus === 'disliked') {
+            newLikes -= 1;
+        }
+        setRatingInfo({
+            totalLikes: newLikes,
+            totalDislikes: newDislikes,
+            userStatus: newStatus,
+        });
+        try {
+            await toggleDislikeAPI(slug);
+        } catch (error) {
+            setRatingInfo({ ...ratingInfo, userStatus: oldStatus });
+            toast.error('Lỗi kết nối');
+            console.log(error);
+        }
+    };
+    // rating point
+    const caculateRatingPoint = () => {
+        const { totalLikes, totalDislikes } = ratingInfo;
+        if (totalLikes === 0 && totalDislikes === 0) return 'N/A';
+        const point = (totalLikes / (totalLikes + totalDislikes)) * 9;
+        return point.toFixed(1);
+    };
+    console.log(caculateRatingPoint());
 
     useEffect(() => {
         const handleResize = () => {
@@ -284,17 +367,23 @@ function MovieInfo() {
                                 <FontAwesomeIcon icon={faShare} />
                                 <span className={cx('title')}>Chia sẻ</span>
                             </div>
-                            <div className={cx('action')}>
-                                <FontAwesomeIcon icon={faThumbsUp} />
-                                <span className={cx('title')}>0</span>
+                            <div className={cx('action')} onClick={handleToggleLike}>
+                                <FontAwesomeIcon
+                                    icon={faThumbsUp}
+                                    color={ratingInfo.userStatus === 'liked' ? 'greenyellow' : ''}
+                                />
+                                <span className={cx('title')}>{ratingInfo.totalLikes}</span>
                             </div>
-                            <div className={cx('action')}>
-                                <FontAwesomeIcon icon={faThumbsDown} />
-                                <span className={cx('title')}>0</span>
+                            <div className={cx('action')} onClick={handleToggleDislike}>
+                                <FontAwesomeIcon
+                                    icon={faThumbsDown}
+                                    color={ratingInfo.userStatus === 'disliked' ? 'red' : ''}
+                                />
+                                <span className={cx('title')}>{ratingInfo.totalDislikes}</span>
                             </div>
                         </div>
                         <div className={cx('rating')}>
-                            <span>{movie?.tmdb?.vote_average ? movie?.tmdb?.vote_average.toFixed(1) : 'N/A'}</span>
+                            <span>{caculateRatingPoint()}</span>
                         </div>
                     </div>
                     {movie?.episode_total > 1 && (
