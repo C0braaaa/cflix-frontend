@@ -176,11 +176,10 @@ function MovieInfo() {
     // rating point
     const caculateRatingPoint = () => {
         const { totalLikes, totalDislikes } = ratingInfo;
-        if (totalLikes === 0 && totalDislikes === 0) return 'N/A';
+        if (totalLikes === 0 && totalDislikes === 0) return '0';
         const point = (totalLikes / (totalLikes + totalDislikes)) * 9;
         return point.toFixed(1);
     };
-    console.log(caculateRatingPoint());
 
     useEffect(() => {
         const handleResize = () => {

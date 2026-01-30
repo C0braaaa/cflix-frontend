@@ -4,6 +4,7 @@ import Artplayer from 'artplayer';
 import Hls from 'hls.js';
 import classNames from 'classnames/bind';
 import { saveProgressAPI } from '../../services/userServices';
+import { increaseViewAPI } from '../../services/viewsService';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
 import styles from './Player.module.scss';
@@ -16,6 +17,8 @@ export default function Player({ option, style, getInstance, movieData }) {
     const saveTimeout = useRef(null);
     const dataRef = useRef({ user, movieData });
 
+    const hasCountedView = useRef(false);
+
     // Check Mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
@@ -24,6 +27,7 @@ export default function Player({ option, style, getInstance, movieData }) {
     }, [user, movieData]);
 
     useEffect(() => {
+        hasCountedView.current = false;
         const art = new Artplayer({
             ...option,
             container: artRef.current,
@@ -124,6 +128,23 @@ export default function Player({ option, style, getInstance, movieData }) {
                     handleSave(currentTime);
                     saveTimeout.current = null;
                 }, 15000);
+            }
+
+            // logic incease view
+            if (currentTime > 30 && !hasCountedView.current) {
+                const { slug, type, name, origin_name, poster_url } = dataRef.current.movieData || {};
+
+                if (slug) {
+                    const sessionKey = `view_${slug}`;
+                    if (!sessionStorage.getItem(sessionKey)) {
+                        increaseViewAPI({ slug, type, name, origin_name, poster_url })
+                            .then(() => {
+                                sessionStorage.setItem(sessionKey, 'true');
+                            })
+                            .catch((err) => console.error('Error: ', err));
+                    }
+                    hasCountedView.current = true;
+                }
             }
         });
 

@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-import { Slider, LatestMovie, Topics, ContinueWatching, AddSlide } from './component/index';
+import { Slider, LatestMovie, Topics, ContinueWatching, AddSlide, MostView } from './component/index';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -89,6 +89,7 @@ function Home() {
                 title="Phim bộ mới nhất 2025"
                 link="f/phim-bo-moi-nhat"
             />
+            <MostView title="Top 10 phim bộ xem nhiều nhất!" />
         </div>
     );
 }

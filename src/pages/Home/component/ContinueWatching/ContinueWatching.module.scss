@@ -63,6 +63,7 @@
         overflow-x: auto;
 
         .item {
+            flex-shrink: 0;
             width: 22rem;
             display: flex;
             flex-direction: column;
@@ -224,10 +225,15 @@
             gap: 1.5rem;
 
             .item {
-                width: 16rem;
+                width: 15rem;
 
                 .poster {
                     height: 22rem;
+
+                    .removed {
+                        padding: 0.7rem;
+                        opacity: 1;
+                    }
                 }
                 .time {
                     font-size: 1.3rem;

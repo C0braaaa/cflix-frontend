@@ -116,6 +116,7 @@ function Wacth() {
                             poster_url: movie.poster_url,
                             episode_slug: currentEpisode?.slug,
                             episode_name: currentEpisode?.name,
+                            type: movie.type,
                         }}
                         style={{
                             width: '100%',
