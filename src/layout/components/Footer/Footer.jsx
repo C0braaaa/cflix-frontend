@@ -32,7 +32,7 @@ function Footer() {
                         </a>
                         <a
                             className={cx('social-icon')}
-                            href="https://github.com/C0braaaa/CFlix"
+                            href="https://www.facebook.com/c0bra.0f"
                             target="_blank"
                             rel="noreferrer"
                         >
@@ -40,7 +40,7 @@ function Footer() {
                         </a>
                         <a
                             className={cx('social-icon')}
-                            href="https://github.com/C0braaaa/CFlix"
+                            href="https://www.instagram.com/th__hieu/"
                             target="_blank"
                             rel="noreferrer"
                         >
@@ -48,7 +48,7 @@ function Footer() {
                         </a>
                         <a
                             className={cx('social-icon')}
-                            href="https://github.com/C0braaaa/CFlix"
+                            href="https://www.threads.com/@th__hieu"
                             target="_blank"
                             rel="noreferrer"
                         >

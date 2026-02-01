@@ -10,7 +10,7 @@
 
 .add-form {
     position: fixed;
-    top: 35rem;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 50rem;
@@ -23,7 +23,7 @@
 }
 
 .close {
-    position: absolute;
+    position: fixed;
     top: 0.2rem;
     right: 1rem;
     font-size: 2rem;

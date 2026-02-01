@@ -1,5 +1,5 @@
 .wrapper {
-    padding: 2rem 0 2rem 5rem;
+    padding: 2rem 5rem 2rem 5rem;
 }
 
 .heading {
@@ -13,21 +13,9 @@
 }
 
 .content {
-    display: flex;
-    margin-left: -2rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    scroll-padding-left: 2rem;
-    overflow-y: hidden;
-    overflow-x: auto;
-    display: flex;
-    gap: 2.5rem;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
-
+    width: 100%;
     .item {
+        width: auto;
         .card {
             flex-shrink: 0;
             position: relative;
@@ -71,6 +59,53 @@
                 }
             }
         }
+    }
+}
+.loader {
+    width: 45px;
+    aspect-ratio: 1;
+    position: absolute;
+    top: 1rem;
+    right: 50%;
+    transform: translateX(50%);
+    --c: no-repeat linear-gradient(#ffffff 0 0);
+    background:
+        var(--c) 0% 50%,
+        var(--c) 50% 50%,
+        var(--c) 100% 50%;
+    background-size: 20% 100%;
+    animation: l1 1s infinite linear;
+}
+@keyframes l1 {
+    0% {
+        background-size:
+            20% 100%,
+            20% 100%,
+            20% 100%;
+    }
+    33% {
+        background-size:
+            20% 10%,
+            20% 100%,
+            20% 100%;
+    }
+    50% {
+        background-size:
+            20% 100%,
+            20% 10%,
+            20% 100%;
+    }
+    66% {
+        background-size:
+            20% 100%,
+            20% 100%,
+            20% 10%;
+    }
+    100% {
+        background-size:
+            20% 100%,
+            20% 100%,
+            20% 100%;
     }
 }
 // media

@@ -82,6 +82,7 @@ function Home() {
                 title="Phim lẻ mới nhất 2025"
                 link="f/phim-le-moi-nhat"
             />
+            <MostView title="Top 10 phim lẻ xem nhiều nhất!" type="single" />
             <LatestMovie
                 slug="phim-bo"
                 year="2025"
@@ -89,7 +90,7 @@ function Home() {
                 title="Phim bộ mới nhất 2025"
                 link="f/phim-bo-moi-nhat"
             />
-            <MostView title="Top 10 phim bộ xem nhiều nhất!" />
+            <MostView title="Top 10 phim bộ xem nhiều nhất!" type="series" />
         </div>
     );
 }
