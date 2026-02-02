@@ -135,7 +135,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
                             </Tippy>
                         ) : (
                             <Tippy content="Tập hiện tại">
-                                <span>{movie.episode_current.match(/\d+/)?.[0] || 'MV'}</span>
+                                <span>{movie.episode_current.match(/\d+/)?.[0] || 'TV'}</span>
                             </Tippy>
                         )}
                         <Tippy content="Năm phát hành">
@@ -356,7 +356,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
 MovieList.propTypes = {
     title: PropTypes.string.isRequired,
     fetchFunction: PropTypes.func.isRequired,
-    slug: PropTypes.string.isRequired,
+    slug: PropTypes.string,
     type: PropTypes.string.isRequired,
 };
 

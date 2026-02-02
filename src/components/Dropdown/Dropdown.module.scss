@@ -72,16 +72,11 @@
         padding: 0 16px 6px 16px;
 
         &.active {
+            background: linear-gradient(90deg, #f3084f, #ffffff, #f3084f);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: inline-block;
-            background-image: linear-gradient(
-                to right,
-                #ffd700,
-                // Vàng
-                #ff8c00 // Cam đậm
-            );
+            font-weight: 600;
         }
     }
 }

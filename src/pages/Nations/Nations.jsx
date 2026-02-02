@@ -11,7 +11,7 @@ function Nations() {
         return await nations(page, limit, slug);
     };
 
-    return <MovieList title={`Quốc gia ${formatTitle(slug)}`} fetchFunction={fetchMoviesByNation} type={'type'} />;
+    return <MovieList title={`Quốc gia ${formatTitle(slug)}`} fetchFunction={fetchMoviesByNation} type={'series'} />;
 }
 
 export default Nations;

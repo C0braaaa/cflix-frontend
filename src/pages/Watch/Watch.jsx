@@ -23,6 +23,8 @@ function Wacth() {
     const [savedTime, setSavedTime] = useState(0);
     const [isProgressChecked, setIsProgressChecked] = useState(false);
 
+    const firstCategorySlug = movie?.category?.[0]?.slug;
+
     useEffect(() => {
         movie.name ? (document.title = `Xem Phim ${movie.name}`) : (document.title = 'Xem Phim');
     }, [movie]);
@@ -216,7 +218,7 @@ function Wacth() {
                     <Comment />
                 </div>
                 <div className={cx('right-side')}>
-                    <RelatedMovies />
+                    <RelatedMovies currentSlug={slug} categorySlug={firstCategorySlug} />
                 </div>
             </div>
         </div>
