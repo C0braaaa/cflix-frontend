@@ -5,13 +5,14 @@ import 'tippy.js/dist/tippy.css';
 
 import Button from '../../../components/Button/index-button.jsx';
 import styles from './Header.module.scss';
-import { faBell, faDoorOpen, faUser, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faDoorOpen, faUser, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import config from '../../../config/index-config.js';
 import { genres, nations, more, userList } from '../../../components/Dropdown/listDropdown.js';
 import Dropdown from '../../../components/Dropdown/Dropdown.jsx';
 import Search from '../Search/Search.jsx';
 import { useAuth } from '../../../features/auth/context/AuthContext.jsx';
+import Notification from './Notification/Notification.jsx';
 const cx = classNames.bind(styles);
 
 function Header() {
@@ -117,11 +118,7 @@ function Header() {
                     <div className={cx('main-user')}>
                         {user ? (
                             <div className={cx('user-menu')}>
-                                <div className={cx('notification')}>
-                                    <div className={cx('notification-icon')}>
-                                        <FontAwesomeIcon icon={faBell} />
-                                    </div>
-                                </div>
+                                <Notification />
                                 <Dropdown
                                     name="user"
                                     type="user"

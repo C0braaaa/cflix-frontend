@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faMoon, faServer, faSun, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Overview, Users } from './DashboardContents';
+import { faEye, faHome, faServer, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
+import { Overview, Users, Views } from './DashboardContents';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
 const cx = classNames.bind(styles);
@@ -17,47 +17,28 @@ function DashBoard() {
     });
 
     const [activeMenu, setActiveMenu] = useState('overview');
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        const savedTheme = localStorage.getItem('theme');
-        return savedTheme === 'light';
-    });
-
-    const toggleTheme = () => {
-        const newMode = !isDarkMode;
-        setIsDarkMode(newMode);
-        localStorage.setItem('theme', newMode ? 'light' : 'dark');
-    };
 
     return (
-        <div className={cx('wrapper')} data-theme={isDarkMode ? 'dark' : 'light'}>
+        <div className={cx('wrapper')}>
             <header className={cx('header')}>
-                <Link to="/" className={cx('logo')}>
-                    {isDarkMode ? (
-                        <img src="/assets/images/logo.png" alt="logo-cflix" />
-                    ) : (
-                        <img src="/assets/images/logo_mau_den.png" alt="logo-cflix" />
-                    )}
-                </Link>
                 <div className={cx('admin-options')}>
                     <div className={cx('admin-info')}>
+                        <div className={cx('name')}>
+                            <span className={cx('username')}>{user?.username}</span>
+                            <span className={cx('desc')}>Administator</span>
+                        </div>
                         <div className={cx('avatar')}>
                             <img src={user?.avatar_url || '/assets/images/defaultimg.jpg'} alt="avatar" />
-                        </div>
-                        <div className={cx('name')}>{user?.username}</div>
-                        <div className={cx('toggle-theme')} onClick={toggleTheme}>
-                            <div className={cx('slider', { active: !isDarkMode })}></div>
-
-                            <div className={cx('icon-wrapper', { active: isDarkMode })}>
-                                <FontAwesomeIcon icon={faMoon} />
-                            </div>
-                            <div className={cx('icon-wrapper', { active: !isDarkMode })}>
-                                <FontAwesomeIcon icon={faSun} />
-                            </div>
                         </div>
                     </div>
                 </div>
             </header>
             <div className={cx('sidebar')}>
+                <div className={cx('logo')}>
+                    <div className={cx('logo-img')}>
+                        <img src="/assets/images/logo.png" alt="logo" />
+                    </div>
+                </div>
                 <div className={cx('menu')}>
                     <div
                         className={cx('menu-item', { active: activeMenu === 'overview' })}
@@ -72,6 +53,13 @@ function DashBoard() {
                     >
                         <span className={cx('title')}>Danh sách người dùng</span>
                         <FontAwesomeIcon icon={faUser} />
+                    </div>
+                    <div
+                        className={cx('menu-item', { active: activeMenu === 'view' })}
+                        onClick={() => setActiveMenu('view')}
+                    >
+                        <span className={cx('title')}>Lượt xem</span>
+                        <FontAwesomeIcon icon={faEye} />
                     </div>
                     <div
                         className={cx('menu-item', { active: activeMenu === 'api' })}
@@ -91,6 +79,7 @@ function DashBoard() {
             <div className={cx('content')}>
                 {activeMenu === 'overview' && <Overview />}
                 {activeMenu === 'users' && <Users />}
+                {activeMenu === 'view' && <Views />}
             </div>
         </div>
     );

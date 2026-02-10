@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import styles from './RelatedMovies.module.scss';
 import { type as getMoviesByType } from '../../../services/moviesServices';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function RelatedMovies({ currentSlug, categorySlug }) {
@@ -43,7 +44,7 @@ function RelatedMovies({ currentSlug, categorySlug }) {
                     <div className={cx('loader')}></div>
                 ) : (
                     movies.map((movie) => (
-                        <div className={cx('movie')} key={movie._id}>
+                        <Link to={`/phim/${movie.slug}`} className={cx('movie')} key={movie._id}>
                             <div className={cx('left-side')}>
                                 <div className={cx('poster')}>
                                     <img
@@ -56,7 +57,7 @@ function RelatedMovies({ currentSlug, categorySlug }) {
                                 <h4 className={cx('name')}>{movie.name}</h4>
                                 <p className={cx('origin-name')}>{movie.origin_name}</p>
                             </div>
-                        </div>
+                        </Link>
                     ))
                 )}
             </div>

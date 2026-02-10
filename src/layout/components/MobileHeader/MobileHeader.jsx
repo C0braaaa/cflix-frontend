@@ -23,6 +23,7 @@ import Dropdown from '../../../components/Dropdown/Dropdown';
 import { genres, nations, more } from '../../../components/Dropdown/listDropdown';
 import Search from '../Search/Search';
 import { useAuth } from '../../../features/auth/context/AuthContext';
+import Notification from '../Header/Notification/Notification';
 
 const cx = classNames.bind(styles);
 
@@ -246,6 +247,7 @@ function MobileHeader() {
                     <Link to="/" className={cx('logo')}>
                         <img src="/assets/images/logo.png" alt="logo" />
                     </Link>
+                    <Notification />
                 </>
             ) : (
                 <Search />

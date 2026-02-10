@@ -145,7 +145,7 @@ function Overview() {
                 </div>
                 {/* Biểu đồ phân bộ thiết bị */}
                 <div className={cx('chart-container', 'sub-chart')}>
-                    <h3 className={cx('chart-title')} style={{ color: 'var(--text-black)', fontSize: '1.8rem' }}>
+                    <h3 className={cx('chart-title')} style={{ color: 'var(--text-color)', fontSize: '1.8rem' }}>
                         Thiết bị truy cập
                     </h3>
                     <div className={cx('chart-body')}>

@@ -26,6 +26,7 @@
     "artplayer": "^5.3.0",
     "axios": "^1.13.2",
     "classnames": "^2.5.1",
+    "dayjs": "^1.11.19",
     "hls.js": "^1.6.15",
     "normalize.css": "^8.0.1",
     "plyr": "^3.8.3",

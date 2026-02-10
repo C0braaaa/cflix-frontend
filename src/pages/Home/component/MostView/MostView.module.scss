@@ -24,16 +24,27 @@
             background: #d9d9d9;
             border-radius: 1rem;
             cursor: pointer;
+            transition: all 0.1s ease-in-out;
+
+            &:hover {
+                border: 4px solid var(--primary-color);
+            }
+
+            &:hover::before {
+                border-right: 4px solid var(--primary-color);
+                border-bottom: 4px solid var(--primary-color);
+            }
 
             &::before {
                 content: '';
                 position: absolute;
-                top: 0;
-                left: 0;
+                top: -4px;
+                left: -4px;
                 width: 8rem;
                 height: 8.5rem;
                 background: var(--background-color);
                 border-bottom-right-radius: 2rem;
+                transition: all 0.1      s ease-in-out;
             }
 
             img {

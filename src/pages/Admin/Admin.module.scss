@@ -1,61 +1,34 @@
+//
+
 .wrapper {
     width: 100vw;
     height: 100vh;
-    background-color: var(--bg-body);
-    color: var(--text-primary);
+    background-color: var(--dashboard-color);
+    color: var(--text-color);
     display: flex;
     padding-top: 8rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-
-    // light theme
-    --bg-body: #f2edf3;
-    --bg-element: #ffffff;
-    --text-primary: #333333;
-    --text-secondary: #333;
-    --border-color: #cbd0dd;
-    --hover-bg: #eff2f6;
-    --active-bg: #00ffff;
-    --active-text: #333;
-    --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-
-    // dart theme
-    &[data-theme='dark'] {
-        --bg-body: #141414;
-        --bg-element: #1f1f1f;
-        --text-primary: #e5e5e5;
-        --text-secondary: #fff;
-        --border-color: #333333;
-        --hover-bg: #2a2a2a;
-        --active-bg: #00ffff;
-        --active-text: #333;
-        --shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    }
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
 }
-//header
+
+// HEADER
 .header {
-    width: 100%;
+    width: calc(100% - 25rem);
+
     height: 8rem;
-    background-color: var(--bg-element);
+    align-self: flex-end;
+    background-color: var(--dashboard-color);
     border-bottom: 1px solid var(--border-color);
     position: fixed;
     top: 0;
-    left: 0;
+    left: 25rem;
     z-index: 1000;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 0 2rem;
     transition: background-color 0.3s ease;
-    .logo {
-        width: 14rem;
-        height: 5rem;
-        cursor: pointer;
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    }
 
     .admin-options {
         display: flex;
@@ -92,89 +65,46 @@
                     height: 100%;
                     border-radius: 50%;
                     object-fit: cover;
-                    border: 2px solid var(--bg-element); // Viền ăn theo nền
+                    border: 2px solid #ffffff; // Viền trùng màu nền header
                 }
             }
 
             .name {
-                font-size: 1.6rem;
-                font-weight: 500;
-                // Giữ màu gradient tên cho đẹp
-                background: linear-gradient(to right, #2e86de, #ff6b6b, #ff9f43, #1dd1a1);
-                background-clip: text;
-                -webkit-background-clip: text;
-                color: transparent;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+
+                .username {
+                    font-size: 1.6rem;
+                    font-weight: 500;
+                    background: linear-gradient(to right, #2e86de, #ff6b6b, #ff9f43, #1dd1a1);
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    color: transparent;
+                }
+                .desc {
+                    font-size: 1.2rem;
+                    color: var(--dashboard-color-text);
+                }
             }
         }
     }
 }
 
-// --- NÚT GẠT THEME (Đã căn giữa chuẩn) ---
-.toggle-theme {
-    position: relative;
-    width: 6.4rem;
-    height: 3.2rem;
-    padding: 0.4rem;
-    border-radius: 2rem;
-    background-color: #e6e5e0; // Màu nền toggle giữ nguyên hoặc đổi nếu thích
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-
-    .slider {
-        position: absolute;
-        z-index: 1;
-        top: 0.4rem;
-        left: 0.4rem;
-        width: 2.4rem;
-        height: 2.4rem;
-        background-color: #ffffff;
-        border-radius: 50%;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-
-        &.active {
-            transform: translateX(3.2rem); // Trượt sang phải chuẩn
-        }
-    }
-
-    .icon-wrapper {
-        z-index: 2;
-        width: 50%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.4rem;
-        color: #999;
-        transition: color 0.3s ease;
-
-        &.active {
-            &:nth-of-type(2) {
-                color: #333;
-            }
-            &:nth-of-type(3) {
-                color: #fecc51;
-            }
-        }
-    }
-}
-
-// --- SIDEBAR ---
+// SIDEBAR
 .sidebar {
     width: 25rem;
-    height: calc(100vh - 8rem);
-    background-color: var(--bg-element);
+    height: 100vh;
+    background-color: var(--dashboard-color);
     border-right: 1px solid var(--border-color);
     padding: 1rem 2rem 2rem;
-    transition: background-color 0.3s ease;
-
-    // Cố định sidebar, chỉ content scroll
     position: fixed;
-    bottom: 0;
+    top: 0;
     left: 0;
+
+    .logo {
+        margin-bottom: 2rem;
+    }
 
     .menu {
         width: 100%;
@@ -182,7 +112,6 @@
         flex-direction: column;
         gap: 0.5rem;
 
-        // Style chung cho cả NavLink và thẻ div
         .menu-item {
             display: flex;
             align-items: center;
@@ -191,10 +120,11 @@
             padding: 1.2rem 1.5rem;
             border-radius: 0.8rem;
             font-size: 1.6rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            text-decoration: none; // Bỏ gạch chân
+            font-weight: 600;
+            color: var(--text-color);
+            text-decoration: none;
             transition: all 0.2s ease;
+
             .title {
                 white-space: nowrap;
                 overflow: hidden;
@@ -202,27 +132,35 @@
                 max-width: 16rem;
             }
 
-            // Khi active (NavLink tự thêm class này)
+            // Khi active
             &.active {
-                background-color: var(--active-bg);
-                color: var(--active-text);
+                background-color: var(--dashboard-color-2);
+                color: var(--text-color);
             }
 
+            // Khi hover
             &:hover:not(.active) {
-                background-color: var(--hover-bg);
-                color: var(--text-primary);
+                background-color: #1d2e53;
+                color: var(--text-color);
                 cursor: pointer;
+            }
+            &:last-child {
+                border-radius: 0;
+                padding-top: 1rem;
+                margin-top: 1rem;
+                border-top: 1px solid var(--border-color);
             }
         }
     }
 }
 
-// --- CONTENT (Phần thay đổi) ---
+// CONTENT
 .content {
-    margin-left: 25rem; // Đẩy content sang phải để tránh sidebar che
+    margin-left: 25rem;
     flex: 1;
-    padding: 2rem;
+    padding: 0 2rem 2rem 2rem;
     width: calc(100% - 25rem);
     height: calc(100vh - 8rem);
-    overflow-y: auto; // Content scroll độc lập
+    overflow-y: auto;
+    background-color: var(--dashboard-color-3);
 }

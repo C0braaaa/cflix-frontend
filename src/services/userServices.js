@@ -5,8 +5,8 @@ export const updateProfileAPI = async (data) => {
     return res;
 };
 
-export const getAllUSersAPI = async (keyword = null, role = null, is_active = null) => {
-    const res = await request.get('user/all-users', { params: { keyword, role, is_active } });
+export const getAllUSersAPI = async (keyword = null, role = null, is_active = null, page = 1, limit = 10) => {
+    const res = await request.get('user/all-users', { params: { keyword, role, is_active, page, limit } });
     return res;
 };
 

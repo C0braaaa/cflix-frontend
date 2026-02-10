@@ -1,0 +1,220 @@
+.notification {
+    position: relative;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 0.5px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    .notification-icon {
+        color: #fff;
+        font-size: 1.4rem;
+    }
+
+    .badge {
+        position: absolute;
+        top: -1rem;
+        right: -0.5rem;
+        span {
+            background-color: #208b25;
+            border-radius: 50%;
+            padding: 0.2rem 0.6rem;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+    }
+}
+.notification-board {
+    position: relative;
+    width: 38rem;
+    height: 50rem;
+    background-color: #25282e;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--border-color);
+
+        .title {
+            font-size: 2rem;
+            margin-bottom: 0;
+        }
+        .close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            padding: 0 1rem;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 2rem;
+
+            &:hover {
+                background-color: var(--border-color);
+            }
+        }
+    }
+    .main {
+        flex: 1;
+        border-radius: 2rem;
+        padding: 1.5rem 0 5.4rem 0;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .notification-list {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .container {
+                display: flex;
+                align-items: center;
+
+                &:hover .delete-notify {
+                    width: 13%;
+
+                    svg {
+                        display: block;
+                    }
+                }
+                .delete-notify {
+                    width: 0;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    border-bottom-left-radius: 1rem;
+                    border-top-left-radius: 1rem;
+                    background-color: #f43f5e;
+                    transition: all 0.3s ease;
+                    svg {
+                        color: var(--primary);
+                        display: none;
+                    }
+                }
+
+                .notify {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    gap: 1.5rem;
+                    cursor: pointer;
+                    padding: 1rem;
+                    &:hover {
+                        background-color: var(--border-color);
+                    }
+
+                    &.active {
+                        background-color: #2c2d32;
+
+                        &:hover {
+                            background-color: var(--border-color);
+                        }
+                    }
+
+                    .left {
+                        position: relative;
+                        width: 4.5rem;
+                        height: 4.5rem;
+                        border-radius: 50%;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: fill;
+                            border-radius: 50%;
+                        }
+
+                        .icon {
+                            position: absolute;
+                            border-radius: 50%;
+                            bottom: -4px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            right: 0;
+                            color: var(--text-color);
+                            font-size: 1rem;
+
+                            .reply {
+                                border-radius: 50%;
+                                background-color: #3b82f6;
+                                padding: 0.3rem 0.1rem;
+                            }
+
+                            .like {
+                                border-radius: 50%;
+                                background-color: #f43f5e;
+                                padding: 0.3rem 0.1rem;
+                            }
+                        }
+                    }
+
+                    .right {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+
+                        .content,
+                        .time {
+                            font-size: 1.3rem;
+                            color: #92a1b6;
+
+                            span {
+                                font-size: 1.4rem;
+                                font-weight: 500;
+                                color: var(--text-color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer {
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem 2rem;
+        border-top: 1px solid var(--border-color);
+        cursor: pointer;
+        .footer-text {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+    }
+}
+
+// responsive
+@media (max-width: 500px) {
+    .notification {
+        border: none;
+        margin-left: 15rem;
+    }
+    .delete-notify {
+        width: 13% !important;
+        background-color: transparent !important;
+
+        svg {
+            display: block !important;
+        }
+    }
+}

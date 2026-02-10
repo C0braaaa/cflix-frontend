@@ -130,7 +130,9 @@
 
     .comment {
         display: flex;
+        align-items: center;
         gap: 2rem;
+        border-radius: 1rem;
 
         .username,
         .content {
@@ -281,6 +283,14 @@
             cursor: not-allowed;
         }
     }
+}
+.comment-thread {
+    padding: 1rem 0;
+    border-radius: 1rem;
+}
+.comment-thread.adminStyle {
+    background: linear-gradient(90deg, rgba(243, 8, 79, 0.15) 0%, transparent 70%);
+    border-left: 4px solid #f3084f;
 }
 // thread reply
 // --- LOGIC MỚI: SEGMENTED THREAD (CHIA NHỎ ĐƯỜNG KẺ) ---

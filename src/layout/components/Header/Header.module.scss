@@ -8,7 +8,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 3rem;
-    z-index: 999;
+    z-index: 9999;
 }
 
 .wrapper.scroll {
@@ -120,22 +120,6 @@
     align-items: center;
     gap: 15px;
     padding-left: 1.5rem;
-
-    .notification {
-        width: 4rem;
-        height: 4rem;
-        border-radius: 50%;
-        border: 0.5px solid #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-
-        .notification-icon {
-            color: #fff;
-            font-size: 1.4rem;
-        }
-    }
 }
 .btn {
     padding-left: 3rem;
@@ -156,4 +140,9 @@
     }
 }
 
+@media (max-width: 1511px) {
+    .app-download {
+        display: none;
+    }
+}
 // animate

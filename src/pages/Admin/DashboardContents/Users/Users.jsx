@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+    faArrowLeft,
+    faArrowRight,
     faCircleXmark,
     faGear,
     faLock,
@@ -10,6 +12,9 @@ import {
     faSearch,
     faTrash,
     faUnlock,
+    faUserCheck,
+    faUserPlus,
+    faUsers,
     faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
@@ -38,11 +43,15 @@ function Users() {
     const [activeMenuId, setActiveMenuId] = useState(null);
     const [edittingUSer, setEdittingUSer] = useState(false);
     const [users, setUsers] = useState([]);
+    const [stats, setStats] = useState([]);
     const [role, setRole] = useState('');
     const [isActive, setIsActive] = useState();
     const [searchTerm, setSearchTerm] = useState('');
     const [submittingSearch, setSubmittingSearch] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
     const [confirmDelete, setConfirmDelete] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const {
         register,
@@ -120,11 +129,13 @@ function Users() {
 
     const handleSearch = () => {
         setSubmittingSearch(searchTerm);
+        setCurrentPage(1);
     };
 
     const handleDeleteValue = () => {
         setSearchTerm('');
         setSubmittingSearch('');
+        setCurrentPage(1);
     };
 
     // reset username
@@ -141,56 +152,119 @@ function Users() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await getAllUSersAPI(submittingSearch, role, isActive);
+                setLoading(true);
+                const res = await getAllUSersAPI(submittingSearch, role, isActive, currentPage, 10);
                 setUsers(res.users);
+                setStats(res);
+                setCurrentPage(res.currentPage);
+                setTotalPages(res.totalPages);
             } catch (error) {
                 console.log(error);
+            } finally {
+                setLoading(false);
             }
         };
         fetchUsers();
-    }, [submittingSearch, role, isActive]);
+    }, [submittingSearch, role, isActive, currentPage]);
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber >= 1 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
     return (
         <div className={cx('wrapper')}>
+            <div className={cx('stat-cards')}>
+                <div className={cx('card')}>
+                    <div className={cx('card-icon')}>
+                        <FontAwesomeIcon icon={faUsers} />
+                    </div>
+                    <span className={cx('card-title')}>Tổng người dùng</span>
+                    <span className={cx('card-value')}>{stats.totalUsers}</span>
+                </div>
+                <div className={cx('card')}>
+                    <div className={cx('card-icon')}>
+                        <FontAwesomeIcon icon={faUserCheck} />
+                    </div>
+                    <span className={cx('card-title')}>Đang hoạt động</span>
+                    <span className={cx('card-value')}>{stats.totalActive}</span>
+                </div>
+                <div className={cx('card')}>
+                    <div className={cx('card-icon')}>
+                        <FontAwesomeIcon icon={faLock} />
+                    </div>
+                    <span className={cx('card-title')}>Bị khóa</span>
+                    <span className={cx('card-value')}>{stats.totalInactive}</span>
+                </div>
+                <div className={cx('card')}>
+                    <div className={cx('card-icon')}>
+                        <FontAwesomeIcon icon={faUserPlus} />
+                    </div>
+                    <span className={cx('card-title')}>Mới hôm nay</span>
+                    <span className={cx('card-value')}>{stats.totalNewToday}</span>
+                </div>
+            </div>
             <div className={cx('heading')}>
                 <div className={cx('filter-btn')}>
-                    <button
-                        type="button"
-                        className={cx('btn', { active: role === '' && !isActive })}
-                        onClick={() => {
-                            setRole('');
-                            setIsActive();
-                        }}
-                    >
-                        Tất cả
-                    </button>
-                    <button
-                        type="button"
-                        className={cx('btn', { active: role === 'admin' })}
-                        onClick={() => setRole('admin')}
-                    >
-                        Admin
-                    </button>
-                    <button
-                        type="button"
-                        className={cx('btn', { active: role === 'user' })}
-                        onClick={() => setRole('user')}
-                    >
-                        User
-                    </button>
-                    <button
-                        type="button"
-                        className={cx('btn', { active: isActive === true })}
-                        onClick={() => setIsActive(true)}
-                    >
-                        Normal
-                    </button>
-                    <button
-                        type="button"
-                        className={cx('btn', { active: isActive === false })}
-                        onClick={() => setIsActive(false)}
-                    >
-                        Lock
-                    </button>
+                    <div className={cx('all')}>
+                        <button
+                            type="button"
+                            className={cx('btn', { active: role === '' && !isActive })}
+                            onClick={() => {
+                                setRole('');
+                                setIsActive();
+                                setCurrentPage(1);
+                            }}
+                        >
+                            Tất cả
+                        </button>
+                    </div>
+                    <div className={cx('roles')}>
+                        <span>Vai trò: </span>
+                        <button
+                            type="button"
+                            className={cx('btn', { active: role === 'admin' })}
+                            onClick={() => {
+                                setRole('admin');
+                                setCurrentPage(1);
+                            }}
+                        >
+                            Admin
+                        </button>
+                        <button
+                            type="button"
+                            className={cx('btn', { active: role === 'user' })}
+                            onClick={() => {
+                                setRole('user');
+                                setCurrentPage(1);
+                            }}
+                        >
+                            User
+                        </button>
+                    </div>
+                    <div className={cx('status')}>
+                        <span>Trạng thái: </span>
+                        <button
+                            type="button"
+                            className={cx('btn', { active: isActive === true })}
+                            onClick={() => {
+                                setIsActive(true);
+                                setCurrentPage(1);
+                            }}
+                        >
+                            Hoạt động
+                        </button>
+                        <button
+                            type="button"
+                            className={cx('btn', { active: isActive === false })}
+                            onClick={() => {
+                                setIsActive(false);
+                                setCurrentPage(1);
+                            }}
+                        >
+                            Bị khóa
+                        </button>
+                    </div>
                 </div>
                 <div className={cx('search')}>
                     <input
@@ -199,6 +273,11 @@ function Users() {
                         value={searchTerm}
                         className={cx('search-input')}
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSearch();
+                            }
+                        }}
                     />
                     {searchTerm !== '' && (
                         <div className={cx('delete-value')} onClick={handleDeleteValue}>
@@ -217,104 +296,139 @@ function Users() {
                         <th>Avatar</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Role</th>
-                        <th>isActive</th>
-                        <th>Create Date</th>
+                        <th>Vai trò</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
                         <th>Action</th>
                     </tr>
                 </thead>
 
                 <tbody className={cx('table-body')}>
-                    {users
-                        .filter((user) => user._id !== currentUser?._id)
-                        .map((user, index) => (
-                            <tr key={user._id}>
-                                <td>{index + 1}</td>
-                                <td>
-                                    <div className={cx('avatar')}>
-                                        <img src={user.avatar_url} alt={user.username} referrerPolicy="no-referrer" />
-                                    </div>
-                                </td>
-                                <td>{user.username}</td>
-                                <td>{user.email}</td>
-                                <td>
-                                    <span className={cx(user.role)}>{user.role}</span>
-                                </td>
-                                <td>
-                                    <span className={cx('isActive')}>
-                                        {user.isActive ? (
-                                            <FontAwesomeIcon icon={faUnlock} />
-                                        ) : (
-                                            <FontAwesomeIcon icon={faLock} />
-                                        )}
-                                    </span>
-                                </td>
-                                <td>{user.createdAt.slice(0, 10)}</td>
-                                <td>
-                                    <div className={cx('actions')}>
-                                        <Tippy
-                                            interactive
-                                            visible={activeMenuId === user._id}
-                                            placement="bottom-end"
-                                            arrow={false}
-                                            offset={[30, 5]}
-                                            onClickOutside={handleCloseMenu}
-                                            render={(attrs) => (
-                                                <>
-                                                    <div className={cx('dropdown-actions')} tabIndex="-1" {...attrs}>
-                                                        {user.role !== 'admin' && (
+                    {loading ? (
+                        <tr className={cx('loader')}></tr>
+                    ) : (
+                        users
+                            ?.filter((user) => user._id !== currentUser?._id)
+                            ?.map((user, index) => (
+                                <tr key={user._id}>
+                                    <td>{index + 1}</td>
+                                    <td>
+                                        <div className={cx('avatar')}>
+                                            <img
+                                                src={user.avatar_url}
+                                                alt={user.username}
+                                                referrerPolicy="no-referrer"
+                                            />
+                                        </div>
+                                    </td>
+                                    <td>{user.username}</td>
+                                    <td>{user.email}</td>
+                                    <td>
+                                        <span className={cx(user.role)}>{user.role}</span>
+                                    </td>
+                                    <td>
+                                        <span className={cx('isActive')}>
+                                            {user.isActive ? (
+                                                <FontAwesomeIcon icon={faUnlock} style={{ color: '#059669' }} />
+                                            ) : (
+                                                <FontAwesomeIcon icon={faLock} style={{ color: '#D97706' }} />
+                                            )}
+                                        </span>
+                                    </td>
+                                    <td>{user.createdAt.slice(0, 10)}</td>
+                                    <td>
+                                        <div className={cx('actions')}>
+                                            <Tippy
+                                                interactive
+                                                visible={activeMenuId === user._id}
+                                                placement="bottom-end"
+                                                arrow={false}
+                                                offset={[30, 5]}
+                                                onClickOutside={handleCloseMenu}
+                                                render={(attrs) => (
+                                                    <>
+                                                        <div
+                                                            className={cx('dropdown-actions')}
+                                                            tabIndex="-1"
+                                                            {...attrs}
+                                                        >
+                                                            {user.role !== 'admin' && (
+                                                                <div
+                                                                    className={cx('dropdown-item')}
+                                                                    onClick={() => handleShowDeleteUser(user)}
+                                                                >
+                                                                    <FontAwesomeIcon icon={faTrash} />
+                                                                    <span>Xóa</span>
+                                                                </div>
+                                                            )}
                                                             <div
                                                                 className={cx('dropdown-item')}
-                                                                onClick={() => handleShowDeleteUser(user)}
+                                                                onClick={() => handleToggleActive(user)}
                                                             >
-                                                                <FontAwesomeIcon icon={faTrash} />
-                                                                <span>Xóa</span>
+                                                                {user.isActive ? (
+                                                                    <>
+                                                                        <FontAwesomeIcon icon={faLock} />
+                                                                        <span>Khóa</span>
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <FontAwesomeIcon icon={faUnlock} />
+                                                                        <span>Mở khóa</span>
+                                                                    </>
+                                                                )}
                                                             </div>
-                                                        )}
-                                                        <div
-                                                            className={cx('dropdown-item')}
-                                                            onClick={() => handleToggleActive(user)}
-                                                        >
-                                                            {user.isActive ? (
-                                                                <>
-                                                                    <FontAwesomeIcon icon={faLock} />
-                                                                    <span>Khóa</span>
-                                                                </>
-                                                            ) : (
-                                                                <>
-                                                                    <FontAwesomeIcon icon={faUnlock} />
-                                                                    <span>Mở khóa</span>
-                                                                </>
-                                                            )}
+                                                            <div
+                                                                className={cx('dropdown-item')}
+                                                                onClick={() => handleShowEdittingUSer(user)}
+                                                            >
+                                                                <FontAwesomeIcon icon={faPen} />
+                                                                <span>Chỉnh sửa</span>
+                                                            </div>
                                                         </div>
-                                                        <div
-                                                            className={cx('dropdown-item')}
-                                                            onClick={() => handleShowEdittingUSer(user)}
-                                                        >
-                                                            <FontAwesomeIcon icon={faPen} />
-                                                            <span>Chỉnh sửa</span>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
-                                        >
-                                            {/* Trigger element */}
-                                            <div
-                                                className={cx('gear-icon', { active: activeMenuId === user._id })}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setActiveMenuId(activeMenuId === user._id ? null : user._id);
-                                                }}
+                                                    </>
+                                                )}
                                             >
-                                                <FontAwesomeIcon icon={faGear} />
-                                            </div>
-                                        </Tippy>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
+                                                {/* Trigger element */}
+                                                <div
+                                                    className={cx('gear-icon', { active: activeMenuId === user._id })}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setActiveMenuId(activeMenuId === user._id ? null : user._id);
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon icon={faGear} />
+                                                </div>
+                                            </Tippy>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                    )}
                 </tbody>
             </table>
+            {totalPages > 1 && (
+                <div className={cx('pagination-wrapper')}>
+                    <div className={cx('pagination')}>
+                        <button
+                            className={cx('page-btn')}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        >
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </button>
+                        <span className={cx('page-info')}>
+                            Trang {currentPage} / {totalPages}
+                        </span>
+                        <button
+                            className={cx('page-btn')}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                        >
+                            <FontAwesomeIcon icon={faArrowRight} />
+                        </button>
+                    </div>
+                </div>
+            )}
             {users.length === 0 && (
                 <div className={cx('no-data')}>
                     <FontAwesomeIcon icon={faWarning} />
