@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faHome, faServer, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Overview, Users, Views } from './DashboardContents';
+import { faEye, faFilm, faHome, faServer, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
+import { Overview, Users, Views, Movies } from './DashboardContents';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
 const cx = classNames.bind(styles);
@@ -44,34 +44,41 @@ function DashBoard() {
                         className={cx('menu-item', { active: activeMenu === 'overview' })}
                         onClick={() => setActiveMenu('overview')}
                     >
-                        <span className={cx('title')}>Tổng quan</span>
                         <FontAwesomeIcon icon={faTableCellsLarge} />
+                        <span className={cx('title')}>Tổng quan</span>
                     </div>
                     <div
                         className={cx('menu-item', { active: activeMenu === 'users' })}
                         onClick={() => setActiveMenu('users')}
                     >
-                        <span className={cx('title')}>Danh sách người dùng</span>
                         <FontAwesomeIcon icon={faUser} />
+                        <span className={cx('title')}>Danh sách người dùng</span>
+                    </div>
+                    <div
+                        className={cx('menu-item', { active: activeMenu === 'movies' })}
+                        onClick={() => setActiveMenu('movies')}
+                    >
+                        <FontAwesomeIcon icon={faFilm} />
+                        <span className={cx('title')}>Phim</span>
                     </div>
                     <div
                         className={cx('menu-item', { active: activeMenu === 'view' })}
                         onClick={() => setActiveMenu('view')}
                     >
-                        <span className={cx('title')}>Lượt xem</span>
                         <FontAwesomeIcon icon={faEye} />
+                        <span className={cx('title')}>Lượt xem</span>
                     </div>
                     <div
                         className={cx('menu-item', { active: activeMenu === 'api' })}
                         onClick={() => setActiveMenu('api')}
                     >
-                        <span className={cx('title')}>APIs</span>
                         <FontAwesomeIcon icon={faServer} />
+                        <span className={cx('title')}>APIs</span>
                     </div>
                     <Link to="/" className={cx('menu-link')} style={{ color: 'var(--text-black)' }}>
                         <div className={cx('menu-item')}>
-                            <span className={cx('title')}>Trang chủ</span>
                             <FontAwesomeIcon icon={faHome} />
+                            <span className={cx('title')}>Trang chủ</span>
                         </div>
                     </Link>
                 </div>
@@ -80,6 +87,7 @@ function DashBoard() {
                 {activeMenu === 'overview' && <Overview />}
                 {activeMenu === 'users' && <Users />}
                 {activeMenu === 'view' && <Views />}
+                {activeMenu === 'movies' && <Movies />}
             </div>
         </div>
     );
