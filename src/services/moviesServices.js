@@ -53,3 +53,15 @@ export const nations = async (page = 1, limit = 32, nationSlug) => {
         return {};
     }
 };
+
+export const allMovies = async (page = 1) => {
+    try {
+        const res = await request.get('danh-sach/phim-moi-cap-nhat-v3', {
+            params: { page },
+        });
+        return res || {};
+    } catch (error) {
+        console.error('Chet me API no loi cho nao roi:', error);
+        return {};
+    }
+};
