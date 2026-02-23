@@ -10,8 +10,9 @@ import { FreeMode, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
+import { toast } from 'react-toastify';
 
-import { getContinueWatchingAPI } from '../../../../services/userServices';
+import { getContinueWatchingAPI, removeContinueWatchingAPI } from '../../../../services/userServices';
 import styles from './ContinueWatching.module.scss';
 
 const cx = classNames.bind(styles);
@@ -42,8 +43,25 @@ function ContinueWatching() {
         };
         fetchContinueWatching();
     }, []);
+
+    const handleRemoved = async (e, item) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            const res = await removeContinueWatchingAPI({ slug: item.slug });
+
+            if (res) {
+                toast.success('Đã xóa khỏi danh sách thành công!');
+
+                setContinueWatchingList((prev) => prev.filter((movie) => movie.slug !== item.slug));
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Xóa khỏi danh sách thất bại!');
+        }
+    };
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', { nodata: continueWatchingList.length === 0 })}>
             <div className={cx('heading')}>
                 <h2 className={cx('title')}>Xem tiếp</h2>
                 <Link to="user/xem-tiep" className={cx('cat-more')}>
@@ -70,7 +88,7 @@ function ContinueWatching() {
                                     <div className={cx('poster')}>
                                         <img src={item.poster_url} alt={`Poster của ${item.name}`} />
                                         <Tippy content="Xóa">
-                                            <div className={cx('removed')}>
+                                            <div className={cx('removed')} onClick={(e) => handleRemoved(e, item)}>
                                                 <FontAwesomeIcon icon={faX} />
                                             </div>
                                         </Tippy>

@@ -91,41 +91,43 @@ function Find() {
                         </div>
 
                         {/* Phân trang */}
-                        <div className={cx('pagination')}>
-                            <button className={cx('prev')} disabled={page <= 1} onClick={() => setPage(page - 1)}>
-                                <FontAwesomeIcon icon={faArrowLeft} />
-                            </button>
-                            <span className={cx('page')}>
-                                Trang{' '}
-                                <input
-                                    type="number"
-                                    min="1"
-                                    max={totalPages}
-                                    value={inputPage}
-                                    onChange={(e) => setInputPage(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            const newPage = Number(inputPage);
-                                            if (newPage >= 1 && newPage <= totalPages) {
-                                                setPage(newPage);
-                                            } else {
-                                                alert(`Vui lòng nhập trang từ 1 đến ${totalPages}`);
-                                                setInputPage(page);
+                        {totalPages > 1 && (
+                            <div className={cx('pagination')}>
+                                <button className={cx('prev')} disabled={page <= 1} onClick={() => setPage(page - 1)}>
+                                    <FontAwesomeIcon icon={faArrowLeft} />
+                                </button>
+                                <span className={cx('page')}>
+                                    Trang{' '}
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max={totalPages}
+                                        value={inputPage}
+                                        onChange={(e) => setInputPage(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                const newPage = Number(inputPage);
+                                                if (newPage >= 1 && newPage <= totalPages) {
+                                                    setPage(newPage);
+                                                } else {
+                                                    alert(`Vui lòng nhập trang từ 1 đến ${totalPages}`);
+                                                    setInputPage(page);
+                                                }
                                             }
-                                        }
-                                    }}
-                                    className={cx('page-input')}
-                                />{' '}
-                                / {totalPages}
-                            </span>
-                            <button
-                                className={cx('next')}
-                                disabled={page >= totalPages}
-                                onClick={() => setPage(page + 1)}
-                            >
-                                <FontAwesomeIcon icon={faArrowRight} />
-                            </button>
-                        </div>
+                                        }}
+                                        className={cx('page-input')}
+                                    />{' '}
+                                    / {totalPages}
+                                </span>
+                                <button
+                                    className={cx('next')}
+                                    disabled={page >= totalPages}
+                                    onClick={() => setPage(page + 1)}
+                                >
+                                    <FontAwesomeIcon icon={faArrowRight} />
+                                </button>
+                            </div>
+                        )}
                     </>
                 ) : (
                     <div className={cx('not-found')}>

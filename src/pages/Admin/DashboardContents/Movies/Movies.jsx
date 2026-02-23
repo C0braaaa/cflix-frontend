@@ -4,11 +4,6 @@ import { useDebounce } from '../../../../hooks';
 import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-
-import styles from './Movies.module.scss';
-import { search } from '../../../../services/searchService';
-import { allMovies } from '../../../../services/moviesServices';
-import { getTopViewedAPI } from '../../../../services/viewsService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faGear,
@@ -19,6 +14,12 @@ import {
     faCircleXmark,
     faArrowTrendUp,
 } from '@fortawesome/free-solid-svg-icons';
+
+import styles from './Movies.module.scss';
+import { search } from '../../../../services/searchService';
+import { allMovies } from '../../../../services/moviesServices';
+import { getTopViewedAPI } from '../../../../services/viewsService';
+import MoviePieChart from './MoviePieChart';
 
 const cx = classNames.bind(styles);
 
@@ -31,8 +32,9 @@ function Movies() {
     const [totalPages, setTotalPages] = useState(0);
     const [inputPage, setInputPage] = useState(currentPage);
     const [inputText, setInputText] = useState('');
-
-    console.log(movies);
+    const [stats, setStats] = useState({
+        viewsByType: {},
+    });
 
     const inputRef = useRef(null);
     const debouncedInput = useDebounce(inputText, 500);
@@ -92,6 +94,7 @@ function Movies() {
             try {
                 const res = await getTopViewedAPI();
                 setViews(res || []);
+                setStats({ viewsByType: res.viewsByType || {} });
             } catch (error) {
                 console.log(error);
             }
@@ -166,7 +169,10 @@ function Movies() {
                         Lượt xem: <span>{formatViews(views?.viewHighest?.views)}</span>
                     </p>
                 </div>
-                <div className={cx('stat__card')}></div>
+                <div className={cx('stat__card')}>
+                    <h4>Thống kê theo thể loại</h4>
+                    <MoviePieChart viewsByType={stats.viewsByType} />
+                </div>
             </div>
             <div className={cx('heading')}>
                 <div className={cx('heading__title')}>

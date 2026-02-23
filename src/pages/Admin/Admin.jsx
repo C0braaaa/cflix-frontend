@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilm, faHome, faServer, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faFilm, faFlag, faHome, faServer, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Overview, Users, Views, Movies } from './DashboardContents';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
@@ -60,6 +60,13 @@ function DashBoard() {
                     >
                         <FontAwesomeIcon icon={faFilm} />
                         <span className={cx('title')}>Phim</span>
+                    </div>
+                    <div
+                        className={cx('menu-item', { active: activeMenu === 'reports' })}
+                        onClick={() => setActiveMenu('reports')}
+                    >
+                        <FontAwesomeIcon icon={faFlag} />
+                        <span className={cx('title')}>Phản hồi</span>
                     </div>
                     <div
                         className={cx('menu-item', { active: activeMenu === 'api' })}

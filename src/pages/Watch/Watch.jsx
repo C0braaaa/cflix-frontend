@@ -7,7 +7,16 @@ import { detail } from '../../services/moviesServices';
 import { getProgressAPI } from '../../services/userServices';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleLeft, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+    faAngleRight,
+    faCircleLeft,
+    faClosedCaptioning,
+    faFlag,
+    faHeart,
+    faMicrophone,
+    faPlus,
+    faVolumeHigh,
+} from '@fortawesome/free-solid-svg-icons';
 import Comment from '../../layout/components/Comments/Comments';
 import Player from '../../components/Player/Player';
 import RelatedMovies from './Content/RelatedMovies';
@@ -22,6 +31,12 @@ function Wacth() {
     const [server, setServer] = useState(0);
     const [savedTime, setSavedTime] = useState(0);
     const [isProgressChecked, setIsProgressChecked] = useState(false);
+
+    const decodeHTML = (html) => {
+        const txt = document.createElement('textarea');
+        txt.innerHTML = html;
+        return txt.value;
+    };
 
     const firstCategorySlug = movie?.category?.[0]?.slug;
 
@@ -85,8 +100,6 @@ function Wacth() {
     }
     const shouldRenderPlayer = m3u8Url && isProgressChecked;
 
-    // console.log(currentEpisode);
-
     function getTextInBrackets(str) {
         const match = str.match(/\(([^)]+)\)/);
         return match ? match[1] : '';
@@ -94,132 +107,133 @@ function Wacth() {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('l-1')}>
-                <Link to={`/phim/${slug}`}>
-                    <FontAwesomeIcon icon={faCircleLeft} />
-                </Link>
-                <h2 className={cx('title')}>
-                    Xem thông tin phim: <span>{movie.name}</span>
-                </h2>
-            </div>
-            <div className={cx('video')}>
-                {shouldRenderPlayer ? (
-                    <Player
-                        option={{
-                            url: m3u8Url, // Link m3u8
-                            seekTime: savedTime, // Thời gian cần tua tới
-                            poster: movie.poster_url, // Ảnh nền khi chưa play
-                            title: currentEpisode?.name,
-                        }}
-                        movieData={{
-                            slug: movie.slug,
-                            name: movie.name,
-                            origin_name: movie.origin_name,
-                            poster_url: movie.poster_url,
-                            episode_slug: currentEpisode?.slug,
-                            episode_name: currentEpisode?.name,
-                            type: movie.type,
-                        }}
-                        style={{
-                            width: '100%',
-                            // aspectRatio: '16/9',
-                            // height: 'auto',
-                            display: 'flex',
-                            alignItems: 'center',
-                            borderRadius: '1rem 1rem 0 0',
-                            overflow: 'hidden',
-                        }}
-                    />
-                ) : (
-                    <div className={cx('loader')}></div>
-                )}
-                <div className={cx('actions')}>
-                    <div className={cx('action')}>
-                        <FontAwesomeIcon icon={faHeart} />
-                        <span>Yêu thích</span>
-                    </div>
-                    <div className={cx('action')}>
-                        <FontAwesomeIcon icon={faPlus} />
-                        <span>Xem sau</span>
-                    </div>
+            <div className={cx('left-side')}>
+                <div className={cx('l-1')}>
+                    <Link to={`/phim/${slug}`}>
+                        <FontAwesomeIcon icon={faCircleLeft} />
+                    </Link>
+                    <h2 className={cx('title')}>
+                        <span>{movie.name}</span>
+                    </h2>
                 </div>
-            </div>
-            <div className={cx('content')}>
-                <div className={cx('left-side')}>
-                    <div className={cx('options')}>
-                        <h2>Các bản chiếu</h2>
-
-                        {episodes?.map((sv, i) => (
-                            <div
-                                key={i}
-                                className={cx('option', { active: server === i })}
-                                onClick={() => setServer(i)}
-                            >
-                                {/* Icon Vietsub */}
-                                {sv.server_name.toLowerCase().includes('viet') && (
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="21"
-                                        height="21"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
-                                        <line x1="7" y1="12" x2="17" y2="12" />
-                                        <line x1="7" y1="16" x2="13" y2="16" />
-                                    </svg>
-                                )}
-
-                                {/* Icon Thuyết Minh */}
-                                {sv.server_name.toLowerCase().includes('thuy') && (
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path d="M12 1a4 4 0 0 1 4 4v7a4 4 0 0 1 -8 0V5a4 4 0 0 1 4 -4z" />
-                                        <path d="M19 10v2a7 7 0 0 1 -14 0v-2" />
-                                        <line x1="12" y1="19" x2="12" y2="23" />
-                                        <line x1="8" y1="23" x2="16" y2="23" />
-                                    </svg>
-                                )}
-
-                                <span>{getTextInBrackets(sv.server_name)}</span>
-                            </div>
-                        ))}
-                    </div>
-                    {movie?.episode_total > 1 && (
-                        <>
-                            <h2 className={cx('title-2')}>Danh sách tập</h2>
-                            <div className={cx('episodes')}>
-                                {episodes?.[server]?.server_data?.map((ep, index) => (
-                                    <Link
-                                        to={`/xem-phim/${slug}/${ep.slug}`}
-                                        className={cx('episode', { active: ep.slug === episode })}
-                                        key={index}
-                                    >
-                                        {ep.name.split(' ')[1]?.replace(/\D/g, '')}
-                                    </Link>
-                                ))}
-                            </div>
-                        </>
+                <div className={cx('video')}>
+                    {shouldRenderPlayer ? (
+                        <Player
+                            option={{
+                                url: m3u8Url, // Link m3u8
+                                seekTime: savedTime, // Thời gian cần tua tới
+                                poster: movie.poster_url, // Ảnh nền khi chưa play
+                                title: currentEpisode?.name,
+                            }}
+                            movieData={{
+                                slug: movie.slug,
+                                name: movie.name,
+                                origin_name: movie.origin_name,
+                                poster_url: movie.poster_url,
+                                episode_slug: currentEpisode?.slug,
+                                episode_name: currentEpisode?.name,
+                                type: movie.type,
+                            }}
+                            style={{
+                                width: '100%',
+                                // aspectRatio: '16/9',
+                                // height: 'auto',
+                                display: 'flex',
+                                alignItems: 'center',
+                                borderRadius: '1rem 1rem 0 0',
+                                overflow: 'hidden',
+                            }}
+                        />
+                    ) : (
+                        <div className={cx('loader')}></div>
                     )}
-                    {/* Comments */}
-                    <Comment />
+                    <div className={cx('actions')}>
+                        <div className={cx('action')}>
+                            <FontAwesomeIcon icon={faHeart} />
+                            <span>Yêu thích</span>
+                        </div>
+                        <div className={cx('action')}>
+                            <FontAwesomeIcon icon={faPlus} />
+                            <span>Xem sau</span>
+                        </div>
+                        <div className={cx('action')}>
+                            <FontAwesomeIcon icon={faFlag} />
+                            <span>Phản hồi</span>
+                        </div>
+                    </div>
                 </div>
-                <div className={cx('right-side')}>
-                    <RelatedMovies currentSlug={slug} categorySlug={firstCategorySlug} />
+                <div className={cx('content')}>
+                    <div className={cx('movie-meta')}>
+                        <div className={cx('movie-info')}>
+                            <div className={cx('poster')}>
+                                <img src={movie?.poster_url} alt={movie?.name} />
+                            </div>
+                            <div className={cx('details')}>
+                                <h4 className={cx('movie-name')}>{decodeHTML(movie?.name)}</h4>
+                                <p className={cx('origin-name')}>{decodeHTML(movie?.origin_name)}</p>
+                                <div className={cx('tags')}>
+                                    {movie?.category?.map((cat) => (
+                                        <Link className={cx('tag')} key={cat.id} to={`/the-loai/${cat.slug}`}>
+                                            {cat.name}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className={cx('description')}>
+                                <p className={cx('descr')}>{decodeHTML(movie?.content)}</p>
+                                <Link to={`/phim/${slug}`} className={cx('view-more')}>
+                                    Thông tin phim <FontAwesomeIcon icon={faAngleRight} />
+                                </Link>
+                            </div>
+                        </div>
+                        <div className={cx('options')}>
+                            <h2>Các bản chiếu</h2>
+
+                            {episodes?.map((sv, i) => (
+                                <div
+                                    key={i}
+                                    className={cx('option', { active: server === i })}
+                                    onClick={() => setServer(i)}
+                                >
+                                    {/* Icon Vietsub */}
+                                    {sv.server_name.toLowerCase().includes('viet') && (
+                                        <FontAwesomeIcon icon={faClosedCaptioning} />
+                                    )}
+
+                                    {sv.server_name.toLowerCase().includes('lồng') && (
+                                        <FontAwesomeIcon icon={faMicrophone} />
+                                    )}
+                                    {sv.server_name.toLowerCase().includes('thuy') && (
+                                        <FontAwesomeIcon icon={faVolumeHigh} />
+                                    )}
+
+                                    <span>{getTextInBrackets(sv.server_name)}</span>
+                                </div>
+                            ))}
+                        </div>
+                        {movie?.episode_total > 1 && (
+                            <>
+                                <h2 className={cx('title-2')}>Danh sách tập</h2>
+                                <div className={cx('episodes')}>
+                                    {episodes?.[server]?.server_data?.map((ep, index) => (
+                                        <Link
+                                            to={`/xem-phim/${slug}/${ep.slug}`}
+                                            className={cx('episode', { active: ep.slug === episode })}
+                                            key={index}
+                                        >
+                                            {ep.name.split(' ')[1]?.replace(/\D/g, '')}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                        {/* Comments */}
+                        <Comment />
+                    </div>
                 </div>
+            </div>
+            <div className={cx('realated-movies')}>
+                <RelatedMovies currentSlug={slug} categorySlug={firstCategorySlug} />
             </div>
         </div>
     );

@@ -59,7 +59,7 @@ export default function Player({ option, style, getInstance, movieData }) {
             setting: true,
             pip: true,
             fullscreen: true,
-            miniProgressBar: true,
+            miniProgressBar: false,
             playsInline: true,
             autoPlayback: true,
             airplay: true,

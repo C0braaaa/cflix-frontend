@@ -69,9 +69,14 @@
             color: var(--primary-color);
             font-size: 1.8rem;
             font-weight: 500;
-            text-shadow:
-                0 0 4px rgba(0, 229, 255, 0.8),
-                0 0 12px rgba(0, 184, 212, 0.4);
+            // text-shadow:
+            //     0 0 4px rgba(0, 229, 255, 0.8),
+            //     0 0 12px rgba(0, 184, 212, 0.4);
+
+            &:last-child {
+                font-size: 1.6rem;
+                font-weight: bold;
+            }
         }
     }
 }
