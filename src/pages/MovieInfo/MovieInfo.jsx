@@ -8,11 +8,11 @@ import { useAuth } from '../../features/auth/context/AuthContext';
 import styles from './MovieInfo.module.scss';
 import Button from '../../components/Button/index-button';
 import {
+    faBookmark,
     faCaretDown,
     faCaretUp,
     faHeart,
     faPlay,
-    faPlus,
     faShare,
     faThumbsDown,
     faThumbsUp,
@@ -359,7 +359,7 @@ function MovieInfo() {
                                 onClick={handleAddPlaylist}
                                 style={{ color: isPlaylist ? 'var(--primary-color)' : 'white', cursor: 'pointer' }}
                             >
-                                <FontAwesomeIcon icon={faPlus} />
+                                <FontAwesomeIcon icon={faBookmark} />
                                 <span className={cx('title')}>Xem sau</span>
                             </div>
                             <div className={cx('action')}>

@@ -13,7 +13,7 @@ import 'tippy.js/dist/tippy.css';
 import { toast } from 'react-toastify';
 
 import styles from './Slider.module.scss';
-import { faHeart, faPen, faPlay, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark, faHeart, faPen, faPlay, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { toggleFavoriteAPI, togglePlaylistAPI, checkMovieStatusAPI } from '../../../../services/userServices';
 import { useAuth } from '../../../../features/auth/context/AuthContext';
 import { deleteSliderAPI } from '../../../../services/sliderServices';
@@ -271,7 +271,7 @@ function Slider({ sliders, onSuccess, onEdit }) {
                                                             cursor: 'pointer',
                                                         }}
                                                     >
-                                                        <FontAwesomeIcon icon={faPlus} />
+                                                        <FontAwesomeIcon icon={faBookmark} />
                                                     </div>
                                                 </Tippy>
                                                 {user.role === 'admin' && (

@@ -5,11 +5,11 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import styles from './UserPage.module.scss';
 import {
+    faBookmark,
     faClockRotateLeft,
     faHeart,
     faInfinity,
     faMars,
-    faPlus,
     faRightFromBracket,
     faUser,
     faVenus,
@@ -23,6 +23,7 @@ import {
     getContinueWatchingAPI,
 } from '../../services/userServices';
 import { Profile, MainContents } from './mainContent';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -30,6 +31,10 @@ function UserPage() {
     const { user, logout } = useAuth();
     const { slug } = useParams();
     const nevigate = useNavigate();
+
+    useEffect(() => {
+        document.title = 'Cflix - Quản lý tài khoản';
+    }, []);
 
     if (!user) return null;
 
@@ -54,7 +59,7 @@ function UserPage() {
                         <span>Yêu thích</span>
                     </Link>
                     <Link to="/user/playlist" className={cx('item', { active: slug === 'playlist' })}>
-                        <FontAwesomeIcon icon={faPlus} />
+                        <FontAwesomeIcon icon={faBookmark} />
                         <span>Xem sau</span>
                     </Link>
                     <Link to="/user/xem-tiep" className={cx('item', { active: slug === 'xem-tiep' })}>

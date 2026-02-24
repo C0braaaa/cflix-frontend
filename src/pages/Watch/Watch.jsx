@@ -9,12 +9,12 @@ import { useAuth } from '../../features/auth/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleRight,
+    faBookmark,
     faCircleLeft,
     faClosedCaptioning,
     faFlag,
     faHeart,
     faMicrophone,
-    faPlus,
     faVolumeHigh,
 } from '@fortawesome/free-solid-svg-icons';
 import Comment from '../../layout/components/Comments/Comments';
@@ -153,7 +153,7 @@ function Wacth() {
                             <span>Yêu thích</span>
                         </div>
                         <div className={cx('action')}>
-                            <FontAwesomeIcon icon={faPlus} />
+                            <FontAwesomeIcon icon={faBookmark} />
                             <span>Xem sau</span>
                         </div>
                         <div className={cx('action')}>
@@ -188,28 +188,29 @@ function Wacth() {
                         </div>
                         <div className={cx('options')}>
                             <h2>Các bản chiếu</h2>
+                            <div className={cx('options-list')}>
+                                {episodes?.map((sv, i) => (
+                                    <div
+                                        key={i}
+                                        className={cx('option', { active: server === i })}
+                                        onClick={() => setServer(i)}
+                                    >
+                                        {/* Icon Vietsub */}
+                                        {sv.server_name.toLowerCase().includes('viet') && (
+                                            <FontAwesomeIcon icon={faClosedCaptioning} />
+                                        )}
 
-                            {episodes?.map((sv, i) => (
-                                <div
-                                    key={i}
-                                    className={cx('option', { active: server === i })}
-                                    onClick={() => setServer(i)}
-                                >
-                                    {/* Icon Vietsub */}
-                                    {sv.server_name.toLowerCase().includes('viet') && (
-                                        <FontAwesomeIcon icon={faClosedCaptioning} />
-                                    )}
+                                        {sv.server_name.toLowerCase().includes('lồng') && (
+                                            <FontAwesomeIcon icon={faMicrophone} />
+                                        )}
+                                        {sv.server_name.toLowerCase().includes('thuy') && (
+                                            <FontAwesomeIcon icon={faVolumeHigh} />
+                                        )}
 
-                                    {sv.server_name.toLowerCase().includes('lồng') && (
-                                        <FontAwesomeIcon icon={faMicrophone} />
-                                    )}
-                                    {sv.server_name.toLowerCase().includes('thuy') && (
-                                        <FontAwesomeIcon icon={faVolumeHigh} />
-                                    )}
-
-                                    <span>{getTextInBrackets(sv.server_name)}</span>
-                                </div>
-                            ))}
+                                        <span>{getTextInBrackets(sv.server_name)}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         {movie?.episode_total > 1 && (
                             <>

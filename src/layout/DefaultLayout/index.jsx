@@ -8,12 +8,14 @@ import Footer from '../components/Footer/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import Button from '../../components/Button/index-button';
+import ChatBot from '../../components/ChatBot/ChatBot';
 
 const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
     const [moveTop, setMoveTop] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1350);
+    const [showChatBot, setShowChatBot] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -54,9 +56,15 @@ function DefaultLayout({ children }) {
                 </div>
             )}
 
-            <div className={cx('chatbot')}>
+            <div className={cx('chatbot')} onClick={() => setShowChatBot((prev) => !prev)}>
                 <img src="/assets/images/chatbot_logo.png" alt="chatbot-logo" />
             </div>
+            {showChatBot && (
+                <div className={cx('chatbox')}>
+                    {' '}
+                    <ChatBot showChatbox={setShowChatBot} />
+                </div>
+            )}
         </div>
     );
 }

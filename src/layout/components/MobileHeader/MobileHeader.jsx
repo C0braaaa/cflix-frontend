@@ -3,13 +3,13 @@ import classNames from 'classnames/bind';
 import styles from './MobileHeader.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+    faBookmark,
     faClockRotateLeft,
     faHeart,
     faInfinity,
     faKey,
     faMagnifyingGlass,
     faMars,
-    faPlus,
     faRightFromBracket,
     faUser,
     faUserPlus,
@@ -108,7 +108,7 @@ function MobileHeader() {
                                                         setShowMenu((prev) => !prev);
                                                     }}
                                                 >
-                                                    <FontAwesomeIcon icon={faPlus} />
+                                                    <FontAwesomeIcon icon={faBookmark} />
                                                     <span>Danh Sách</span>
                                                 </Link>
                                                 <Link

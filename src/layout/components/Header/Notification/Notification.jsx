@@ -114,42 +114,48 @@ function Notification() {
                         </div>
                         <div className={cx('main')}>
                             <div className={cx('notification-list')}>
-                                {notification.notification?.map((notify) => (
-                                    <div className={cx('container')} key={notify._id}>
-                                        <div
-                                            className={cx('delete-notify')}
-                                            onClick={(e) => handleDelete(e, notify._id, notify.is_read)}
-                                        >
-                                            <span>
-                                                <FontAwesomeIcon icon={faTrash} />
-                                            </span>
-                                        </div>
-                                        <Link
-                                            to={notify.target_url}
-                                            className={cx('notify', { active: !notify.is_read })}
-                                            key={notify._id}
-                                            onClick={() => handleReadOne(notify._id, notify.is_read)}
-                                        >
-                                            <div className={cx('left')}>
-                                                <img className={cx('avatar')} src={notify.image} alt="avatar" />
-                                                <span className={cx('icon')}>
-                                                    {notify.type === 'reply_comment' ? (
-                                                        <FontAwesomeIcon icon={faReply} className={cx('reply')} />
-                                                    ) : (
-                                                        <FontAwesomeIcon icon={faHeart} className={cx('like')} />
-                                                    )}
+                                {notification?.notification?.length === 0 ? (
+                                    <p className={cx('empty')}>Hiện không có thông báo nào</p>
+                                ) : (
+                                    notification.notification?.map((notify) => (
+                                        <div className={cx('container')} key={notify._id}>
+                                            <div
+                                                className={cx('delete-notify')}
+                                                onClick={(e) => handleDelete(e, notify._id, notify.is_read)}
+                                            >
+                                                <span>
+                                                    <FontAwesomeIcon icon={faTrash} />
                                                 </span>
                                             </div>
-                                            <div className={cx('right')}>
-                                                <p className={cx('content')}>
-                                                    <span>{notify.sender_name}</span>
-                                                    {`${getActionText(notify.type)}${notify.type === 'reply_comment' ? cleanMessage(notify.message) : ''} `}
-                                                </p>
-                                                <span className={cx('time')}>{formatTimeAgo(notify.created_at)}</span>
-                                            </div>
-                                        </Link>
-                                    </div>
-                                ))}
+                                            <Link
+                                                to={notify.target_url}
+                                                className={cx('notify', { active: !notify.is_read })}
+                                                key={notify._id}
+                                                onClick={() => handleReadOne(notify._id, notify.is_read)}
+                                            >
+                                                <div className={cx('left')}>
+                                                    <img className={cx('avatar')} src={notify.image} alt="avatar" />
+                                                    <span className={cx('icon')}>
+                                                        {notify.type === 'reply_comment' ? (
+                                                            <FontAwesomeIcon icon={faReply} className={cx('reply')} />
+                                                        ) : (
+                                                            <FontAwesomeIcon icon={faHeart} className={cx('like')} />
+                                                        )}
+                                                    </span>
+                                                </div>
+                                                <div className={cx('right')}>
+                                                    <p className={cx('content')}>
+                                                        <span>{notify.sender_name}</span>
+                                                        {`${getActionText(notify.type)}${notify.type === 'reply_comment' ? cleanMessage(notify.message) : ''} `}
+                                                    </p>
+                                                    <span className={cx('time')}>
+                                                        {formatTimeAgo(notify.created_at)}
+                                                    </span>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                         <div className={cx('footer')} onClick={handleReadAll}>

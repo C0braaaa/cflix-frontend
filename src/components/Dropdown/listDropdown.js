@@ -1,4 +1,4 @@
-import { faChartLine, faHeart, faHistory, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark, faChartLine, faHeart, faHistory, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export const genres = [
     { name: 'Hành Động', to: '/the-loai/hanh-dong' },
@@ -92,7 +92,7 @@ export const userList = [
     },
     {
         name: 'Xem sau',
-        icon: faPlus,
+        icon: faBookmark,
         to: '/user/playlist',
     },
     {

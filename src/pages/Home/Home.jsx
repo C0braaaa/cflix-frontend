@@ -77,17 +77,17 @@ function Home() {
             {user && <ContinueWatching />}
             <LatestMovie
                 slug="phim-le"
-                year="2025"
+                year="2026"
                 bg="linear-gradient(90deg, #6ffacf, #ffffff, #6ffacf)"
-                title="Phim lẻ mới nhất 2025"
+                title="Phim lẻ mới nhất 2026"
                 link="f/phim-le-moi-nhat"
             />
             <MostView title="Top 10 phim lẻ xem nhiều nhất!" type="single" />
             <LatestMovie
                 slug="phim-bo"
-                year="2025"
+                year="2026"
                 bg="linear-gradient(90deg, #ffe082, #ffffff, #ffe082)"
-                title="Phim bộ mới nhất 2025"
+                title="Phim bộ mới nhất 2026"
                 link="f/phim-bo-moi-nhat"
             />
             <MostView title="Top 10 phim bộ xem nhiều nhất!" type="series" />
