@@ -162,6 +162,12 @@
                 &:nth-child(1) {
                     width: 20%;
                 }
+                &:nth-child(2) {
+                    width: 8%;
+                }
+                &:nth-child(3) {
+                    width: 15%;
+                }
             }
         }
     }
@@ -237,6 +243,7 @@
                 }
 
                 &:nth-child(3) {
+                    white-space: nowrap;
                     .episodes {
                         background-color: var(--dashboard-color-4);
                         padding: 1rem;

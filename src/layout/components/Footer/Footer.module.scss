@@ -3,7 +3,7 @@
     width: 100%;
     background-color: var(--background-color-1);
     position: absolute;
-    bottom: -45rem;
+    bottom: -35rem;
     z-index: -1;
 }
 
@@ -32,28 +32,23 @@
     .right-side {
         width: 35%;
         display: flex;
-        flex-direction: column;
-        padding-left: 30rem;
-
-        .contact {
+        gap: 12rem;
+        .about {
             display: flex;
-            gap: 1rem;
             flex-direction: column;
-
-            .contact-title {
+            gap: 1.2rem;
+            .about-title {
                 color: var(--text-color);
-                font-size: 1.8rem;
-                font-weight: 600;
             }
-            .contact-email {
-                display: flex;
-                gap: 1rem;
-                .link {
-                    color: var(--text-color);
-                    transition: color 0.3s ease;
-                    &:hover {
-                        color: var(--primary-color);
-                    }
+            .link {
+                font-size: 1.4rem;
+                opacity: 0.7;
+                transition:
+                    opacity 0.3s ease,
+                    transform 0.3s ease;
+                &:hover {
+                    opacity: 1;
+                    transform: translateX(1rem);
                 }
             }
         }
@@ -107,6 +102,7 @@
         width: 100%;
         color: var(--text-color);
         font-size: 1.5rem;
+        opacity: 0.6;
     }
 }
 

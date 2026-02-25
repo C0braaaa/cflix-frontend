@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import styles from './ChatBot.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { chatWithAI_API } from '../../services/chatbotService';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +13,7 @@ function ChatBot({ showChatbox }) {
     const chatRef = useRef(null);
     const messagesEndRef = useRef(null);
     const [inputValue, setInputValue] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [messages, setMessages] = useState(() => {
         const saveChat = sessionStorage.getItem('cflix_chat_history');
@@ -24,7 +25,7 @@ function ChatBot({ showChatbox }) {
         return [
             {
                 role: 'C-Bot',
-                content: 'Xin chào! Tôi là C-Bot, trợ lý ảo của Cflix. Tôi có thể giúp gì cho bạn hôm nay?',
+                content: 'Xin chào! Tôi là ◉ϟ⊕τ, trợ lý ảo của Cflix. Tôi có thể giúp gì cho bạn hôm nay?',
             },
         ];
     });
@@ -57,12 +58,14 @@ function ChatBot({ showChatbox }) {
 
     const handleSendMessage = async () => {
         const messageToSend = inputValue.trim();
-        if (!inputValue.trim()) return;
+        if (!messageToSend || loading) return;
 
         const userMessage = { role: 'user', content: messageToSend };
         const historyForAI = [...messages, userMessage];
         setMessages(historyForAI);
         setInputValue('');
+
+        setLoading(true);
 
         try {
             const res = await chatWithAI_API(historyForAI);
@@ -78,6 +81,8 @@ function ChatBot({ showChatbox }) {
             }
         } catch (error) {
             console.error('Bot no di choi voi ban gai roi: ', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -114,8 +119,8 @@ function ChatBot({ showChatbox }) {
                         <img src="/assets/images/chatbot_logo.png" alt="logo-chatbot" />
                     </div>
                     <div className={cx('header__title')}>
-                        <h4 className={cx('title')}>CflixBot</h4>
-                        <span className={cx('subtitle')}>CFLIX AI</span>
+                        <h4 className={cx('title')}>◉ϟ⟐ΞЖ∆⊕τ</h4>
+                        <span className={cx('subtitle')}>◉ϟ⟐ΞЖ ∆Ξ</span>
                     </div>
                 </div>
                 <div className={cx('header__right')} onClick={() => showChatbox(false)}>
@@ -128,11 +133,23 @@ function ChatBot({ showChatbox }) {
                     {messages.map((msg, index) => (
                         <div className={cx('message-row', msg.role)} key={index}>
                             <div className={cx('message-content')}>
-                                <span className={cx('message-sender')}>{msg.role === 'C-Bot' ? 'C-Bot' : 'You'}</span>
+                                <span className={cx('message-sender')}>{msg.role === 'C-Bot' ? '◉ϟ⊕τ' : 'You'}</span>
                                 <div className={cx('bubble')}>{renderMessage(msg.content)}</div>
                             </div>
                         </div>
                     ))}
+                    {loading && (
+                        <div className={cx('message-row', 'C-Bot')}>
+                            <div className={cx('message-content')}>
+                                <span className={cx('message-sender')}>◉ϟ⊕τ</span>
+                                <div className={cx('bubble', 'typing-indicator')}>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <div ref={messagesEndRef} />
                 </div>
             </main>
@@ -146,13 +163,13 @@ function ChatBot({ showChatbox }) {
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyDown={(e) => {
-                            if (e.key === 'Enter' && inputValue.trim()) {
+                            if (e.key === 'Enter' && inputValue.trim() && !loading) {
                                 handleSendMessage();
                             }
                         }}
                     />
-                    <span className={cx('footer__send')} onClick={handleSendMessage}>
-                        <FontAwesomeIcon icon={faPaperPlane} />
+                    <span className={cx('footer__send', { disabled: loading })} onClick={handleSendMessage}>
+                        {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : <FontAwesomeIcon icon={faPaperPlane} />}
                     </span>
                 </div>
             </footer>

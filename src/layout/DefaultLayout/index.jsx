@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 import styles from './DefaultLayout.module.scss';
 import Header from '../components/Header/Header';
@@ -9,6 +11,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import Button from '../../components/Button/index-button';
 import ChatBot from '../../components/ChatBot/ChatBot';
+import ReportModal from '../../components/ReportModal/ReportModal';
+import { useReportModal } from '../../features/report/context/ReportModalContext';
 
 const cx = classNames.bind(styles);
 
@@ -16,6 +20,7 @@ function DefaultLayout({ children }) {
     const [moveTop, setMoveTop] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1350);
     const [showChatBot, setShowChatBot] = useState(false);
+    const { isReportModalOpen, closeReportModal, reportTarget } = useReportModal();
 
     useEffect(() => {
         const handleResize = () => {
@@ -56,13 +61,23 @@ function DefaultLayout({ children }) {
                 </div>
             )}
 
-            <div className={cx('chatbot')} onClick={() => setShowChatBot((prev) => !prev)}>
-                <img src="/assets/images/chatbot_logo.png" alt="chatbot-logo" />
-            </div>
+            <Tippy content="ᚺ ᛂ ᒪ ᒪ ◉ ✨">
+                <div className={cx('chatbot')} onClick={() => setShowChatBot((prev) => !prev)}>
+                    <img src="/assets/images/chatbot_logo.png" alt="chatbot-logo" />
+                </div>
+            </Tippy>
             {showChatBot && (
                 <div className={cx('chatbox')}>
                     {' '}
                     <ChatBot showChatbox={setShowChatBot} />
+                </div>
+            )}
+            {isReportModalOpen && (
+                <div className={cx('report-modal')}>
+                    <div className={cx('overlay')} onClick={closeReportModal}></div>
+                    <div className={cx('modal')}>
+                        <ReportModal isClose={closeReportModal} reportTarget={reportTarget} />
+                    </div>
                 </div>
             )}
         </div>

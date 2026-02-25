@@ -46,6 +46,12 @@ function MovieList({ title, fetchFunction, type, slug }) {
         document.title = title;
     }, [title]);
 
+    useEffect(() => {
+        fetchMovies(inputPage);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // eslint-disable-next-line
+    }, [inputPage]);
+
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
         txt.innerHTML = html;

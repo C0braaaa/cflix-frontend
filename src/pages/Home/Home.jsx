@@ -91,6 +91,13 @@ function Home() {
                 link="f/phim-bo-moi-nhat"
             />
             <MostView title="Top 10 phim bộ xem nhiều nhất!" type="series" />
+            <LatestMovie
+                slug="hoat-hinh"
+                year="2025"
+                bg="linear-gradient(90deg, #ff9ad5, #7ad9ff, #ff9ad5)"
+                title="Phim hoạt hình mới nhất 2026"
+                link="f/hoat-hinh-moi-nhat"
+            />
         </div>
     );
 }

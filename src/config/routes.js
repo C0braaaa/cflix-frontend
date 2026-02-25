@@ -15,6 +15,8 @@ const routes = {
     admin: '/dashboard',
     watchMore: 'f/:slug',
     forgotPass: '/quen-mat-khau',
+    introduction: '/gioi-thieu',
+    contact: '/lien-he',
 };
 
 export default routes;

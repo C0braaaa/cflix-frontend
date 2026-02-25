@@ -17,11 +17,15 @@ function FullLatestMovies() {
     const { slug } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const typeSlug = slug ? slug.split('-').slice(0, 2).join('-') : '';
+    console.log(typeSlug);
+
     let titleBg = '';
     if (typeSlug === 'phim-le') {
         titleBg = 'linear-gradient(90deg, #6ffacf, #ffffff, #6ffacf)';
     } else if (typeSlug === 'phim-bo') {
         titleBg = 'linear-gradient(90deg, #ffe082, #ffffff, #ffe082)';
+    } else if (typeSlug === 'hoat-hinh') {
+        titleBg = 'linear-gradient(90deg, #ff9ad5, #7ad9ff, #ff9ad5)';
     }
 
     // --- 1. LẤY GIÁ TRỊ TỪ URL (Nguồn sự thật) ---

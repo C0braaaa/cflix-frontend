@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from './components/GlobalStyles';
 import { AuthProvider } from './features/auth/context/AuthContext';
+import { ReportModalProvider } from './features/report/context/ReportModalContext';
 import { GoogleOAuthProvider as Google } from '@react-oauth/google';
 // import { socket } from './utils/socket';
 
@@ -13,9 +14,11 @@ root.render(
     <React.StrictMode>
         <Google clientId={clientId}>
             <AuthProvider>
-                <GlobalStyles>
-                    <App />
-                </GlobalStyles>
+                <ReportModalProvider>
+                    <GlobalStyles>
+                        <App />
+                    </GlobalStyles>
+                </ReportModalProvider>
             </AuthProvider>
         </Google>
     </React.StrictMode>,

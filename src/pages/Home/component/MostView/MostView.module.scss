@@ -44,7 +44,7 @@
                 height: 8.5rem;
                 background: var(--background-color);
                 border-bottom-right-radius: 2rem;
-                transition: all 0.1      s ease-in-out;
+                transition: all 0.1 s ease-in-out;
             }
 
             img {
@@ -122,6 +122,6 @@
 // media
 @media (max-width: 1600px) {
     .wrapper {
-        padding: 2rem 0 2rem 2rem;
+        padding: 2rem;
     }
 }

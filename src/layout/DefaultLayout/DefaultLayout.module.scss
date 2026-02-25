@@ -48,9 +48,26 @@
     right: 12rem;
     bottom: 5rem;
     width: 35rem;
-    height: 45rem;
+    height: 55rem;
     border-radius: 1rem;
     z-index: 100000;
+}
+
+.report-modal {
+    .overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal {
+        position: fixed;
+        width: 40rem;
+        height: 60rem;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000000;
+    }
 }
 @keyframes fade-in {
     from {

@@ -104,6 +104,7 @@ function App() {
                     closeOnClick
                     pauseOnHover
                     theme="dark"
+                    zIndex={999999999}
                 />
             </div>
         </Router>

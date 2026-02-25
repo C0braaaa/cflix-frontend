@@ -3,10 +3,6 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useParams, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
-import { useAuth } from '../../features/auth/context/AuthContext';
-import styles from './MovieInfo.module.scss';
-import Button from '../../components/Button/index-button';
 import {
     faBookmark,
     faCaretDown,
@@ -17,6 +13,10 @@ import {
     faThumbsDown,
     faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
+
+import { useAuth } from '../../features/auth/context/AuthContext';
+import styles from './MovieInfo.module.scss';
+import Button from '../../components/Button/index-button';
 import { toggleFavoriteAPI, togglePlaylistAPI, checkMovieStatusAPI } from '../../services/userServices';
 import { toggleDislikeAPI, toggleLikeAPI, getRatingAPI } from '../../services/ratingService';
 import { detail } from '../../services/moviesServices';

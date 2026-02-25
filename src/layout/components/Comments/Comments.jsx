@@ -3,16 +3,6 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { socket } from '../../../utils/socket';
-
-import styles from './Comments.module.scss';
-import { useAuth } from '../../../features/auth/context/AuthContext';
-import {
-    addCommentAPI,
-    getCommentBySlugAPI,
-    toggleVoteCommentAPI,
-    deleteCommentAPI,
-} from '../../../services/commentServices';
-import { formatTimeAgo } from '../../../utils/formatDate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faInfinity,
@@ -24,13 +14,27 @@ import {
     faTrash,
     faChevronUp,
     faChevronDown,
+    faFlag,
 } from '@fortawesome/free-solid-svg-icons';
+
+import styles from './Comments.module.scss';
+import { useAuth } from '../../../features/auth/context/AuthContext';
+import {
+    addCommentAPI,
+    getCommentBySlugAPI,
+    toggleVoteCommentAPI,
+    deleteCommentAPI,
+} from '../../../services/commentServices';
+import { formatTimeAgo } from '../../../utils/formatDate';
+import CensoredText from '../../../components/CensoredText/CensoredText';
+import { useReportModal } from '../../../features/report/context/ReportModalContext';
 
 const cx = classNames.bind(styles);
 
 function Comment() {
     const { user, openModal } = useAuth();
     const { slug } = useParams();
+    const { openReportModal } = useReportModal();
     const [text, setText] = useState('');
     const [replyText, setReplyText] = useState('');
     const [replyInputId, setReplyInputId] = useState(null);
@@ -240,7 +244,7 @@ function Comment() {
                         <span className={cx('time')}>{formatTimeAgo(comment?.createdAt)}</span>
                     </div>
                     <div className={cx('content')}>
-                        <p>{comment?.content}</p>
+                        <CensoredText content={comment?.content} />
                     </div>
                     <div className={cx('actions')}>
                         <span
@@ -276,6 +280,18 @@ function Comment() {
                                 <FontAwesomeIcon icon={faTrash} /> Xóa
                             </span>
                         )}
+                        <span
+                            className={cx('report')}
+                            onClick={() =>
+                                openReportModal({
+                                    type: 'comment',
+                                    movie_slug: slug,
+                                    comment_id: comment._id,
+                                })
+                            }
+                        >
+                            <FontAwesomeIcon icon={faFlag} /> Báo cáo
+                        </span>
                     </div>
 
                     {/* FORM NHẬP REPLY */}

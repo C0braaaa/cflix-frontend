@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 import styles from './Footer.module.scss';
 import {
@@ -10,7 +11,6 @@ import {
     faThreads,
     faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
-import { faAt } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -86,14 +86,20 @@ function Footer() {
                     </div>
                 </div>
                 <div className={cx('right-side')}>
-                    <div className={cx('contact')}>
-                        <h4 className={cx('contact-title')}>Liên hệ</h4>
-                        <p className={cx('contact-email')}>
-                            <FontAwesomeIcon icon={faAt} style={{ color: 'var(--primary-color)' }} />
-                            <a href="mailto:cobragaming0fo@gmail.com" className={cx('link')}>
-                                cobragaming0fo@gmail.com
-                            </a>
-                        </p>
+                    <div className={cx('about')}>
+                        <h4 className={cx('about-title')}>VỀ CFLIX</h4>
+                        <Link to="/gioi-thieu" className={cx('link')}>
+                            Giới thiệu
+                        </Link>
+                        <Link to="/lien-he" className={cx('link')}>
+                            Liên hệ
+                        </Link>
+                        <Link to="#" className={cx('link')}>
+                            Điều khoản sử dụng
+                        </Link>
+                        <Link to="#" className={cx('link')}>
+                            Chính sách bảo mật
+                        </Link>
                     </div>
                 </div>
             </div>

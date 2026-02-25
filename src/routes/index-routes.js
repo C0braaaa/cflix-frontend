@@ -17,6 +17,8 @@ import MovieInfo from '../pages/MovieInfo/MovieInfo';
 import Wacth from '../pages/Watch/Watch';
 import FullLatestMovies from '../pages/FullLatestMovies/FullLatestMovies';
 import ForgotPassPage from '../features/auth/components/ForgotPassPage/ForgotPassPage';
+import Introduce from '../pages/AboutCflix/Introduce';
+import Contact from '../pages/AboutCflix/Contact';
 
 //erorr page
 import NotFound404 from '../pages/ErorrPage/NotFound404';
@@ -38,6 +40,8 @@ const publicRoutes = [
     { path: config.routes.watch, component: Wacth },
     { path: config.routes.watchMore, component: FullLatestMovies },
     { path: config.routes.forgotPass, component: ForgotPassPage, layout: null },
+    { path: config.routes.introduction, component: Introduce },
+    { path: config.routes.contact, component: Contact },
     // erorr page
     { path: '*', component: NotFound404 },
 ];

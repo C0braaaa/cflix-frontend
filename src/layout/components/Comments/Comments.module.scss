@@ -201,7 +201,8 @@
         .like,
         .dislike,
         .reply,
-        .delete {
+        .delete,
+        .report {
             cursor: pointer;
         }
         .like.active {
@@ -222,6 +223,9 @@
         }
         .reply:hover {
             color: var(--primary-color);
+        }
+        .report:hover {
+            color: var(--text-color);
         }
     }
 }
