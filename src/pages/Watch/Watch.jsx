@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import { toast } from 'react-toastify';
 
 import styles from './Watch.module.scss';
 import { detail } from '../../services/moviesServices';
@@ -20,12 +21,14 @@ import {
 import Comment from '../../layout/components/Comments/Comments';
 import Player from '../../components/Player/Player';
 import RelatedMovies from './Content/RelatedMovies';
+import { useReportModal } from '../../features/report/context/ReportModalContext';
 
 const cx = classNames.bind(styles);
 
 function Wacth() {
-    const { user } = useAuth();
+    const { user, openModal } = useAuth();
     const { slug, episode } = useParams();
+    const { openReportModal } = useReportModal();
     const [movie, setMovie] = useState([]);
     const [episodes, setEpisodes] = useState([]);
     const [server, setServer] = useState(0);
@@ -156,7 +159,21 @@ function Wacth() {
                             <FontAwesomeIcon icon={faBookmark} />
                             <span>Xem sau</span>
                         </div>
-                        <div className={cx('action')}>
+                        <div
+                            className={cx('action')}
+                            onClick={() => {
+                                if (!user) {
+                                    toast.error('Vui lòng đăng nhập để xử dung tính năng này!');
+                                    openModal('login');
+                                } else {
+                                    openReportModal({
+                                        type: 'movie',
+                                        movie_slug: movie.slug,
+                                        episode: currentEpisode?.name,
+                                    });
+                                }
+                            }}
+                        >
                             <FontAwesomeIcon icon={faFlag} />
                             <span>Phản hồi</span>
                         </div>

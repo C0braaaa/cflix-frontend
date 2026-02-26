@@ -19,7 +19,7 @@
     position: fixed;
     right: 5rem;
     bottom: 5rem;
-    z-index: 100000000;
+    // z-index: 100000000;
 }
 
 .chatbot {
@@ -62,7 +62,7 @@
     .modal {
         position: fixed;
         width: 40rem;
-        height: 60rem;
+        height: 50rem;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);

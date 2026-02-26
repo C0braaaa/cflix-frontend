@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm, faFlag, faHome, faServer, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Overview, Users, Views, Movies } from './DashboardContents';
+import { Overview, Users, Views, Movies, Report } from './DashboardContents';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
 const cx = classNames.bind(styles);
@@ -89,6 +89,7 @@ function DashBoard() {
                 {activeMenu === 'users' && <Users />}
                 {activeMenu === 'view' && <Views />}
                 {activeMenu === 'movies' && <Movies />}
+                {activeMenu === 'reports' && <Report />}
             </div>
         </div>
     );

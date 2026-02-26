@@ -125,3 +125,11 @@
         padding: 2rem;
     }
 }
+
+@media (max-width: 500px) {
+    .heading {
+        .title {
+            font-size: 2rem;
+        }
+    }
+}
