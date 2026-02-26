@@ -4,22 +4,34 @@ import { useState, useEffect } from 'react';
 import {
     faAngleDown,
     faAngleUp,
+    faArrowLeft,
+    faArrowRight,
     faClapperboard,
     faClipboardCheck,
     faClipboardList,
     faCommentDots,
     faSpinner,
     faUpRightFromSquare,
+    faWarning,
 } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 import styles from './Report.module.scss';
-import { getStatsReportsAPI } from '../../../../services/reportService';
+import { getStatsReportsAPI, getReportsAPI } from '../../../../services/reportService';
 const cx = classNames.bind(styles);
 
+const ITEMS_PER_PAGE = 10;
 function Report() {
     const [stats, setStats] = useState([]);
-    const [expanded, setExpanded] = useState(false);
-    // const [type, setType] = useState('');
+    const [expanded, setExpanded] = useState('');
+    const [type, setType] = useState('');
+    const [status, setStatus] = useState('');
+    const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    //pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         const getStats = async () => {
@@ -32,6 +44,40 @@ function Report() {
         };
         getStats();
     }, []);
+
+    useEffect(() => {
+        const getReports = async () => {
+            try {
+                setLoading(true);
+                const res = await getReportsAPI(currentPage, type, status);
+                setReports(res);
+                setTotalPages(res?.pagination?.totalPages);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getReports();
+    }, [currentPage, type, status]);
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber >= 1 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
+    const translateToVietNamese = (status) => {
+        switch (status) {
+            case 'pending':
+                return 'Chờ xử lý';
+            case 'processing':
+                return 'Đang xử lý';
+            case 'resolved':
+                return 'Đã xử lý';
+            default:
+                return '';
+        }
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('stats')}>
@@ -99,74 +145,161 @@ function Report() {
             <div className={cx('filters')}>
                 <div className={cx('filter__type')}>
                     <h4>Loại phản hồi:</h4>
-                    <span className={cx('active')}>Tất cả</span>
-                    <span>Phim</span>
-                    <span>Bình luận</span>
+                    <span className={cx({ active: type === '' })} onClick={() => setType('')}>
+                        Tất cả
+                    </span>
+                    <span className={cx({ active: type === 'movie' })} onClick={() => setType('movie')}>
+                        Phim
+                    </span>
+                    <span className={cx({ active: type === 'comment' })} onClick={() => setType('comment')}>
+                        Bình luận
+                    </span>
+                </div>
+                <div className={cx('filter__status')}>
+                    <h4>Trạng thái:</h4>
+                    <span className={cx({ active: status === '' })} onClick={() => setStatus('')}>
+                        Tất cả
+                    </span>
+                    <span className={cx({ active: status === 'pending' })} onClick={() => setStatus('pending')}>
+                        Chờ xử lý
+                    </span>
+                    <span className={cx({ active: status === 'processing' })} onClick={() => setStatus('processing')}>
+                        Đang xử lý
+                    </span>
+                    <span className={cx({ active: status === 'resolved' })} onClick={() => setStatus('resolved')}>
+                        Đã xứ lý
+                    </span>
                 </div>
             </div>
             <div className={cx('reports-list')}>
-                <div className={cx('report-item', { expanded: expanded })}>
-                    <div className={cx('report-item__heading')}>
-                        <div className={cx('heading-left')}>
-                            <div className={cx('type')}>Báo lỗi phim</div>
-                            <div className={cx('stt')}>#1</div>
-                        </div>
-                        <div className={cx('heading-right')}>
-                            <div className={cx('status-pending')}>CHỜ XỬ LÍ</div>
-                            <div className={cx('access')}>
-                                Truy cập <FontAwesomeIcon icon={faUpRightFromSquare} />
+                {loading ? (
+                    <div className={cx('loader')}></div>
+                ) : (
+                    reports?.data?.map((rep, index) => {
+                        const indexNumber = (currentPage - 1) * ITEMS_PER_PAGE + index + 1;
+                        return (
+                            <div className={cx('report-item', { expanded: expanded === rep?._id })} key={rep?._id}>
+                                <div className={cx('report-item__heading')}>
+                                    <div className={cx('heading-left')}>
+                                        <div className={cx('stt')}>{`#${indexNumber}`}</div>
+                                        <div className={cx('type')}>
+                                            {rep?.type === 'movie' ? 'Báo lỗi phim' : 'Báo cáo bình luận'}
+                                        </div>
+                                    </div>
+                                    <div className={cx('heading-right')}>
+                                        <div className={cx('status-pending')}>{translateToVietNamese(rep?.status)}</div>
+                                        <Link className={cx('access')} to={`/phim/${rep?.movie_slug}`}>
+                                            Truy cập <FontAwesomeIcon icon={faUpRightFromSquare} />
+                                        </Link>
+                                        <div
+                                            className={cx('expand')}
+                                            onClick={() => setExpanded((prev) => (prev === rep?._id ? null : rep?._id))}
+                                        >
+                                            {expanded !== rep?._id ? (
+                                                <FontAwesomeIcon icon={faAngleDown} />
+                                            ) : (
+                                                <FontAwesomeIcon
+                                                    icon={faAngleUp}
+                                                    style={{ color: 'var(--primary-color)' }}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <table className={cx('report-table')} cellPadding="0" cellSpacing="0">
+                                    <thead className={cx('table-header')}>
+                                        {rep?.type === 'movie' ? (
+                                            <tr>
+                                                <th>Người gửi</th>
+                                                <th>Slug</th>
+                                                <th>Tập phim</th>
+                                                <th>Ngày tạo</th>
+                                            </tr>
+                                        ) : (
+                                            <tr>
+                                                <th>Người gửi</th>
+                                                <th>Slug</th>
+                                                <th>Người bình luận</th>
+                                                <th>Ngày tạo</th>
+                                            </tr>
+                                        )}
+                                    </thead>
+                                    <tbody className={cx('table-body')}>
+                                        {rep?.type === 'movie' ? (
+                                            <tr>
+                                                <td>{rep?.reporter_name}</td>
+                                                <td>{rep?.movie_slug}</td>
+                                                <td>{rep?.episode}</td>
+                                                <td>{rep?.createdAt.slice(0, 10)}</td>
+                                            </tr>
+                                        ) : (
+                                            <tr>
+                                                <td>{rep?.reporter_name}</td>
+                                                <td>{rep?.movie_slug}</td>
+                                                <td>{rep?.username}</td>
+                                                <td>{rep?.createdAt.slice(0, 10)}</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                                <div className={cx('report-item__reasons')}>
+                                    <span className={cx('reasons-title')}>Lý do</span>
+                                    <div className={cx('reasons-list')}>
+                                        {rep?.reason?.map((rea, index) => (
+                                            <span className={cx('reason')} key={index}>
+                                                {rea}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className={cx('report-item__details')}>
+                                    <span className={cx('details-title')}>Lý do chi tiết</span>
+                                    <textarea
+                                        name="details"
+                                        id="details"
+                                        value={rep?.details === null ? 'N/A' : rep?.details}
+                                        readOnly
+                                        rows={4}
+                                        className={cx('details-textarea')}
+                                    />
+                                </div>
+                                <div className={cx('report-item__actions')}>
+                                    <button className={cx('action-btn')}>Xóa phản hồi</button>
+                                </div>
                             </div>
-                            <div className={cx('expand')} onClick={() => setExpanded((prev) => !prev)}>
-                                {expanded ? (
-                                    <FontAwesomeIcon icon={faAngleUp} />
-                                ) : (
-                                    <FontAwesomeIcon icon={faAngleDown} style={{ color: 'var(--primary-color)' }} />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    <table className={cx('report-table')} cellPadding="0" cellSpacing="0">
-                        <thead className={cx('table-header')}>
-                            <tr>
-                                <th>Người gửi</th>
-                                <th>Slug</th>
-                                <th>Tập phim</th>
-                                <th>Ngày tạo</th>
-                            </tr>
-                        </thead>
-                        <tbody className={cx('table-body')}>
-                            <tr>
-                                <td>Thanh Hiếu</td>
-                                <td>sup-do-phan-2</td>
-                                <td>Tập 2</td>
-                                <td>2026/02/26</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className={cx('report-item__reasons')}>
-                        <span className={cx('reasons-title')}>Lý do</span>
-                        <div className={cx('reasons-list')}>
-                            <span className={cx('reason')}>Không xem được</span>
-                            <span className={cx('reason')}>Không xem được</span>
-                            <span className={cx('reason')}>Không xem được</span>
-                        </div>
-                    </div>
-                    <div className={cx('report-item__details')}>
-                        <span className={cx('details-title')}>Lý do chi tiết</span>
-                        <textarea
-                            name="details"
-                            id="details"
-                            value={'phim nay bị cai gi rồi bạn ơi'}
-                            readOnly
-                            rows={4}
-                            className={cx('details-textarea')}
-                        />
-                    </div>
-                    <div className={cx('report-item__actions')}>
-                        <button className={cx('action-btn')}>Xóa phản hồi</button>
+                        );
+                    })
+                )}
+            </div>
+            {reports?.data?.length === 0 && (
+                <div className={cx('nodata')}>
+                    <FontAwesomeIcon icon={faWarning} />
+                    <p>Không có dữ liệu, hãy thử lại!</p>
+                </div>
+            )}
+            {totalPages > 1 && (
+                <div className={cx('pagination-wrapper')}>
+                    <div className={cx('pagination')}>
+                        <button
+                            className={cx('page-btn')}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        >
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </button>
+                        <span className={cx('page-info')}>
+                            Trang {currentPage}/ {totalPages}
+                        </span>
+                        <button
+                            className={cx('page-btn')}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                        >
+                            <FontAwesomeIcon icon={faArrowRight} />
+                        </button>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

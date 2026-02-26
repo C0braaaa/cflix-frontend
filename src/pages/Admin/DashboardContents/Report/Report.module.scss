@@ -64,7 +64,8 @@
     align-items: center;
     gap: 2rem;
     margin-bottom: 2rem;
-    .filter__type {
+    .filter__type,
+    .filter__status {
         font-size: 1.4rem;
         display: flex;
         gap: 1.5rem;
@@ -78,15 +79,21 @@
 
         span {
             cursor: pointer;
-            background-color: #334155;
-            padding: 0.2rem 0.5rem;
+            padding: 0.2rem 1rem;
             border-radius: 0.5rem;
             font-weight: 500;
             transition: all 0.3s ease;
+
+            &.active {
+                background-color: #334155;
+            }
         }
     }
 }
 .reports-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     width: 100%;
 
     .report-item {
@@ -101,7 +108,6 @@
         flex-direction: column;
         border: 1px solid var(--border-color);
         justify-content: flex-start;
-        transition: all 0.3s ease;
 
         &.expanded {
             max-height: 100rem;
@@ -160,7 +166,7 @@
                 .status-pending {
                     background-color: var(--dashboard-color-7);
                     color: var(--dashboard-color-text-4);
-                    font-size: 1rem;
+                    font-size: 1.2rem;
                     display: flex;
                     align-items: center;
                     padding: 0.5rem 1rem;
@@ -267,5 +273,102 @@
                 background-color: var(--dashboard-color-10);
             }
         }
+    }
+}
+
+.nodata {
+    padding: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    color: var(--text-black);
+    background-color: var(--warning-color);
+}
+
+.pagination-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    // margin-top: 2rem;
+    padding: 2rem;
+
+    .pagination {
+        height: 6rem;
+        border-radius: 1rem;
+        padding: 1rem;
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        background-color: var(--dashboard-color);
+
+        .page-info {
+            font-size: 1.4rem;
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            font-weight: 600;
+        }
+
+        .page-btn {
+            border-radius: 1rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+    }
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 45px;
+    aspect-ratio: 1;
+    position: absolute;
+    top: 40rem;
+    right: 50%;
+    transform: translateX(50%);
+    --c: no-repeat linear-gradient(#ffffff 0 0);
+    background:
+        var(--c) 0% 50%,
+        var(--c) 50% 50%,
+        var(--c) 100% 50%;
+    background-size: 20% 100%;
+    animation: l1 1s infinite linear;
+}
+@keyframes l1 {
+    0% {
+        background-size:
+            20% 100%,
+            20% 100%,
+            20% 100%;
+    }
+    33% {
+        background-size:
+            20% 10%,
+            20% 100%,
+            20% 100%;
+    }
+    50% {
+        background-size:
+            20% 100%,
+            20% 10%,
+            20% 100%;
+    }
+    66% {
+        background-size:
+            20% 100%,
+            20% 100%,
+            20% 10%;
+    }
+    100% {
+        background-size:
+            20% 100%,
+            20% 100%,
+            20% 100%;
     }
 }
