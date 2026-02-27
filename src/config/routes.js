@@ -7,6 +7,7 @@ const routes = {
     category: '/the-loai/:slug',
     nation: '/quoc-gia/:slug',
     dubbed: '/phim-thuyet-minh',
+    voiceover: '/phim-long-tieng',
     topics: '/chu-de',
     topicsDetail: '/chu-de/:slug',
     movieInfo: '/phim/:slug',

@@ -6,6 +6,8 @@ import {
     faAngleUp,
     faArrowLeft,
     faArrowRight,
+    faCaretDown,
+    faCaretUp,
     faClapperboard,
     faClipboardCheck,
     faClipboardList,
@@ -15,24 +17,48 @@ import {
     faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import styles from './Report.module.scss';
-import { getStatsReportsAPI, getReportsAPI } from '../../../../services/reportService';
+import {
+    getStatsReportsAPI,
+    getReportsAPI,
+    deleteReportAPI,
+    updateStatusAPI,
+} from '../../../../services/reportService';
 const cx = classNames.bind(styles);
 
 const ITEMS_PER_PAGE = 10;
 function Report() {
     const [stats, setStats] = useState([]);
     const [expanded, setExpanded] = useState('');
+    const [expandedStatus, setExpandedStatus] = useState('');
     const [type, setType] = useState('');
     const [status, setStatus] = useState('');
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [isChangeStatus, setIsChangeStatus] = useState('');
+
+    const listStatus = [
+        {
+            name: 'Chờ xử lý',
+            value: 'pending',
+        },
+        {
+            name: 'Đang xử lý',
+            value: 'processing',
+        },
+        {
+            name: 'Đã xử lý',
+            value: 'resolved',
+        },
+    ];
 
     //pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
 
+    //Get stats
     useEffect(() => {
         const getStats = async () => {
             try {
@@ -43,14 +69,15 @@ function Report() {
             }
         };
         getStats();
-    }, []);
+    }, [reports]);
 
+    // get reports
     useEffect(() => {
         const getReports = async () => {
             try {
                 setLoading(true);
                 const res = await getReportsAPI(currentPage, type, status);
-                setReports(res);
+                setReports(res?.data);
                 setTotalPages(res?.pagination?.totalPages);
             } catch (error) {
                 console.log(error);
@@ -60,6 +87,31 @@ function Report() {
         };
         getReports();
     }, [currentPage, type, status]);
+
+    // delete report
+    const handleDeleteReport = async (id) => {
+        try {
+            const res = await deleteReportAPI(id);
+            if (res && res.status) {
+                toast.success('Xóa phản hồi thành công!');
+                setReports((prev) => prev.filter((report) => report._id !== id));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // update status
+    const handleUpdateStatus = async (id, status) => {
+        try {
+            const res = await updateStatusAPI(id, { status: status });
+            if (res && res.status) {
+                toast.success('Cập nhật trạng thái thành công!');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handlePageChange = (pageNumber) => {
         if (pageNumber >= 1 && pageNumber <= totalPages) {
@@ -175,7 +227,7 @@ function Report() {
                 {loading ? (
                     <div className={cx('loader')}></div>
                 ) : (
-                    reports?.data?.map((rep, index) => {
+                    reports?.map((rep, index) => {
                         const indexNumber = (currentPage - 1) * ITEMS_PER_PAGE + index + 1;
                         return (
                             <div className={cx('report-item', { expanded: expanded === rep?._id })} key={rep?._id}>
@@ -187,7 +239,46 @@ function Report() {
                                         </div>
                                     </div>
                                     <div className={cx('heading-right')}>
-                                        <div className={cx('status-pending')}>{translateToVietNamese(rep?.status)}</div>
+                                        <div className={cx('status', { expanded: expandedStatus === rep?._id })}>
+                                            <div
+                                                className={cx(`status-${rep?.status}`)}
+                                                onClick={() => {
+                                                    setIsChangeStatus((prev) => (prev === rep?._id ? null : rep?._id));
+                                                    setExpandedStatus((prev) => (prev === rep?._id ? null : rep?._id));
+                                                }}
+                                            >
+                                                {translateToVietNamese(rep?.status)}
+                                                {isChangeStatus === rep?._id ? (
+                                                    <FontAwesomeIcon icon={faCaretUp} />
+                                                ) : (
+                                                    <FontAwesomeIcon icon={faCaretDown} />
+                                                )}
+                                            </div>
+                                            <div className={cx('list-status')}>
+                                                {listStatus
+                                                    .filter((item) => item.value !== rep?.status)
+                                                    .map((item, index) => (
+                                                        <span
+                                                            key={index}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setReports((prev) =>
+                                                                    prev.map((r) =>
+                                                                        r._id === rep._id
+                                                                            ? { ...r, status: item.value }
+                                                                            : r,
+                                                                    ),
+                                                                );
+                                                                handleUpdateStatus(rep._id, item.value);
+                                                                setExpandedStatus('');
+                                                                setIsChangeStatus('');
+                                                            }}
+                                                        >
+                                                            {item.name}
+                                                        </span>
+                                                    ))}
+                                            </div>
+                                        </div>
                                         <Link className={cx('access')} to={`/phim/${rep?.movie_slug}`}>
                                             Truy cập <FontAwesomeIcon icon={faUpRightFromSquare} />
                                         </Link>
@@ -256,14 +347,17 @@ function Report() {
                                     <span className={cx('details-title')}>Lý do chi tiết</span>
                                     <textarea
                                         name="details"
-                                        id="details"
-                                        value={rep?.details === null ? 'N/A' : rep?.details}
+                                        id={`details-${rep?._id}`}
+                                        value={rep?.details === '' ? 'N/A' : rep?.details}
                                         readOnly
                                         rows={4}
                                         className={cx('details-textarea')}
                                     />
                                 </div>
-                                <div className={cx('report-item__actions')}>
+                                <div
+                                    className={cx('report-item__actions')}
+                                    onClick={() => handleDeleteReport(rep?._id)}
+                                >
                                     <button className={cx('action-btn')}>Xóa phản hồi</button>
                                 </div>
                             </div>
@@ -271,7 +365,7 @@ function Report() {
                     })
                 )}
             </div>
-            {reports?.data?.length === 0 && (
+            {reports?.length === 0 && (
                 <div className={cx('nodata')}>
                     <FontAwesomeIcon icon={faWarning} />
                     <p>Không có dữ liệu, hãy thử lại!</p>

@@ -19,6 +19,7 @@ import FullLatestMovies from '../pages/FullLatestMovies/FullLatestMovies';
 import ForgotPassPage from '../features/auth/components/ForgotPassPage/ForgotPassPage';
 import Introduce from '../pages/AboutCflix/Introduce';
 import Contact from '../pages/AboutCflix/Contact';
+import Voiceover from '../pages/Voiceover/Voiceover';
 
 //erorr page
 import NotFound404 from '../pages/ErorrPage/NotFound404';
@@ -33,6 +34,7 @@ const publicRoutes = [
     { path: config.routes.category, component: Genres },
     { path: config.routes.nation, component: Nations },
     { path: config.routes.dubbed, component: DubbedMovie },
+    { path: config.routes.voiceover, component: Voiceover },
     { path: config.routes.topics, component: FullTopics },
     { path: config.routes.topicsDetail, component: TopicsDetail },
     { path: config.routes.user, component: UserPage },

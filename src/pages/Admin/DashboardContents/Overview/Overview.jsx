@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, Legend } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignal, faUser, faUserClock } from '@fortawesome/free-solid-svg-icons';
+import { faSignal, faSpinner, faUser, faUserClock } from '@fortawesome/free-solid-svg-icons';
 import { socket } from '../../../../utils/socket';
 
 import styles from './Overview.module.scss';
@@ -63,14 +63,18 @@ function Overview() {
                 <div className={cx('card')}>
                     <div className={cx('card-left-side')}>
                         <h3 className={cx('card-title')}>Tổng User</h3>
-                        <span className={cx('card-value')}>{countUser}</span>
+                        <span className={cx('card-value')}>
+                            {countUser === 0 ? <FontAwesomeIcon icon={faSpinner} spin /> : countUser}
+                        </span>
                     </div>
                     <FontAwesomeIcon icon={faUser} />
                 </div>
                 <div className={cx('card')}>
                     <div className={cx('card-left-side')}>
                         <h3 className={cx('card-title')}>Đang truy cập</h3>
-                        <span className={cx('card-value')}>{onlineUsers}</span>
+                        <span className={cx('card-value')}>
+                            {onlineUsers === 0 ? <FontAwesomeIcon icon={faSpinner} spin /> : onlineUsers}
+                        </span>
                     </div>
                     <FontAwesomeIcon icon={faSignal} />
                 </div>

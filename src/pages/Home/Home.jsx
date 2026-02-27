@@ -73,7 +73,7 @@ function Home() {
             )}
             {isShowAddSlide && <AddSlide setShow={setIsShowAddSlide} onSuccess={fetchSlider} dataToEdit={dataToEdit} />}
             <Slider sliders={sliderList} onSuccess={fetchSlider} onEdit={handleEditClick} />
-            <Topics />
+            {/* <Topics /> */}
             {user && <ContinueWatching />}
             <LatestMovie
                 slug="phim-le"
@@ -98,6 +98,7 @@ function Home() {
                 title="Phim hoạt hình mới nhất 2026"
                 link="f/hoat-hinh-moi-nhat"
             />
+            <MostView title="Top 10 phim hoạt hình xem nhiều nhất!" type="hoathinh" />
         </div>
     );
 }

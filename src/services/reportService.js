@@ -13,3 +13,11 @@ export const getReportsAPI = async (page = 1, type = null, status = null) => {
         params: { page, type, status },
     });
 };
+
+export const deleteReportAPI = async (id) => {
+    return await request.remove(`report/${id}`);
+};
+
+export const updateStatusAPI = async (id, data) => {
+    return await request.put(`report/${id}/status`, data);
+};

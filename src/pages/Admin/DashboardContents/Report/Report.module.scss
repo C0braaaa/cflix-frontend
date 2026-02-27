@@ -83,9 +83,11 @@
             border-radius: 0.5rem;
             font-weight: 500;
             transition: all 0.3s ease;
+            color: var(--text-color);
 
             &.active {
-                background-color: #334155;
+                background-color: var(--dashboard-color-2);
+                color: var(--primary-color);
             }
         }
     }
@@ -163,16 +165,78 @@
                 display: flex;
                 gap: 2rem;
 
-                .status-pending {
-                    background-color: var(--dashboard-color-7);
-                    color: var(--dashboard-color-text-4);
-                    font-size: 1.2rem;
+                .status {
+                    position: relative;
                     display: flex;
-                    align-items: center;
-                    padding: 0.5rem 1rem;
-                    border-radius: 1rem;
-                    font-weight: 600;
-                    cursor: pointer;
+                    flex-direction: column;
+
+                    &.expanded .list-status {
+                        display: flex;
+                    }
+
+                    &.expanded {
+                        .status-pending,
+                        .status-processing,
+                        .status-resolved {
+                            border-bottom-left-radius: 0;
+                            border-bottom-right-radius: 0;
+                        }
+                    }
+
+                    .status-pending,
+                    .status-processing,
+                    .status-resolved {
+                        font-size: 1.3rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        padding: 0.5rem 1rem;
+                        border-radius: 1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                    }
+                    .status-pending {
+                        background-color: var(--dashboard-color-7);
+                        color: var(--dashboard-color-text-4);
+                    }
+                    .status-processing {
+                        background-color: var(--dashboard-color-11);
+                        color: var(--dashboard-color-text-6);
+                    }
+                    .status-resolved {
+                        background-color: var(--dashboard-color-4);
+                        color: var(--dashboard-color-text-1);
+                    }
+                    .list-status {
+                        position: absolute;
+                        top: 100%;
+                        background-color: var(--primary);
+                        color: var(--text-black);
+                        left: 0;
+                        width: 100%;
+                        z-index: 100;
+                        display: none;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 1rem;
+                        font-size: 1.3rem;
+                        gap: 0.5rem;
+                        padding: 0.5rem;
+                        border-bottom-left-radius: 1rem;
+                        border-bottom-right-radius: 1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+
+                        span {
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            &:hover {
+                                background-color: #eeeeee;
+                            }
+                        }
+                    }
                 }
                 .access {
                     background-color: var(--dashboard-color-6);
@@ -226,7 +290,7 @@
                 gap: 1.5rem;
                 flex-wrap: wrap;
                 .reason {
-                    background-color: #243b55;
+                    background-color: var(--dashboard-color-2);
                     font-size: 1.4rem;
                     font-weight: 300;
                     border: 2px solid var(--primary-color);

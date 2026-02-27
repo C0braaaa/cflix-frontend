@@ -115,7 +115,8 @@
                 transition: all 0.3s ease;
 
                 &.active {
-                    background-color: #334155;
+                    background-color: var(--dashboard-color-2);
+                    color: var(--primary-color);
                 }
             }
         }

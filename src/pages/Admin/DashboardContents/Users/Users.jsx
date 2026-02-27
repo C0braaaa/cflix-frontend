@@ -10,6 +10,7 @@ import {
     faLock,
     faPen,
     faSearch,
+    faSpinner,
     faTrash,
     faUnlock,
     faUserCheck,
@@ -181,28 +182,48 @@ function Users() {
                         <FontAwesomeIcon icon={faUsers} />
                     </div>
                     <span className={cx('card-title')}>Tổng người dùng</span>
-                    <span className={cx('card-value')}>{stats.totalUsers}</span>
+                    <span className={cx('card-value')}>
+                        {stats.totalUsers === undefined ? <FontAwesomeIcon icon={faSpinner} spin /> : stats.totalUsers}
+                    </span>
                 </div>
                 <div className={cx('card')}>
                     <div className={cx('card-icon')}>
                         <FontAwesomeIcon icon={faUserCheck} />
                     </div>
                     <span className={cx('card-title')}>Đang hoạt động</span>
-                    <span className={cx('card-value')}>{stats.totalActive}</span>
+                    <span className={cx('card-value')}>
+                        {stats.totalActive === undefined ? (
+                            <FontAwesomeIcon icon={faSpinner} spin />
+                        ) : (
+                            stats.totalActive
+                        )}
+                    </span>
                 </div>
                 <div className={cx('card')}>
                     <div className={cx('card-icon')}>
                         <FontAwesomeIcon icon={faLock} />
                     </div>
                     <span className={cx('card-title')}>Bị khóa</span>
-                    <span className={cx('card-value')}>{stats.totalInactive}</span>
+                    <span className={cx('card-value')}>
+                        {stats.totalInactive === undefined ? (
+                            <FontAwesomeIcon icon={faSpinner} spin />
+                        ) : (
+                            stats.totalInactive
+                        )}
+                    </span>
                 </div>
                 <div className={cx('card')}>
                     <div className={cx('card-icon')}>
                         <FontAwesomeIcon icon={faUserPlus} />
                     </div>
                     <span className={cx('card-title')}>Mới hôm nay</span>
-                    <span className={cx('card-value')}>{stats.totalNewToday}</span>
+                    <span className={cx('card-value')}>
+                        {stats.totalNewToday === undefined ? (
+                            <FontAwesomeIcon icon={faSpinner} spin />
+                        ) : (
+                            stats.totalNewToday
+                        )}
+                    </span>
                 </div>
             </div>
             <div className={cx('heading')}>

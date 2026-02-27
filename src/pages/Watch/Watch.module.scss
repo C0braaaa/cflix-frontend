@@ -68,6 +68,7 @@
             }
             .tags {
                 display: flex;
+                flex-wrap: wrap;
                 gap: 1rem;
                 .tag {
                     border-radius: 0.5rem;

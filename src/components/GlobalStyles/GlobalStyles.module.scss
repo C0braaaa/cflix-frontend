@@ -12,6 +12,9 @@
     --text-color: #ffffff;
     --text-color-1: #aaa;
     --text-color-2: #ed6f08;
+    --text-color-3: #fff;
+
+    // background
     --background-color: #191b24;
     --background-color-1: #0f111a;
     --background-color-2: #ffffff10;
@@ -28,7 +31,7 @@
     // dashboard
     --dashboard-color: #27293c;
     --dashboard-color-1: #3a404d;
-    --dashboard-color-2: #ebffff;
+    --dashboard-color-2: #243b55;
     --dashboard-color-3: #1e1e2e;
     --dashboard-color-4: #173126;
     --dashboard-color-5: #312521;
@@ -37,16 +40,67 @@
     --dashboard-color-8: #4a2e1f;
     --dashboard-color-9: #33265a;
     --dashboard-color-10: #ef4444;
+    --dashboard-color-11: #bfe1f6;
+    // dashboard text
     --dashboard-color-text: #a0aec0;
     --dashboard-color-text-1: #00ff94;
     --dashboard-color-text-2: #ff8300;
     --dashboard-color-text-3: #0dccf2;
     --dashboard-color-text-4: #f59e0b;
     --dashboard-color-text-5: #a855f7;
+    --dashboard-color-text-6: #1a5db0;
     --warning-color: #f5de4e;
 
     --border-color: #fff4;
     --font-family: 'Roboto', sans-serif;
+}
+// dashboard light theme
+[data-admin-theme='light'] {
+    --primary: #000;
+    --primary-color: #0ea5e9; // Đổi cyan thành xanh dương cho dễ đọc trên nền trắng
+    --primary-text: #0ea5e9;
+    --text-black: #ffffff;
+    --black: #ffffff;
+    --light-gray: #333333;
+
+    --text-color: #334155; // Chữ xám đậm
+    --text-color-1: #64748b; // Chữ xám nhạt
+    --text-color-2: #ea580c;
+    --text-color-3: #fff;
+
+    // Nền tổng thể
+    --background-color: #f1f5f9;
+    --background-color-1: #ffffff;
+    --background-color-2: rgba(0, 0, 0, 0.05);
+    --background-color-3: #f8fafc; // Màu nền content
+
+    // Nền thẻ card, dashboard
+    --dashboard-color: #ffffff; // Card màu trắng
+    --dashboard-color-1: #e2e8f0; // Nền cục toggle
+    --dashboard-color-2: #e0f2fe;
+    --dashboard-color-3: #f1f5f9; // Background content chính
+
+    // Màu các Label / Status (Dùng màu Pastel sáng)
+    --dashboard-color-4: #dcfce7; // Resolved bg (Xanh lá nhạt)
+    --dashboard-color-5: #fee2e2; // Not full bg (Đỏ nhạt)
+    --dashboard-color-6: #e0f2fe; // Type bg (Xanh dương nhạt)
+    --dashboard-color-7: #fef9c3; // Pending bg (Vàng nhạt)
+    --dashboard-color-8: #ffedd5; // Cam nhạt
+    --dashboard-color-9: #f3e8ff; // Tím nhạt
+    --dashboard-color-10: #ef4444; // Nút xóa (Đỏ)
+    --dashboard-color-11: #dbeafe; // Processing bg (Xanh lam nhạt)
+
+    // Màu chữ của Label / Status (Dùng màu đậm để tương phản)
+    --dashboard-color-text: #64748b;
+    --dashboard-color-text-1: #16a34a; // Resolved text
+    --dashboard-color-text-2: #ea580c;
+    --dashboard-color-text-3: #0284c7; // Type text
+    --dashboard-color-text-4: #ca8a04; // Pending text
+    --dashboard-color-text-5: #9333ea;
+    --dashboard-color-text-6: #2563eb; // Processing text
+    --warning-color: #fef08a;
+
+    --border-color: rgba(0, 0, 0, 0.5); // Viền xám mờ
 }
 
 *::selection {

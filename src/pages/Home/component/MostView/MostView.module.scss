@@ -15,15 +15,18 @@
 .content {
     width: 100%;
     .item {
+        cursor: -webkit-grab;
+        cursor: grab;
         width: auto;
         .card {
+            cursor: -webkit-grab;
+            cursor: grab;
             flex-shrink: 0;
             position: relative;
             width: 28rem;
             height: 45rem;
             background: #d9d9d9;
             border-radius: 1rem;
-            cursor: pointer;
             transition: all 0.1s ease-in-out;
 
             &:hover {
@@ -45,6 +48,11 @@
                 background: var(--background-color);
                 border-bottom-right-radius: 2rem;
                 transition: all 0.1 s ease-in-out;
+            }
+
+            &:active {
+                cursor: -webkit-grabbing;
+                cursor: grabbing;
             }
 
             img {
@@ -130,6 +138,14 @@
     .heading {
         .title {
             font-size: 2rem;
+        }
+    }
+    .content {
+        .item {
+            .card {
+                width: 24rem;
+                height: 35rem;
+            }
         }
     }
 }

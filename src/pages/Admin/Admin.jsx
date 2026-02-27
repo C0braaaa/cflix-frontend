@@ -4,8 +4,17 @@ import { Link } from 'react-router-dom';
 
 import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilm, faFlag, faHome, faServer, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Overview, Users, Views, Movies, Report } from './DashboardContents';
+import {
+    faFilm,
+    faFlag,
+    faHome,
+    faMoon,
+    faServer,
+    faSun,
+    faTableCellsLarge,
+    faUser,
+} from '@fortawesome/free-solid-svg-icons';
+import { Overview, Users, Movies, Report } from './DashboardContents';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
 const cx = classNames.bind(styles);
@@ -14,13 +23,34 @@ function DashBoard() {
     const { user } = useAuth();
     useEffect(() => {
         document.title = 'Dashboard - Admin';
+        // document.documentElement.removeAttribute('data-theme');
     });
 
     const [activeMenu, setActiveMenu] = useState('overview');
+    const [toggleTheme, setToggleTheme] = useState(() => {
+        return localStorage.getItem('admin-theme') || 'dark';
+    });
+
+    useEffect(() => {
+        localStorage.setItem('admin-theme', toggleTheme);
+    }, [toggleTheme]);
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper')} data-admin-theme={toggleTheme}>
             <header className={cx('header')}>
+                <div className={cx('toggle-theme')}>
+                    <div className={cx('toggle')}>
+                        <span
+                            onClick={() => setToggleTheme('light')}
+                            className={cx({ active: toggleTheme === 'light' })}
+                        >
+                            <FontAwesomeIcon icon={faSun} color="#FFD700" />
+                        </span>
+                        <span onClick={() => setToggleTheme('dark')} className={cx({ active: toggleTheme === 'dark' })}>
+                            <FontAwesomeIcon icon={faMoon} />
+                        </span>
+                    </div>
+                </div>
                 <div className={cx('admin-options')}>
                     <div className={cx('admin-info')}>
                         <div className={cx('name')}>
@@ -36,7 +66,10 @@ function DashBoard() {
             <div className={cx('sidebar')}>
                 <div className={cx('logo')}>
                     <div className={cx('logo-img')}>
-                        <img src="/assets/images/logo.png" alt="logo" />
+                        <img
+                            src={toggleTheme === 'dark' ? '/assets/images/logo.png' : '/assets/images/logo_mau_den.png'}
+                            alt="logo"
+                        />
                     </div>
                 </div>
                 <div className={cx('menu')}>
@@ -87,7 +120,7 @@ function DashBoard() {
             <div className={cx('content')}>
                 {activeMenu === 'overview' && <Overview />}
                 {activeMenu === 'users' && <Users />}
-                {activeMenu === 'view' && <Views />}
+                {/* {activeMenu === 'view' && <Views />} */}
                 {activeMenu === 'movies' && <Movies />}
                 {activeMenu === 'reports' && <Report />}
             </div>
