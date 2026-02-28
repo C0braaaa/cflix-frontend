@@ -9,6 +9,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import AuthContainer from './features/auth/AuthContainer';
 import SplashScreen from './components/SplashScreen/SplashPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import { addTrafficAPI } from './services/trafficService';
 
 function App() {
     const [splashScreen, setSplashScreen] = useState(true);
@@ -18,6 +19,27 @@ function App() {
             setSplashScreen(false);
         }, 2500);
         return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        const addTraffic = async () => {
+            try {
+                const today = new Date().toLocaleDateString('vi-VN', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                });
+
+                const lastVisitDate = localStorage.getItem('cflix_last_visit');
+                if (lastVisitDate !== today) {
+                    await addTrafficAPI();
+                    localStorage.setItem('cflix_last_visit', today);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        addTraffic();
     }, []);
 
     useEffect(() => {

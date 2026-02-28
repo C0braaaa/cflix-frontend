@@ -1,37 +1,38 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, Legend } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignal, faSpinner, faUser, faUserClock } from '@fortawesome/free-solid-svg-icons';
 import { socket } from '../../../../utils/socket';
 
 import styles from './Overview.module.scss';
+import TrafficBarChart from './TrafficBarChart';
 import { getAllUSersAPI } from '../../../../services/userServices';
+import { getTrafficStatsAPI } from '../../../../services/trafficService';
 
 const cx = classNames.bind(styles);
-// Mock data cho biểu đồ lưu lượng truy cập
-const dataTraffic = [
-    { name: 'T2', uv: 4000, pv: 2400 },
-    { name: 'T3', uv: 3000, pv: 1398 },
-    { name: 'T4', uv: 2000, pv: 9800 },
-    { name: 'T5', uv: 2780, pv: 3908 },
-    { name: 'T6', uv: 1890, pv: 4800 },
-    { name: 'T7', uv: 2390, pv: 3800 },
-    { name: 'CN', uv: 3490, pv: 4300 },
-];
-
-// Mock data cho biểu đồ phân bổ thiết bị
-// Data mẫu
-const dataDevice = [
-    { name: 'Mobile', value: 4000 }, // Xem trên điện thoại
-    { name: 'Desktop', value: 3000 }, // Xem trên PC
-    { name: 'Tablet', value: 1000 },
-];
-const COLORS = ['#2E86DE', '#1DD1A1', '#FF9F43']; // Blue, Green, Orange
 function Overview() {
     const [countUser, setCountUser] = useState(0);
     const [onlineUsers, setOnlineUsers] = useState(0);
+
+    const [trafficData, setTrafficData] = useState([]);
+    const [filterDays, setFilterDays] = useState(7);
+    const [highestTraffic, setHighestTraffic] = useState(null);
+
+    useEffect(() => {
+        const fetchTrafficStats = async () => {
+            try {
+                const res = await getTrafficStatsAPI(filterDays);
+                if (res && res.data) {
+                    setTrafficData(res?.data?.chartData || []);
+                    setHighestTraffic(res?.data?.trafficHighestInDay?.views || null);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchTrafficStats();
+    }, [filterDays]);
 
     // total users
     useEffect(() => {
@@ -80,98 +81,26 @@ function Overview() {
                 </div>
                 <div className={cx('card')}>
                     <div className={cx('card-left-side')}>
-                        <h3 className={cx('card-title')}>Phiên lâu nhất</h3>
-                        <span className={cx('card-value')}>4h 30m</span>
+                        <h3 className={cx('card-title')}>Lưu lượng truy cập nhiều nhất trong 1 ngày</h3>
+                        <span className={cx('card-value')}>{highestTraffic}</span>
                     </div>
                     <FontAwesomeIcon icon={faUserClock} />
                 </div>
             </div>
             {/* Chart Section */}
             <div className={cx('charts-section')}>
-                {/* Biểu đồ chính: Lưu lượng truy cập */}
                 <div className={cx('chart-container', 'main-chart')}>
                     <div className={cx('chart-header')}>
                         <h3>Lưu lượng truy cập</h3>
-                        {/* Dropdown filter giả lập */}
                         <select className={cx('chart-filter')}>
-                            <option>7 ngày qua</option>
-                            <option>Tháng này</option>
+                            <option onClick={() => setFilterDays(7)}>7 ngày qua</option>
+                            <option onClick={() => setFilterDays(14)}>14 ngày qua</option>
                         </select>
                     </div>
 
                     <div className={cx('chart-body')}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={dataTraffic} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                                {/* Định nghĩa màu Gradient cho đẹp */}
-                                <defs>
-                                    <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#2E86DE" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#2E86DE" stopOpacity={0} />
-                                    </linearGradient>
-                                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#FF6B6B" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#FF6B6B" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-
-                                <XAxis dataKey="name" stroke="#a0aec0" />
-                                <YAxis stroke="#a0aec0" />
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                                <Tooltip
-                                    contentStyle={{
-                                        backgroundColor: '#fff',
-                                        borderRadius: '8px',
-                                        border: 'none',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                                    }}
-                                />
-
-                                {/* Vẽ đường biểu đồ */}
-                                <Area
-                                    type="monotone"
-                                    dataKey="pv"
-                                    stroke="#2E86DE"
-                                    fillOpacity={1}
-                                    fill="url(#colorPv)"
-                                    name="Lượt xem"
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="uv"
-                                    stroke="#FF6B6B"
-                                    fillOpacity={1}
-                                    fill="url(#colorUv)"
-                                    name="Người dùng"
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
-                {/* Biểu đồ phân bộ thiết bị */}
-                <div className={cx('chart-container', 'sub-chart')}>
-                    <h3 className={cx('chart-title')} style={{ color: 'var(--text-color)', fontSize: '1.8rem' }}>
-                        Thiết bị truy cập
-                    </h3>
-                    <div className={cx('chart-body')}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie
-                                    data={dataDevice}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={60} // Tạo biểu đồ hình cái nhẫn (Donut)
-                                    outerRadius={80}
-                                    paddingAngle={5}
-                                    dataKey="value"
-                                >
-                                    {dataDevice.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <RechartsTooltip />
-                                <Legend verticalAlign="bottom" height={36} />
-                            </PieChart>
-                        </ResponsiveContainer>
+                        {/* 👇 3. Gọi Component biểu đồ cột vào đây cho sạch sẽ */}
+                        <TrafficBarChart data={trafficData} />
                     </div>
                 </div>
             </div>
