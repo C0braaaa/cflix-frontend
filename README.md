@@ -279,7 +279,7 @@ MIT License
 
 ## 👨‍💻 Author
 
-- Project: `cflix-vite`
+- Project: `C0braaaa`
 - Maintainer: Add your name and contact / GitHub profile here.
 
 ---

@@ -98,11 +98,12 @@ function AddSlide({ setShow, onSuccess, dataToEdit }) {
         <>
             <div className={cx('overlay')} onClick={() => setShow(false)}></div>
             <div className={cx('add-form')}>
-                <span className={cx('close')} onClick={() => setShow(false)}>
-                    &times;
-                </span>
-                <h5 className={cx('form-title')}>{dataToEdit ? 'Cập nhật Slide' : 'Thêm Slide'}</h5>
-
+                <div className={cx('form-header')}>
+                    <span className={cx('close')} onClick={() => setShow(false)}>
+                        &times;
+                    </span>
+                    <h5 className={cx('form-title')}>{dataToEdit ? 'Cập nhật Slide' : 'Thêm Slide'}</h5>
+                </div>
                 <form className={cx('form-control')} onSubmit={handleSubmit}>
                     <div className={cx('form-group')}>
                         <label htmlFor="name">Tên phim</label>

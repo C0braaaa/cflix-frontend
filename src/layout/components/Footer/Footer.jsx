@@ -81,7 +81,7 @@ function Footer() {
                             đại, hỗ trợ Vietsub, thuyết minh và lồng tiếng với chất lượng hiển thị Full HD. Dự án tập
                             trung phát triển hệ thống quản lý phim, phân loại thể loại, tìm kiếm, và trải nghiệm người
                             dùng mượt mà. CFLIX được thực hiện hoàn toàn cho mục đích học tập và nghiên cứu, "không mang
-                            tính thương mại".
+                            tính thương mại". Trang web sẽ được ngay gỡ sau khi báo cáo đồ án.
                         </p>
                     </div>
                 </div>

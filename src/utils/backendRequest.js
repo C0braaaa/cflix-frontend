@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const backendRequest = axios.create({
-    baseURL: 'http://localhost:5001/v1/',
+    baseURL: import.meta.env.VITE_BACKEND_URL_ENDPOINT,
     timeout: 10000,
     headers: {
         Accept: 'application/json',

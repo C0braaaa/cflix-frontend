@@ -193,7 +193,7 @@
             color: var(--text-black);
             font-size: 1.4rem;
             caret-color: var(--text-black);
-            padding: 1rem 2rem;
+            padding: 1rem 4.5rem 1rem 2rem;
             background-color: transparent;
 
             &:not(:placeholder-shown) ~ .footer__send {
