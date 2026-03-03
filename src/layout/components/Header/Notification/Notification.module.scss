@@ -216,10 +216,19 @@
 }
 
 // responsive
+@media (max-width: 1351px) {
+    .notification {
+        position: absolute;
+        top: 1rem;
+        right: 5rem;
+    }
+}
 @media (max-width: 500px) {
     .notification {
+        position: absolute;
         border: none;
-        margin-left: 15rem;
+        top: 1rem;
+        right: 5rem;
     }
     .delete-notify {
         width: 13% !important;
@@ -228,5 +237,9 @@
         svg {
             display: block !important;
         }
+    }
+    .notification-board {
+        width: 30rem;
+        height: 45rem;
     }
 }
