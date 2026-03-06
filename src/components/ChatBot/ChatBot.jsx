@@ -25,7 +25,7 @@ function ChatBot({ showChatbox }) {
         return [
             {
                 role: 'C-Bot',
-                content: 'Xin chào! Tôi là ◉ϟ⊕τ, trợ lý ảo của Cflix. Tôi có thể giúp gì cho bạn hôm nay?',
+                content: 'Xin chào! Tôi là Jarvis, trợ lý ảo của Cflix. Tôi có thể giúp gì cho bạn hôm nay?',
             },
         ];
     });
@@ -119,8 +119,8 @@ function ChatBot({ showChatbox }) {
                         <img src="/assets/images/chatbot_logo.png" alt="logo-chatbot" />
                     </div>
                     <div className={cx('header__title')}>
-                        <h4 className={cx('title')}>◉ϟ⟐ΞЖ∆⊕τ</h4>
-                        <span className={cx('subtitle')}>◉ϟ⟐ΞЖ ∆Ξ</span>
+                        <h4 className={cx('title')}>Jarvis</h4>
+                        <span className={cx('subtitle')}>CFLIX Chat Bot</span>
                     </div>
                 </div>
                 <div className={cx('header__right')} onClick={() => showChatbox(false)}>
@@ -133,7 +133,7 @@ function ChatBot({ showChatbox }) {
                     {messages.map((msg, index) => (
                         <div className={cx('message-row', msg.role)} key={index}>
                             <div className={cx('message-content')}>
-                                <span className={cx('message-sender')}>{msg.role === 'C-Bot' ? '◉ϟ⊕τ' : 'You'}</span>
+                                <span className={cx('message-sender')}>{msg.role === 'C-Bot' ? 'Jarvis' : 'You'}</span>
                                 <div className={cx('bubble')}>{renderMessage(msg.content)}</div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@ function ChatBot({ showChatbox }) {
                     {loading && (
                         <div className={cx('message-row', 'C-Bot')}>
                             <div className={cx('message-content')}>
-                                <span className={cx('message-sender')}>◉ϟ⊕τ</span>
+                                <span className={cx('message-sender')}>Jarvis</span>
                                 <div className={cx('bubble', 'typing-indicator')}>
                                     <span></span>
                                     <span></span>

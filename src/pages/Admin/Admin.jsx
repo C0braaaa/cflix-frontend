@@ -4,16 +4,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faFilm,
-    faFlag,
-    faHome,
-    faMoon,
-    faServer,
-    faSun,
-    faTableCellsLarge,
-    faUser,
-} from '@fortawesome/free-solid-svg-icons';
+import { faFilm, faFlag, faHome, faMoon, faSun, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Overview, Users, Movies, Report } from './DashboardContents';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
@@ -101,13 +92,13 @@ function DashBoard() {
                         <FontAwesomeIcon icon={faFlag} />
                         <span className={cx('title')}>Phản hồi</span>
                     </div>
-                    <div
+                    {/* <div
                         className={cx('menu-item', { active: activeMenu === 'api' })}
                         onClick={() => setActiveMenu('api')}
                     >
                         <FontAwesomeIcon icon={faServer} />
                         <span className={cx('title')}>APIs</span>
-                    </div>
+                    </div> */}
                     <hr />
                     <Link to="/" className={cx('menu-link')} style={{ color: 'var(--text-black)' }}>
                         <div className={cx('menu-item')}>

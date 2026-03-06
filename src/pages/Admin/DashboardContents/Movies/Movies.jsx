@@ -5,15 +5,7 @@ import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faGear,
-    faLock,
-    faArrowLeft,
-    faArrowRight,
-    faSearch,
-    faCircleXmark,
-    faArrowTrendUp,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faSearch, faCircleXmark, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Movies.module.scss';
 import { search } from '../../../../services/searchService';
@@ -223,8 +215,6 @@ function Movies() {
                             <th>QUỐC GIA</th>
                             <th>NGÀY CẬP NHẬT</th>
                             <th>LƯỢT XEM</th>
-                            <th>TRẠNG THÁI</th>
-                            <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody className={cx('tbody')}>
@@ -276,15 +266,6 @@ function Movies() {
                                                 )}
                                             </span>
                                         </Tippy>
-                                    </td>
-                                    <td>
-                                        <FontAwesomeIcon
-                                            icon={faLock}
-                                            style={{ color: 'var(--dashboard-color-text-1)' }}
-                                        />
-                                    </td>
-                                    <td>
-                                        <FontAwesomeIcon icon={faGear} />
                                     </td>
                                 </tr>
                             ))
