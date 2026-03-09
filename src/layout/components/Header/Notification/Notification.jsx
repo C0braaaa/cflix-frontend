@@ -91,10 +91,12 @@ function Notification() {
     };
 
     useEffect(() => {
-        getNotificationAPI().then((res) => {
-            setNotification(res.data);
-        });
-    }, []);
+        if (user) {
+            getNotificationAPI().then((res) => {
+                setNotification(res.data);
+            });
+        }
+    }, [user]);
 
     return (
         <div>
