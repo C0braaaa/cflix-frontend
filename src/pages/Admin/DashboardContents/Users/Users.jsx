@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowLeft,
     faArrowRight,
+    faBan,
     faCircleXmark,
     faGear,
     faLock,
@@ -371,12 +372,12 @@ function Users() {
                                                     onClickOutside={handleCloseMenu}
                                                     render={(attrs) => (
                                                         <>
-                                                            <div
-                                                                className={cx('dropdown-actions')}
-                                                                tabIndex="-1"
-                                                                {...attrs}
-                                                            >
-                                                                {user.role !== 'admin' && (
+                                                            {user.role !== 'admin' ? (
+                                                                <div
+                                                                    className={cx('dropdown-actions')}
+                                                                    tabIndex="-1"
+                                                                    {...attrs}
+                                                                >
                                                                     <div
                                                                         className={cx('dropdown-item')}
                                                                         onClick={() => handleShowDeleteUser(user)}
@@ -384,31 +385,43 @@ function Users() {
                                                                         <FontAwesomeIcon icon={faTrash} />
                                                                         <span>Xóa</span>
                                                                     </div>
-                                                                )}
-                                                                <div
-                                                                    className={cx('dropdown-item')}
-                                                                    onClick={() => handleToggleActive(user)}
-                                                                >
-                                                                    {user.isActive ? (
-                                                                        <>
-                                                                            <FontAwesomeIcon icon={faLock} />
-                                                                            <span>Khóa</span>
-                                                                        </>
-                                                                    ) : (
-                                                                        <>
-                                                                            <FontAwesomeIcon icon={faUnlock} />
-                                                                            <span>Mở khóa</span>
-                                                                        </>
-                                                                    )}
+
+                                                                    <div
+                                                                        className={cx('dropdown-item')}
+                                                                        onClick={() => handleToggleActive(user)}
+                                                                    >
+                                                                        {user.isActive ? (
+                                                                            <>
+                                                                                <FontAwesomeIcon icon={faLock} />
+                                                                                <span>Khóa</span>
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <FontAwesomeIcon icon={faUnlock} />
+                                                                                <span>Mở khóa</span>
+                                                                            </>
+                                                                        )}
+                                                                    </div>
+                                                                    <div
+                                                                        className={cx('dropdown-item')}
+                                                                        onClick={() => handleShowEdittingUSer(user)}
+                                                                    >
+                                                                        <FontAwesomeIcon icon={faPen} />
+                                                                        <span>Chỉnh sửa</span>
+                                                                    </div>
                                                                 </div>
+                                                            ) : (
                                                                 <div
-                                                                    className={cx('dropdown-item')}
-                                                                    onClick={() => handleShowEdittingUSer(user)}
+                                                                    className={cx('dropdown-actions')}
+                                                                    tabIndex="-1"
+                                                                    {...attrs}
                                                                 >
-                                                                    <FontAwesomeIcon icon={faPen} />
-                                                                    <span>Chỉnh sửa</span>
+                                                                    <div className={cx('dropdown-item')}>
+                                                                        <FontAwesomeIcon icon={faBan} />
+                                                                        <span>Not Allowed</span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            )}
                                                         </>
                                                     )}
                                                 >

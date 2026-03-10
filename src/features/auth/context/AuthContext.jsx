@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { logoutAPI } from '../../../services/authServices';
 import { getMeAPI } from '../../../services/userServices';
+import { toast } from 'react-toastify';
+import { socket } from '../../../utils/socket';
 
 const AuthContext = createContext();
 
@@ -14,12 +16,29 @@ export function AuthProvider({ children }) {
     const [modalType, setModalType] = useState('login'); // 'login' or 'register'
 
     useEffect(() => {
+        if (user && user._id) {
+            socket.emit('join_user_room', user._id);
+
+            const handleAccountLocked = () => {
+                logout();
+                toast.error('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ hỗ trợ để biết thêm chi tiết.');
+                window.location.href = '/';
+            };
+            socket.on('account_locked', handleAccountLocked);
+            return () => {
+                socket.off('account_locked', handleAccountLocked);
+            };
+        }
+    }, [user]);
+
+    useEffect(() => {
         const fetchCurrentUser = async () => {
             try {
                 const res = await getMeAPI();
                 if (res && res.user) {
                     setUser(res.user);
                     localStorage.setItem('cflix_user', JSON.stringify(res.user));
+                    socket.emit('join_user_room', res.user._id);
                 }
             } catch (error) {
                 console.log(error);
