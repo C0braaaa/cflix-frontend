@@ -316,6 +316,14 @@ function Comment() {
                                     e.target.value = '';
                                     e.target.value = val;
                                 }}
+                                onKeyDown={(e) => {
+                                    const rootId = comment.parent_id ? comment.parent_id : comment._id;
+                                    if (!replyText.trim()) return;
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        handleSendReply(rootId);
+                                    }
+                                }}
                             />
                             <div className={cx('actions-btn-reply')}>
                                 <div
@@ -387,6 +395,13 @@ function Comment() {
                         rows={1}
                         value={text}
                         onChange={handleTextArea}
+                        onKeyDown={(e) => {
+                            if (!text.trim()) return;
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                handleSend();
+                            }
+                        }}
                     />
                     <div className={cx('actions-btn')}>
                         <div className={cx('cancel')} onClick={handleCancel}>

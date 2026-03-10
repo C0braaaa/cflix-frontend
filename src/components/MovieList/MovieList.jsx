@@ -47,10 +47,10 @@ function MovieList({ title, fetchFunction, type, slug }) {
     }, [title]);
 
     useEffect(() => {
-        fetchMovies(inputPage);
+        fetchMovies(page);
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        // eslint-disable-next-line
-    }, [inputPage]);
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page]);
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
@@ -97,9 +97,9 @@ function MovieList({ title, fetchFunction, type, slug }) {
 
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
-            // Giữ lại các params cũ nếu có (ví dụ filter), chỉ update page
             const params = Object.fromEntries([...searchParams]);
-            setSearchParams({ ...params, page: newPage }); // <--- Cập nhật URL
+            params.page = newPage;
+            setSearchParams(params);
         }
     };
 
