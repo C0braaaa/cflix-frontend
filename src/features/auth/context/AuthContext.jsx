@@ -16,20 +16,21 @@ export function AuthProvider({ children }) {
     const [modalType, setModalType] = useState('login'); // 'login' or 'register'
 
     useEffect(() => {
-        if (user && user._id) {
-            socket.emit('join_user_room', user._id);
+        if (!user || !user._id) return;
+        socket.emit('join_user_room', user._id);
 
-            const handleAccountLocked = () => {
-                logout();
-                toast.error('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ hỗ trợ để biết thêm chi tiết.');
-                window.location.href = '/';
-            };
-            socket.on('account_locked', handleAccountLocked);
-            return () => {
-                socket.off('account_locked', handleAccountLocked);
-            };
-        }
-    }, [user]);
+        const handleAccountLocked = () => {
+            setUser(null);
+            localStorage.removeItem('cflix_user');
+            toast.error('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.');
+            window.location.href = '/';
+        };
+        socket.once('account_locked', handleAccountLocked);
+        return () => {
+            socket.off('account_locked', handleAccountLocked);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user?._id]);
 
     useEffect(() => {
         const fetchCurrentUser = async () => {
@@ -71,7 +72,7 @@ export function AuthProvider({ children }) {
     const updateUserState = (newUser) => {
         const updatedUser = { ...user, ...newUser };
         setUser(updatedUser);
-        localStorage.getItem('cflix_user', JSON.stringify(updatedUser));
+        localStorage.setItem('cflix_user', JSON.stringify(updatedUser));
     };
 
     const openModal = (type) => {

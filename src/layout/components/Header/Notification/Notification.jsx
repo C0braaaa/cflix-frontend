@@ -166,16 +166,18 @@ function Notification() {
                     </div>
                 )}
             >
-                <div className={cx('notification')} onClick={() => setShowBoard(!showBoard)}>
-                    <div className={cx('notification-icon')}>
-                        <FontAwesomeIcon icon={faBell} />
+                {user && (
+                    <div className={cx('notification')} onClick={() => setShowBoard(!showBoard)}>
+                        <div className={cx('notification-icon')}>
+                            <FontAwesomeIcon icon={faBell} />
+                        </div>
+                        <div className={cx('badge')}>
+                            {notification.unreadCount > 0 && (
+                                <span>{notification.unreadCount > 99 ? '99+' : notification.unreadCount}</span>
+                            )}
+                        </div>
                     </div>
-                    <div className={cx('badge')}>
-                        {notification.unreadCount > 0 && (
-                            <span>{notification.unreadCount > 99 ? '99+' : notification.unreadCount}</span>
-                        )}
-                    </div>
-                </div>
+                )}
             </HeadlessTippy>
         </div>
     );
