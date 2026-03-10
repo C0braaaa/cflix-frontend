@@ -11,6 +11,7 @@ const cx = classNames.bind(styles);
 
 function ChatBot({ showChatbox }) {
     const chatRef = useRef(null);
+
     const messagesEndRef = useRef(null);
     const [inputValue, setInputValue] = useState('');
     const [loading, setLoading] = useState(false);
@@ -133,7 +134,7 @@ function ChatBot({ showChatbox }) {
                     {messages.map((msg, index) => (
                         <div className={cx('message-row', msg.role)} key={index}>
                             <div className={cx('message-content')}>
-                                <span className={cx('message-sender')}>{msg.role === 'C-Bot' ? 'Jarvis' : 'You'}</span>
+                                <span className={cx('message-sender')}>{msg.role === 'C-Bot' ? 'Jarvis' : 'Bạn'}</span>
                                 <div className={cx('bubble')}>{renderMessage(msg.content)}</div>
                             </div>
                         </div>
