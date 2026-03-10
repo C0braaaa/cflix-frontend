@@ -19,7 +19,7 @@ function MostView({ title, type }) {
             try {
                 setLoading(true);
                 const res = await getTopViewedAPI(type);
-                setMovies(res.data);
+                setMovies(res.data.slice(0, 10));
             } catch (error) {
                 console.log(error);
             } finally {

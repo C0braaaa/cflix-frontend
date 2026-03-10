@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Fragment } from 'react';
 import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { privateRoutes, publicRoutes } from './routes/index-routes';
@@ -19,6 +20,16 @@ function App() {
             setSplashScreen(false);
         }, 2500);
         return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        const msg = sessionStorage.getItem('notify_after_load');
+        if (msg) {
+            setTimeout(() => {
+                toast.error(msg);
+                sessionStorage.removeItem('notify_after_load');
+            }, 3000);
+        }
     }, []);
 
     useEffect(() => {

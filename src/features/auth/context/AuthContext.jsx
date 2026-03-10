@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { logoutAPI } from '../../../services/authServices';
 import { getMeAPI } from '../../../services/userServices';
-import { toast } from 'react-toastify';
 import { socket } from '../../../utils/socket';
 
 const AuthContext = createContext();
@@ -22,7 +21,10 @@ export function AuthProvider({ children }) {
         const handleAccountLocked = () => {
             setUser(null);
             localStorage.removeItem('cflix_user');
-            toast.error('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.');
+            sessionStorage.setItem(
+                'notify_after_load',
+                'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.',
+            );
             window.location.href = '/';
         };
         socket.once('account_locked', handleAccountLocked);
