@@ -16,7 +16,15 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         if (!user || !user._id) return;
-        socket.emit('join_user_room', user._id);
+
+        if (socket.connected) {
+            socket.emit('join_user_room', user._id);
+        }
+
+        const handleConnect = () => {
+            socket.emit('join_user_room', user._id);
+        };
+        socket.on('connect', handleConnect);
 
         const handleAccountLocked = () => {
             setUser(null);
@@ -27,8 +35,11 @@ export function AuthProvider({ children }) {
             );
             window.location.href = '/';
         };
+
         socket.once('account_locked', handleAccountLocked);
+
         return () => {
+            socket.off('connect', handleConnect);
             socket.off('account_locked', handleAccountLocked);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
