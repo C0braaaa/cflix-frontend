@@ -51,7 +51,7 @@
         .art-control-pip,
         .art-control-screenshot,
         .art-control-indicator {
-            display: none !important;
+            display: flex;
         }
 
         // 4. Đảm bảo nút Fullscreen luôn hiện
@@ -72,5 +72,13 @@
 @media (max-width: 500px) {
     .wrapper {
         border-radius: 0;
+    }
+    :global {
+        .art-control-setting,
+        .art-control-pip,
+        .art-control-screenshot,
+        .art-control-indicator {
+            display: none !important;
+        }
     }
 }

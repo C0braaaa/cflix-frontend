@@ -377,8 +377,12 @@
             }
             .episodes {
                 margin-top: 2rem;
-                padding: 0 1rem;
+                padding: 0 0.5rem;
                 grid-template-columns: repeat(6, 1fr);
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
 
                 .episode {
                     font-size: 1.4rem;

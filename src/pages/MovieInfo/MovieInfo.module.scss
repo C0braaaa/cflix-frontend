@@ -11,6 +11,7 @@
     height: 80rem;
     border-radius: 1rem;
     background-image: url('../../../public/assets/images/dotted.png');
+    background-color: var(--background-color-6);
 
     img {
         width: 100%;
@@ -50,6 +51,7 @@
     width: 20rem;
     height: 28rem;
     border-radius: 1rem;
+    background-color: var(--background-color-6);
 
     img {
         width: 100%;
@@ -502,6 +504,7 @@
         height: 25rem;
         border-radius: 1rem;
         background-image: none;
+        background-color: transparent;
 
         img {
             object-fit: fill;
@@ -551,6 +554,7 @@
             transform: translate(-60%);
             width: 13rem;
             height: 20rem;
+            background-color: transparent;
         }
         .more {
             text-align: center;

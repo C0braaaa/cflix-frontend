@@ -92,9 +92,13 @@ function Overview() {
                 <div className={cx('chart-container', 'main-chart')}>
                     <div className={cx('chart-header')}>
                         <h3>Lưu lượng truy cập</h3>
-                        <select className={cx('chart-filter')}>
-                            <option onClick={() => setFilterDays(7)}>7 ngày qua</option>
-                            <option onClick={() => setFilterDays(14)}>14 ngày qua</option>
+                        <select
+                            className={cx('chart-filter')}
+                            value={filterDays}
+                            onChange={(e) => setFilterDays(Number(e.target.value))}
+                        >
+                            <option value={7}>7 ngày qua</option>
+                            <option value={14}>14 ngày qua</option>
                         </select>
                     </div>
 

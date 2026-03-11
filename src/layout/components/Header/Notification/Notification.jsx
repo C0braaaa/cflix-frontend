@@ -10,6 +10,7 @@ import styles from './Notification.module.scss';
 import { useAuth } from '../../../../features/auth/context/AuthContext';
 import { formatTimeAgo } from '../../../../utils/formatDate';
 import { markAllAsReadAPI, markAsReadAPI } from '../../../../services/notificationServices';
+import { socket } from '../../../../utils/socket';
 
 const cx = classNames.bind(styles);
 
@@ -27,6 +28,27 @@ function Notification() {
         }
         return msg;
     };
+
+    useEffect(() => {
+        const handleNewNotification = (newNotify) => {
+            setNotification((prev) => {
+                const currentList = prev.notification || [];
+                const isExist = currentList.some((n) => n._id === newNotify._id);
+                if (isExist) return prev;
+                return {
+                    ...prev,
+                    notification: [newNotify, ...currentList],
+                    unreadCount: (prev.unreadCount || 0) + 1,
+                };
+            });
+        };
+
+        socket.on('new_notification', handleNewNotification);
+
+        return () => {
+            socket.off('new_notification', handleNewNotification);
+        };
+    }, []);
 
     const getActionText = (type) => {
         switch (type) {
@@ -100,73 +122,79 @@ function Notification() {
 
     return (
         <div>
-            <HeadlessTippy
-                visible={showBoard}
-                interactive
-                placement="bottom-end"
-                offset={[30, 15]}
-                onClickOutside={() => setShowBoard(false)}
-                render={(attrs) => (
-                    <div className={cx('notification-board')} tabIndex="-1" {...attrs}>
-                        <div className={cx('header')}>
-                            <h3 className={cx('title')}>Thông báo</h3>
-                            <span className={cx('close')} onClick={() => setShowBoard(false)}>
-                                &times;
-                            </span>
-                        </div>
-                        <div className={cx('main')}>
-                            <div className={cx('notification-list')}>
-                                {notification?.notification?.length === 0 ? (
-                                    <p className={cx('empty')}>Hiện không có thông báo nào</p>
-                                ) : (
-                                    notification.notification?.map((notify) => (
-                                        <div className={cx('container')} key={notify._id}>
-                                            <div
-                                                className={cx('delete-notify')}
-                                                onClick={(e) => handleDelete(e, notify._id, notify.is_read)}
-                                            >
-                                                <span>
-                                                    <FontAwesomeIcon icon={faTrash} />
-                                                </span>
+            {user && (
+                <HeadlessTippy
+                    visible={showBoard}
+                    interactive
+                    placement="bottom-end"
+                    offset={[30, 15]}
+                    onClickOutside={() => setShowBoard(false)}
+                    render={(attrs) => (
+                        <div className={cx('notification-board')} tabIndex="-1" {...attrs}>
+                            <div className={cx('header')}>
+                                <h3 className={cx('title')}>Thông báo</h3>
+                                <span className={cx('close')} onClick={() => setShowBoard(false)}>
+                                    &times;
+                                </span>
+                            </div>
+                            <div className={cx('main')}>
+                                <div className={cx('notification-list')}>
+                                    {notification?.notification?.length === 0 ? (
+                                        <p className={cx('empty')}>Hiện không có thông báo nào</p>
+                                    ) : (
+                                        notification.notification?.map((notify) => (
+                                            <div className={cx('container')} key={notify._id}>
+                                                <div
+                                                    className={cx('delete-notify')}
+                                                    onClick={(e) => handleDelete(e, notify._id, notify.is_read)}
+                                                >
+                                                    <span>
+                                                        <FontAwesomeIcon icon={faTrash} />
+                                                    </span>
+                                                </div>
+                                                <Link
+                                                    to={notify.target_url}
+                                                    className={cx('notify', { active: !notify.is_read })}
+                                                    key={notify._id}
+                                                    onClick={() => handleReadOne(notify._id, notify.is_read)}
+                                                >
+                                                    <div className={cx('left')}>
+                                                        <img className={cx('avatar')} src={notify.image} alt="avatar" />
+                                                        <span className={cx('icon')}>
+                                                            {notify.type === 'reply_comment' ? (
+                                                                <FontAwesomeIcon
+                                                                    icon={faReply}
+                                                                    className={cx('reply')}
+                                                                />
+                                                            ) : (
+                                                                <FontAwesomeIcon
+                                                                    icon={faHeart}
+                                                                    className={cx('like')}
+                                                                />
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                    <div className={cx('right')}>
+                                                        <p className={cx('content')}>
+                                                            <span>{notify.sender_name}</span>
+                                                            {`${getActionText(notify.type)}${notify.type === 'reply_comment' ? cleanMessage(notify.message) : ''} `}
+                                                        </p>
+                                                        <span className={cx('time')}>
+                                                            {formatTimeAgo(notify.created_at)}
+                                                        </span>
+                                                    </div>
+                                                </Link>
                                             </div>
-                                            <Link
-                                                to={notify.target_url}
-                                                className={cx('notify', { active: !notify.is_read })}
-                                                key={notify._id}
-                                                onClick={() => handleReadOne(notify._id, notify.is_read)}
-                                            >
-                                                <div className={cx('left')}>
-                                                    <img className={cx('avatar')} src={notify.image} alt="avatar" />
-                                                    <span className={cx('icon')}>
-                                                        {notify.type === 'reply_comment' ? (
-                                                            <FontAwesomeIcon icon={faReply} className={cx('reply')} />
-                                                        ) : (
-                                                            <FontAwesomeIcon icon={faHeart} className={cx('like')} />
-                                                        )}
-                                                    </span>
-                                                </div>
-                                                <div className={cx('right')}>
-                                                    <p className={cx('content')}>
-                                                        <span>{notify.sender_name}</span>
-                                                        {`${getActionText(notify.type)}${notify.type === 'reply_comment' ? cleanMessage(notify.message) : ''} `}
-                                                    </p>
-                                                    <span className={cx('time')}>
-                                                        {formatTimeAgo(notify.created_at)}
-                                                    </span>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    ))
-                                )}
+                                        ))
+                                    )}
+                                </div>
+                            </div>
+                            <div className={cx('footer')} onClick={handleReadAll}>
+                                <p className={cx('footer-text')}>Đánh dấu tất cả là đã đọc</p>
                             </div>
                         </div>
-                        <div className={cx('footer')} onClick={handleReadAll}>
-                            <p className={cx('footer-text')}>Đánh dấu tất cả là đã đọc</p>
-                        </div>
-                    </div>
-                )}
-            >
-                {user && (
+                    )}
+                >
                     <div className={cx('notification')} onClick={() => setShowBoard(!showBoard)}>
                         <div className={cx('notification-icon')}>
                             <FontAwesomeIcon icon={faBell} />
@@ -177,8 +205,8 @@ function Notification() {
                             )}
                         </div>
                     </div>
-                )}
-            </HeadlessTippy>
+                </HeadlessTippy>
+            )}
         </div>
     );
 }
