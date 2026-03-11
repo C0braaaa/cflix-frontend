@@ -118,7 +118,7 @@ function Comment() {
     };
 
     // send reply
-    const handleSendReply = async (parentId) => {
+    const handleSendReply = async (parentId, replyToId) => {
         if (!user) {
             toast.error('Vui lòng đăng nhập!');
             openModal('login');
@@ -135,6 +135,7 @@ function Comment() {
                 movie_slug: slug,
                 content: replyText,
                 parent_id: parentId,
+                reply_to_id: replyToId,
             };
             const res = await addCommentAPI(dataPayload);
 
@@ -321,7 +322,7 @@ function Comment() {
                                     if (!replyText.trim()) return;
                                     if (e.key === 'Enter') {
                                         e.preventDefault();
-                                        handleSendReply(rootId);
+                                        handleSendReply(rootId, comment._id);
                                     }
                                 }}
                             />
