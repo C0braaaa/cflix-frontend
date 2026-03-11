@@ -22,6 +22,8 @@ import Comment from '../../layout/components/Comments/Comments';
 import Player from '../../components/Player/Player';
 import RelatedMovies from './Content/RelatedMovies';
 import { useReportModal } from '../../features/report/context/ReportModalContext';
+import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/userServices';
+import { checkMovieStatusAPI } from '../../services/userServices';
 
 const cx = classNames.bind(styles);
 
@@ -34,11 +36,72 @@ function Wacth() {
     const [server, setServer] = useState(0);
     const [savedTime, setSavedTime] = useState(0);
     const [isProgressChecked, setIsProgressChecked] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [isPlaylist, setIsPlaylist] = useState(false);
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
         txt.innerHTML = html;
         return txt.value;
+    };
+
+    useEffect(() => {
+        const checkStatus = async () => {
+            if (slug && user) {
+                try {
+                    const res = await checkMovieStatusAPI(slug);
+                    if (res && res.data) {
+                        setIsFavorite(res.data.isFavorite);
+                        setIsPlaylist(res.data.isPlaylist);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        checkStatus();
+    }, [slug, user]);
+
+    // handle click favorite
+    const handleAddFavorite = async () => {
+        try {
+            const res = await toggleFavoriteAPI({
+                slug: movie.slug,
+                name: movie.name,
+                origin_name: movie.origin_name,
+                poster_url: movie.poster_url,
+            });
+
+            if (res && res.status) {
+                setIsFavorite((prev) => !prev);
+                toast.success(res.msg);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Vui lòng đăng nhập để lưu phim!');
+            openModal('login');
+        }
+    };
+
+    // handle click playlist
+    const handleAddPlaylist = async () => {
+        try {
+            const res = await togglePlaylistAPI({
+                slug: movie.slug,
+                name: movie.name,
+                origin_name: movie.origin_name,
+                poster_url: movie.poster_url,
+            });
+
+            if (res && res.status) {
+                setIsPlaylist((prev) => !prev);
+                toast.success(res.msg);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Vui lòng đăng nhập để lưu phim!');
+            openModal('login');
+        }
     };
 
     const firstCategorySlug = movie?.category?.[0]?.slug;
@@ -123,7 +186,7 @@ function Wacth() {
                     {shouldRenderPlayer ? (
                         <Player
                             option={{
-                                url: m3u8Url, // Link m3u8
+                                url: m3u8Url,
                                 seekTime: savedTime, // Thời gian cần tua tới
                                 poster: movie.poster_url, // Ảnh nền khi chưa play
                                 title: currentEpisode?.name,
@@ -139,8 +202,6 @@ function Wacth() {
                             }}
                             style={{
                                 width: '100%',
-                                // aspectRatio: '16/9',
-                                // height: 'auto',
                                 display: 'flex',
                                 alignItems: 'center',
                                 borderRadius: '1rem 1rem 0 0',
@@ -151,11 +212,19 @@ function Wacth() {
                         <div className={cx('loader')}></div>
                     )}
                     <div className={cx('actions')}>
-                        <div className={cx('action')}>
+                        <div
+                            className={cx('action')}
+                            onClick={handleAddFavorite}
+                            style={{ color: isFavorite ? '#ff0000' : 'white', cursor: 'pointer' }}
+                        >
                             <FontAwesomeIcon icon={faHeart} />
                             <span>Yêu thích</span>
                         </div>
-                        <div className={cx('action')}>
+                        <div
+                            className={cx('action')}
+                            onClick={handleAddPlaylist}
+                            style={{ color: isPlaylist ? 'var(--primary-color)' : 'white', cursor: 'pointer' }}
+                        >
                             <FontAwesomeIcon icon={faBookmark} />
                             <span>Xem sau</span>
                         </div>
