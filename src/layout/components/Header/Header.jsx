@@ -111,7 +111,7 @@ function Header() {
                                 leftIcon={<FontAwesomeIcon icon={faUserPlus} />}
                                 onClick={() => openModal('register')}
                             >
-                                Đăng Kí
+                                Đăng Ký
                             </Button>
                         </div>
                     )}
