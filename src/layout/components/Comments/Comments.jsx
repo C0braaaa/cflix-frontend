@@ -281,24 +281,26 @@ function Comment() {
                                 <FontAwesomeIcon icon={faTrash} /> Xóa
                             </span>
                         )}
-                        <span
-                            className={cx('report')}
-                            onClick={() => {
-                                if (!user) {
-                                    toast.error('Vui lòng đăng nhập để xử dung tính năng này!');
-                                    openModal('login');
-                                } else {
-                                    openReportModal({
-                                        type: 'comment',
-                                        movie_slug: slug,
-                                        comment_id: comment._id,
-                                        username: comment.username,
-                                    });
-                                }
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faFlag} /> Báo cáo
-                        </span>
+                        {user?._id !== comment?.user_id && (
+                            <span
+                                className={cx('report')}
+                                onClick={() => {
+                                    if (!user) {
+                                        toast.error('Vui lòng đăng nhập để xử dung tính năng này!');
+                                        openModal('login');
+                                    } else {
+                                        openReportModal({
+                                            type: 'comment',
+                                            movie_slug: slug,
+                                            comment_id: comment._id,
+                                            username: comment.username,
+                                        });
+                                    }
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faFlag} /> Báo cáo
+                            </span>
+                        )}
                     </div>
 
                     {/* FORM NHẬP REPLY */}
