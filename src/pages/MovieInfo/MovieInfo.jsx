@@ -263,6 +263,30 @@ function MovieInfo() {
         </>
     );
 
+    const handleShare = async () => {
+        const url = window.location.href;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: movie.name,
+                    text: `Xem phim ${movie.name} tại CFLIX`,
+                    url: url,
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            try {
+                await navigator.clipboard.writeText(url);
+                toast.success('Đã copy link phim!');
+            } catch (error) {
+                toast.error('Không thể copy link!');
+                console.log('Lỗi share: ', error);
+            }
+        }
+    };
+
     // UI Load Skeleton
     const SkeletonDetailContent = (
         <div className={cx('skeleton-container')}>
@@ -362,7 +386,7 @@ function MovieInfo() {
                                 <FontAwesomeIcon icon={faBookmark} />
                                 <span className={cx('title')}>Xem sau</span>
                             </div>
-                            <div className={cx('action')}>
+                            <div className={cx('action')} onClick={handleShare}>
                                 <FontAwesomeIcon icon={faShare} />
                                 <span className={cx('title')}>Chia sẻ</span>
                             </div>
