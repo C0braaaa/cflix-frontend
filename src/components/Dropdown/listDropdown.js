@@ -74,18 +74,18 @@ export const more = [
         name: 'Phim Lồng Tiếng',
         to: '/phim-long-tieng',
     },
-    {
-        name: 'Phim mới cập nhật',
-        to: '/phim-moi-cap-nhat',
-    },
+    // {
+    //     name: 'Phim mới cập nhật',
+    //     to: '/phim-moi-cap-nhat',
+    // },
     // {
     //     name: 'Chủ đề',
     //     to: '/chu-de',
     // },
-    {
-        name: 'Diễn viên',
-        to: '/dien-vien',
-    },
+    // {
+    //     name: 'Diễn viên',
+    //     to: '/dien-vien',
+    // },
 ];
 
 export const userList = [

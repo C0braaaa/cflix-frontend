@@ -90,7 +90,7 @@ function Header() {
                                 setShowDropdown={setShowDropdown}
                                 columns={1}
                                 width="18rem"
-                                height="15rem"
+                                height="10rem"
                             />
                         </div>
                     </div>
