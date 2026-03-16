@@ -32,8 +32,9 @@
     width: 6rem;
     height: 6rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    flex-shrink: 0;
 
     .avatar {
         width: 80%;
@@ -130,7 +131,7 @@
 
     .comment {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 2rem;
         border-radius: 1rem;
 
