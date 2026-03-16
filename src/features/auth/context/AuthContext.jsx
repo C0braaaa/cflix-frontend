@@ -36,11 +36,20 @@ export function AuthProvider({ children }) {
             window.location.href = '/';
         };
 
+        const handleAccountDeleted = () => {
+            setUser(null);
+            localStorage.removeItem('cflix_user');
+            sessionStorage.setItem('notify_after_load', 'Tài khoản của bạn đã bị xóa, liên hệ với admin để khôi phục.');
+            window.location.href = '/';
+        };
+
         socket.once('account_locked', handleAccountLocked);
+        socket.once('account_deleted', handleAccountDeleted);
 
         return () => {
             socket.off('connect', handleConnect);
             socket.off('account_locked', handleAccountLocked);
+            socket.off('account_deleted', handleAccountDeleted);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user?._id]);

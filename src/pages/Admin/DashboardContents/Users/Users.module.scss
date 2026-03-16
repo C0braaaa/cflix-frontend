@@ -335,8 +335,7 @@
 // CSS cho menu Tippy
 .dropdown-actions {
     width: 15rem;
-    background-color: var(--primary);
-    border: 1px solid var(--border-color);
+    background-color: white;
     border-radius: 0.8rem;
     padding: 0.8rem;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -490,9 +489,11 @@
             font-size: 1.8rem;
             font-weight: 500;
             cursor: pointer;
+            color: var(--text-black);
         }
 
         .title {
+            color: var(--text-black);
             padding-top: 2rem;
             font-weight: 500;
         }
