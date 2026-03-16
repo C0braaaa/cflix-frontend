@@ -24,6 +24,7 @@ import RelatedMovies from './Content/RelatedMovies';
 import { useReportModal } from '../../features/report/context/ReportModalContext';
 import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/userServices';
 import { checkMovieStatusAPI } from '../../services/userServices';
+import { getRatingAPI } from '../../services/ratingService';
 
 const cx = classNames.bind(styles);
 
@@ -38,11 +39,35 @@ function Wacth() {
     const [isProgressChecked, setIsProgressChecked] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isPlaylist, setIsPlaylist] = useState(false);
+    const [rating, setRating] = useState([]);
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
         txt.innerHTML = html;
         return txt.value;
+    };
+
+    // get rating
+    useEffect(() => {
+        const fetchRating = async () => {
+            try {
+                const res = await getRatingAPI(slug);
+                if (res && res.data) {
+                    setRating(res.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchRating();
+    }, [slug]);
+
+    // rating point
+    const caculateRatingPoint = () => {
+        const { totalLikes, totalDislikes } = rating;
+        if (totalLikes === 0 && totalDislikes === 0) return '0';
+        const point = (totalLikes / (totalLikes + totalDislikes)) * 9;
+        return point.toFixed(1);
     };
 
     useEffect(() => {
@@ -267,9 +292,12 @@ function Wacth() {
                             </div>
                             <div className={cx('description')}>
                                 <p className={cx('descr')}>{decodeHTML(movie?.content)}</p>
-                                <Link to={`/phim/${slug}`} className={cx('view-more')}>
-                                    Thông tin phim <FontAwesomeIcon icon={faAngleRight} />
-                                </Link>
+                                <div className={cx('more-info')}>
+                                    <Link to={`/phim/${slug}`} className={cx('view-more')}>
+                                        Thông tin phim <FontAwesomeIcon icon={faAngleRight} />
+                                    </Link>
+                                    <div className={cx('rating')}>{caculateRatingPoint()}</div>
+                                </div>
                             </div>
                         </div>
                         <div className={cx('options')}>

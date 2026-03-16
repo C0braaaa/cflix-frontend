@@ -93,13 +93,28 @@
                 color: var(--text-color);
                 font-size: 1.4rem;
             }
-            .view-more {
+            .more-info {
                 display: flex;
                 align-items: center;
-                gap: 0.5rem;
-                margin-top: 3rem;
-                color: var(--primary-color);
-                font-size: 1.5rem;
+                justify-content: space-between;
+                .view-more {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    margin-top: 3rem;
+                    color: var(--primary-color);
+                    font-size: 1.5rem;
+                }
+                .rating {
+                    margin-top: 3rem;
+                    margin-right: 5rem;
+                    padding: 0.5rem 2rem;
+                    border-radius: 1rem;
+                    color: var(--text-color);
+                    background-color: var(--dashboard-color-2);
+                    border: 2px solid var(--primary-color);
+                    font-weight: 600;
+                }
             }
         }
     }
