@@ -288,6 +288,52 @@
         }
     }
 }
+
+.confirm-delete {
+    margin-top: 1rem;
+    width: 50%;
+    height: 5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .confirm-delete__text {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.4rem;
+        font-weight: 300;
+        color: var(--warning-color);
+    }
+    .confirm-delete__btn {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        color: var(--text-color);
+        font-size: 1.4rem;
+
+        .cancel-btn,
+        .delete-btn {
+            cursor: pointer;
+            border-radius: 1rem;
+            padding: 0.5rem 2rem;
+            background-color: var(--border-color);
+            opacity: 0.5;
+        }
+
+        .cancel-btn:hover {
+            opacity: 1;
+        }
+        .delete-btn:hover {
+            background-color: #f3084f;
+            opacity: 1;
+        }
+    }
+}
+
 .comment-thread {
     padding: 1rem 0;
     border-radius: 1rem;
@@ -314,39 +360,39 @@
     margin-bottom: 0;
     z-index: 1;
 
-    // 1. ĐƯỜNG KẺ DỌC NỐI TIẾP (Connector)
-    // Vẽ đường kẻ chạy suốt chiều cao của item để nối xuống item bên dưới
-    &::before {
-        content: '';
-        position: absolute;
-        left: 24px; // Vị trí trục dọc
-        top: -6rem;
-        bottom: -2rem; // Kéo dài hết chiều cao
-        width: 2px;
-        background-color: #333; // Màu đường kẻ
-        z-index: 0;
-    }
+    // // 1. ĐƯỜNG KẺ DỌC NỐI TIẾP (Connector)
+    // // Vẽ đường kẻ chạy suốt chiều cao của item để nối xuống item bên dưới
+    // &::before {
+    //     content: '';
+    //     position: absolute;
+    //     left: 24px; // Vị trí trục dọc
+    //     top: -6rem;
+    //     bottom: -2rem; // Kéo dài hết chiều cao
+    //     width: 2px;
+    //     background-color: #333; // Màu đường kẻ
+    //     z-index: 0;
+    // }
 
     // 2. NHÁNH RẼ NGANG (Curve/Elbow)
-    .tree-line {
-        position: absolute;
-        left: 24px; // Trùng vị trí trục dọc
-        top: 0;
-        height: 25px; // Chiều cao đoạn cong
-        width: 25px;
+    // .tree-line {
+    //     position: absolute;
+    //     left: 24px; // Trùng vị trí trục dọc
+    //     top: 0;
+    //     height: 25px; // Chiều cao đoạn cong
+    //     width: 25px;
 
-        // Vẽ hình chữ L
-        border-bottom: 2px solid #333;
-        border-left: 2px solid #333;
-        border-bottom-left-radius: 12px; // Bo góc
+    //     // Vẽ hình chữ L
+    //     border-bottom: 2px solid #333;
+    //     border-left: 2px solid #333;
+    //     border-bottom-left-radius: 12px; // Bo góc
 
-        z-index: 1; // Nằm đè lên đường kẻ dọc
+    //     z-index: 1; // Nằm đè lên đường kẻ dọc
 
-        .vertical,
-        .horizontal {
-            display: none;
-        }
-    }
+    //     .vertical,
+    //     .horizontal {
+    //         display: none;
+    //     }
+    // }
 }
 
 // 3.XỬ LÝ REPLY CUỐI CÙNG (CỰC KỲ ĐƠN GIẢN)

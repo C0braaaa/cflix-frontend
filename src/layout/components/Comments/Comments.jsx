@@ -15,6 +15,7 @@ import {
     faChevronUp,
     faChevronDown,
     faFlag,
+    faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Comments.module.scss';
@@ -40,6 +41,7 @@ function Comment() {
     const [replyInputId, setReplyInputId] = useState(null);
     const [commentList, setCommentList] = useState([]);
     const [expandedComments, setExpandedComments] = useState({});
+    const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
     const GENDER_ICONS = {
         male: faMars,
@@ -277,7 +279,7 @@ function Comment() {
                         </span>
 
                         {canDelete && (
-                            <span className={cx('delete')} onClick={() => handleDeleteComment(comment._id)}>
+                            <span className={cx('delete')} onClick={() => setConfirmDeleteId(comment._id)}>
                                 <FontAwesomeIcon icon={faTrash} /> Xóa
                             </span>
                         )}
@@ -347,6 +349,21 @@ function Comment() {
                                     }}
                                 >
                                     <span>Bình luận</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {confirmDeleteId === comment._id && (
+                        <div className={cx('confirm-delete')}>
+                            <p className={cx('confirm-delete__text')}>
+                                <FontAwesomeIcon icon={faWarning} /> Xác nhận xóa!
+                            </p>
+                            <div className={cx('confirm-delete__btn')}>
+                                <div className={cx('cancel-btn')} onClick={() => setConfirmDeleteId(null)}>
+                                    Hủy
+                                </div>
+                                <div className={cx('delete-btn')} onClick={() => handleDeleteComment(confirmDeleteId)}>
+                                    Xóa
                                 </div>
                             </div>
                         </div>
