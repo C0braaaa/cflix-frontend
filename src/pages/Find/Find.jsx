@@ -48,6 +48,7 @@ function Find() {
 
     useEffect(() => {
         fetchMovie();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         setInputPage(page);
     }, [fetchMovie, page]);
 
