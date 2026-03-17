@@ -209,7 +209,7 @@
         width: 3rem;
         height: 3rem;
         border-radius: 50%;
-        padding: 0.5rem;
+        padding: 1.75rem;
         background-color: var(--background-color-10);
         color: var(--text-color);
         font-size: 1.5rem;
@@ -224,9 +224,21 @@
             cursor: not-allowed;
             pointer-events: none;
         }
+        &:hover {
+            opacity: 1;
+        }
 
         svg {
             transform: rotate(40deg);
         }
+    }
+}
+
+@media (max-width: 640px) {
+    .header {
+        height: 10%;
+    }
+    .footer {
+        height: 12%;
     }
 }

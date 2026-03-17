@@ -13,6 +13,7 @@ import Button from '../../components/Button/index-button';
 import ChatBot from '../../components/ChatBot/ChatBot';
 import ReportModal from '../../components/ReportModal/ReportModal';
 import { useReportModal } from '../../features/report/context/ReportModalContext';
+import { useAuth } from '../../features/auth/context/AuthContext';
 
 const cx = classNames.bind(styles);
 
@@ -21,6 +22,7 @@ function DefaultLayout({ children }) {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1350);
     const [showChatBot, setShowChatBot] = useState(false);
     const { isReportModalOpen, closeReportModal, reportTarget } = useReportModal();
+    const { user } = useAuth();
 
     useEffect(() => {
         const handleResize = () => {
@@ -61,14 +63,13 @@ function DefaultLayout({ children }) {
                 </div>
             )}
 
-            <Tippy content="ᚺ ᛂ ᒪ ᒪ ◉ ✨">
+            <Tippy content={`Hello, ${user?.username || ''}`}>
                 <div className={cx('chatbot')} onClick={() => setShowChatBot((prev) => !prev)}>
                     <img src="/assets/images/chatbot_logo.png" alt="chatbot-logo" />
                 </div>
             </Tippy>
             {showChatBot && (
                 <div className={cx('chatbox')}>
-                    {' '}
                     <ChatBot showChatbox={setShowChatBot} />
                 </div>
             )}
