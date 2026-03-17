@@ -138,7 +138,7 @@ function Header() {
                                     leftIcon={<FontAwesomeIcon icon={faUser} />}
                                     onClick={() => openModal('login')}
                                 >
-                                    Thành viên
+                                    Đăng nhập
                                 </Button>
                             </div>
                         )}
