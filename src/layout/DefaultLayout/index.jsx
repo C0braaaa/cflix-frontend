@@ -63,7 +63,7 @@ function DefaultLayout({ children }) {
                 </div>
             )}
 
-            <Tippy content={`Hello, ${user?.username || ''}`}>
+            <Tippy content={`Hello, ${user?.username || "I'm Jarvis"}`}>
                 <div className={cx('chatbot')} onClick={() => setShowChatBot((prev) => !prev)}>
                     <img src="/assets/images/chatbot_logo.png" alt="chatbot-logo" />
                 </div>
