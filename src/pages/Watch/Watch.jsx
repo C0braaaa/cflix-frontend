@@ -13,6 +13,7 @@ import {
     faBookmark,
     faCircleLeft,
     faClosedCaptioning,
+    faEye,
     faFlag,
     faHeart,
     faMicrophone,
@@ -25,6 +26,7 @@ import { useReportModal } from '../../features/report/context/ReportModalContext
 import { toggleFavoriteAPI, togglePlaylistAPI } from '../../services/userServices';
 import { checkMovieStatusAPI } from '../../services/userServices';
 import { getRatingAPI } from '../../services/ratingService';
+import { getViewsBySlugAPI } from '../../services/viewsService';
 
 const cx = classNames.bind(styles);
 
@@ -40,12 +42,28 @@ function Wacth() {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isPlaylist, setIsPlaylist] = useState(false);
     const [rating, setRating] = useState([]);
+    const [views, setViews] = useState([]);
 
     const decodeHTML = (html) => {
         const txt = document.createElement('textarea');
         txt.innerHTML = html;
         return txt.value;
     };
+
+    //get views
+    useEffect(() => {
+        const fetchViews = async () => {
+            try {
+                const res = await getViewsBySlugAPI(slug);
+                if (res && res.data) {
+                    setViews(res.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchViews();
+    }, [slug]);
 
     // get rating
     useEffect(() => {
@@ -270,6 +288,10 @@ function Wacth() {
                         >
                             <FontAwesomeIcon icon={faFlag} />
                             <span>Phản hồi</span>
+                        </div>
+                        <div className={cx('view')}>
+                            <FontAwesomeIcon icon={faEye} />
+                            <span>{views?.views || 0}</span>
                         </div>
                     </div>
                 </div>

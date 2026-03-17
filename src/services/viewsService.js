@@ -11,3 +11,8 @@ export const getTopViewedAPI = async (type) => {
     });
     return res;
 };
+
+export const getViewsBySlugAPI = async (slug) => {
+    const res = await request.get(`trending/views/${slug}`);
+    return res;
+};
