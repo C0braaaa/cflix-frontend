@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { useAuth } from '../../features/auth/context/AuthContext';
 import styles from './UserPage.module.scss';
@@ -23,7 +24,6 @@ import {
     getContinueWatchingAPI,
 } from '../../services/userServices';
 import { Profile, MainContents } from './mainContent';
-import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -31,6 +31,12 @@ function UserPage() {
     const { user, logout } = useAuth();
     const { slug } = useParams();
     const nevigate = useNavigate();
+
+    useEffect(() => {
+        if (!user) {
+            nevigate('/');
+        }
+    }, [user, nevigate]);
 
     useEffect(() => {
         document.title = 'Cflix - Quản lý tài khoản';
