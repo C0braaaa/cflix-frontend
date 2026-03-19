@@ -1,5 +1,5 @@
 .wrapper {
-    --min-height: 30rem;
+    --min-height: 33rem;
     width: 100%;
     background-color: var(--background-color-1);
     position: absolute;
@@ -139,6 +139,9 @@
     .wrapper {
         padding: 0 2rem;
     }
+    // .footer-divider {
+    //     margin-top: 3rem;
+    // }
 }
 
 // media for tablet

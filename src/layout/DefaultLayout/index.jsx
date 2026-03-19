@@ -59,7 +59,7 @@ function DefaultLayout({ children }) {
             <Footer />
             {moveTop && (
                 <div className={cx('move-top')} onClick={handleMoveTop}>
-                    <Button square leftIcon={<FontAwesomeIcon icon={faArrowUp} />}></Button>
+                    <Button square leftIcon={<FontAwesomeIcon icon={faArrowUp} className={cx('icon')} />}></Button>
                 </div>
             )}
 

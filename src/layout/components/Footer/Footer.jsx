@@ -81,7 +81,7 @@ function Footer() {
                             đại, hỗ trợ Vietsub, thuyết minh và lồng tiếng với chất lượng hiển thị Full HD. Dự án tập
                             trung phát triển hệ thống quản lý phim, phân loại thể loại, tìm kiếm, và trải nghiệm người
                             dùng mượt mà. CFLIX được thực hiện hoàn toàn cho mục đích học tập và nghiên cứu, "không mang
-                            tính thương mại". Trang web sẽ được ngay gỡ sau khi báo cáo đồ án.
+                            tính thương mại".
                         </p>
                     </div>
                 </div>
@@ -105,7 +105,7 @@ function Footer() {
             </div>
             <div className={cx('footer-divider')}></div>
             <div className={cx('l-3')}>
-                <p className={cx('copyright')}>© 2026 CFLIX – Đồ án tốt nghiệp của C0bra</p>
+                <p className={cx('copyright')}>© 2026 CFLIX – Khóa luận tốt nghiệp của C0bra</p>
             </div>
         </footer>
     );
