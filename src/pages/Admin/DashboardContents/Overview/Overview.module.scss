@@ -1,7 +1,7 @@
 // chart stats card
 .stats-card {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
     padding-top: 2rem;
 
@@ -35,6 +35,27 @@
                 font-size: 3.2rem;
                 font-weight: 700;
                 color: var(--text-color);
+            }
+            .growth-badge {
+                display: inline-block;
+                font-size: 1.1rem;
+                font-weight: 500;
+                padding: 0.3rem 0.8rem;
+                border-radius: 2rem;
+                width: fit-content;
+
+                &.up {
+                    color: #16a34a;
+                    background-color: #dcfce7;
+                }
+                &.down {
+                    color: #dc2626;
+                    background-color: #fee2e2;
+                }
+                &.neutral {
+                    color: #ca8a04;
+                    background-color: #fef9c3;
+                }
             }
         }
 

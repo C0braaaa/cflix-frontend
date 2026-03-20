@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignal, faSpinner, faUser, faUserClock } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine, faSignal, faSpinner, faUser, faUserClock } from '@fortawesome/free-solid-svg-icons';
 import { socket } from '../../../../utils/socket';
 
 import styles from './Overview.module.scss';
@@ -10,6 +10,21 @@ import { getAllUSersAPI } from '../../../../services/userServices';
 import { getTrafficStatsAPI } from '../../../../services/trafficService';
 
 const cx = classNames.bind(styles);
+
+const GrowthBadge = ({ rate, filterDays }) => {
+    if (rate === null || rate === undefined) return null;
+
+    if (rate === 0) {
+        return <span className={cx('growth-badge', 'neutral')}>🟡 Không đổi so với {filterDays} ngày trước</span>;
+    }
+
+    const isUp = rate > 0;
+    return (
+        <span className={cx('growth-badge', isUp ? 'up' : 'down')}>
+            {isUp ? '🟢' : '🔴'} {isUp ? 'Tăng' : 'Giảm'} {Math.abs(rate)}% so với {filterDays} ngày trước
+        </span>
+    );
+};
 function Overview() {
     const [countUser, setCountUser] = useState(0);
     const [onlineUsers, setOnlineUsers] = useState(0);
@@ -17,14 +32,18 @@ function Overview() {
     const [trafficData, setTrafficData] = useState([]);
     const [filterDays, setFilterDays] = useState(7);
     const [highestTraffic, setHighestTraffic] = useState(null);
+    const [totalViews, setTotalViews] = useState(null);
+    const [growthRate, setGrowthRate] = useState(null);
 
     useEffect(() => {
         const fetchTrafficStats = async () => {
             try {
                 const res = await getTrafficStatsAPI(filterDays);
                 if (res && res.data) {
-                    setTrafficData(res?.data?.chartData || []);
-                    setHighestTraffic(res?.data?.trafficHighestInDay?.views || null);
+                    setTrafficData(res.data.chartData || []);
+                    setHighestTraffic(res.data.trafficHighestInDay?.views ?? null);
+                    setTotalViews(res.data.totalViews ?? null);
+                    setGrowthRate(res.data.growthRate ?? null);
                 }
             } catch (error) {
                 console.log(error);
@@ -85,6 +104,20 @@ function Overview() {
                         <span className={cx('card-value')}>{highestTraffic}</span>
                     </div>
                     <FontAwesomeIcon icon={faUserClock} />
+                </div>
+                <div className={cx('card')}>
+                    <div className={cx('card-left-side')}>
+                        <h3 className={cx('card-title')}>Lưu lượng {filterDays} ngày qua</h3>
+                        <span className={cx('card-value')}>
+                            {totalViews === null ? (
+                                <FontAwesomeIcon icon={faSpinner} spin />
+                            ) : (
+                                totalViews.toLocaleString('vi-VN')
+                            )}
+                        </span>
+                        <GrowthBadge rate={growthRate} filterDays={filterDays} />
+                    </div>
+                    <FontAwesomeIcon icon={faChartLine} />
                 </div>
             </div>
             {/* Chart Section */}
