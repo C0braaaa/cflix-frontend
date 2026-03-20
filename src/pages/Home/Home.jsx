@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-import { Slider, LatestMovie, Topics, ContinueWatching, AddSlide, MostView } from './component/index';
+import { Slider, LatestMovie, ContinueWatching, AddSlide, MostView, Recommendations } from './component/index';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -73,8 +73,8 @@ function Home() {
             )}
             {isShowAddSlide && <AddSlide setShow={setIsShowAddSlide} onSuccess={fetchSlider} dataToEdit={dataToEdit} />}
             <Slider sliders={sliderList} onSuccess={fetchSlider} onEdit={handleEditClick} />
-            {/* <Topics /> */}
             {user && <ContinueWatching />}
+            {user && <Recommendations />}
             <LatestMovie
                 slug="phim-le"
                 year="2026"

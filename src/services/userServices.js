@@ -67,3 +67,8 @@ export const checkMovieStatusAPI = async (slug) => {
     const res = await request.get(`user/check-status/${slug}`);
     return res;
 };
+
+export const getRecommendationsAPI = async () => {
+    const res = await request.get('user/recommendations');
+    return res;
+};
