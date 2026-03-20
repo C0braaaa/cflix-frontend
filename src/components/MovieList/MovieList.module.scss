@@ -257,6 +257,135 @@
     }
 }
 
+// ── Hover Panel (Tippy tự lo vị trí) ─────────────────────────
+.hover-panel {
+    width: 40rem;
+    background-color: #1a1c2e;
+    border-radius: 1.2rem;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    animation: panelFadeIn 0.2s ease forwards;
+
+    &__thumb {
+        width: 100%;
+        height: 20rem;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__body {
+        padding: 1.2rem;
+    }
+
+    &__name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #fff;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-bottom: 0.3rem;
+    }
+
+    &__origin {
+        font-size: 1.2rem;
+        color: var(--primary-color);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-bottom: 0.8rem;
+    }
+
+    &__meta {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+        span {
+            font-size: 1.1rem;
+            color: #aaa;
+            border: 1px solid #444;
+            padding: 0.2rem 0.6rem;
+            border-radius: 0.4rem;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    &__btn-play {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.7rem;
+        background-color: var(--primary-color);
+        color: #000;
+        border-radius: 0.6rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+        white-space: nowrap;
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+
+    &__btn-info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.7rem 1rem;
+        background-color: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border-radius: 0.6rem;
+        font-size: 1.3rem;
+        white-space: nowrap;
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    &__genres {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    &__genre-tag {
+        font-size: 1.1rem;
+        color: #bbb;
+        background-color: rgba(255, 255, 255, 0.07);
+        padding: 0.2rem 0.7rem;
+        border-radius: 2rem;
+    }
+}
+
+@keyframes panelFadeIn {
+    from {
+        opacity: 0;
+        scale: 0.92;
+    }
+    to {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+@media (max-width: 500px) {
+    .hover-panel {
+        display: none;
+    }
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
     width: 45px;
@@ -266,25 +395,43 @@
     right: 50%;
     transform: translateX(50%);
     --c: no-repeat linear-gradient(#ffffff 0 0);
-    background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
+    background:
+        var(--c) 0% 50%,
+        var(--c) 50% 50%,
+        var(--c) 100% 50%;
     background-size: 20% 100%;
     animation: l1 1s infinite linear;
 }
 @keyframes l1 {
     0% {
-        background-size: 20% 100%, 20% 100%, 20% 100%;
+        background-size:
+            20% 100%,
+            20% 100%,
+            20% 100%;
     }
     33% {
-        background-size: 20% 10%, 20% 100%, 20% 100%;
+        background-size:
+            20% 10%,
+            20% 100%,
+            20% 100%;
     }
     50% {
-        background-size: 20% 100%, 20% 10%, 20% 100%;
+        background-size:
+            20% 100%,
+            20% 10%,
+            20% 100%;
     }
     66% {
-        background-size: 20% 100%, 20% 100%, 20% 10%;
+        background-size:
+            20% 100%,
+            20% 100%,
+            20% 10%;
     }
     100% {
-        background-size: 20% 100%, 20% 100%, 20% 100%;
+        background-size:
+            20% 100%,
+            20% 100%,
+            20% 100%;
     }
 }
 

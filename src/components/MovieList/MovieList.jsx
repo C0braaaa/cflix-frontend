@@ -5,6 +5,7 @@ import 'tippy.js/dist/tippy.css';
 import { Link, useSearchParams, useLocation, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faFilter } from '@fortawesome/free-solid-svg-icons';
+import MovieCard from './MovieCard';
 import PropTypes from 'prop-types';
 
 import { nations, genres } from '../Dropdown/listDropdown';
@@ -51,12 +52,6 @@ function MovieList({ title, fetchFunction, type, slug }) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
-
-    const decodeHTML = (html) => {
-        const txt = document.createElement('textarea');
-        txt.innerHTML = html;
-        return txt.value;
-    };
     useEffect(() => {
         if (location.pathname.includes('/quoc-gia/')) {
             setSelectedCountry(params.slug);
@@ -116,42 +111,6 @@ function MovieList({ title, fetchFunction, type, slug }) {
 
         setSearchParams(params);
         setShowFilter(false);
-    };
-
-    const renderExtraInfo = (movie) => {
-        switch (type) {
-            case 'single':
-                return (
-                    <>
-                        <Tippy content="Chất lượng">
-                            <span>{movie.quality}</span>
-                        </Tippy>
-                        <Tippy content="Năm phát hành">
-                            <span>{movie.year}</span>
-                        </Tippy>
-                    </>
-                );
-            case 'series':
-            case 'cartoon':
-                return (
-                    <>
-                        {!movie.episode_current?.match(/\d+/)?.[0] ? (
-                            <Tippy content="Movies">
-                                <span>MV</span>
-                            </Tippy>
-                        ) : (
-                            <Tippy content="Tập hiện tại">
-                                <span>{movie.episode_current.match(/\d+/)?.[0] || 'TV'}</span>
-                            </Tippy>
-                        )}
-                        <Tippy content="Năm phát hành">
-                            <span>{movie.year}</span>
-                        </Tippy>
-                    </>
-                );
-            default:
-                return null;
-        }
     };
 
     return (
@@ -294,25 +253,7 @@ function MovieList({ title, fetchFunction, type, slug }) {
                 ) : (
                     <div className={cx('list-items')}>
                         {movies.map((movie) => (
-                            <Link to={`/phim/${movie.slug}`} key={movie._id}>
-                                <div className={cx('item')}>
-                                    <div className={cx('poster')}>
-                                        {movie.poster_url ? (
-                                            <img
-                                                src={`https://phimapi.com/image.php?url=https://phimimg.com/${movie.poster_url}`}
-                                                alt={movie.name}
-                                            />
-                                        ) : (
-                                            <img src="assets/images/defaultimg.jpg" alt="not found" />
-                                        )}
-                                        <div className={cx('quality')}>{renderExtraInfo(movie)}</div>
-                                    </div>
-                                    <div className={cx('info')}>
-                                        <h4 className={cx('name')}>{decodeHTML(movie.name)}</h4>
-                                        <h4 className={cx('original-name')}>{decodeHTML(movie.origin_name)}</h4>
-                                    </div>
-                                </div>
-                            </Link>
+                            <MovieCard key={movie._id} movie={movie} type={type} />
                         ))}
                     </div>
                 )}
