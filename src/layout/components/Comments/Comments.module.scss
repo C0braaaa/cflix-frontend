@@ -335,6 +335,24 @@
     }
 }
 
+.comment.highlighted {
+    background: rgba(243, 8, 79, 0.08);
+    border-radius: 1rem;
+    outline: 1px solid rgba(243, 8, 79, 0.4);
+    animation: highlightFade 3s ease forwards;
+}
+
+@keyframes highlightFade {
+    0% {
+        background: rgba(243, 8, 79, 0.18);
+        outline-color: rgba(243, 8, 79, 0.7);
+    }
+    100% {
+        background: transparent;
+        outline-color: transparent;
+    }
+}
+
 .comment-thread {
     padding: 1rem 0;
     border-radius: 1rem;

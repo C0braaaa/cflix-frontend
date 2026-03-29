@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { socket } from '../../../utils/socket';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -35,6 +35,7 @@ const cx = classNames.bind(styles);
 function Comment() {
     const { user, openModal } = useAuth();
     const { slug } = useParams();
+    const location = useLocation();
     const { openReportModal } = useReportModal();
     const [text, setText] = useState('');
     const [replyText, setReplyText] = useState('');
@@ -42,6 +43,8 @@ function Comment() {
     const [commentList, setCommentList] = useState([]);
     const [expandedComments, setExpandedComments] = useState({});
     const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+    const [highlightedCommentId, setHighlightedCommentId] = useState(null);
+    const scrollAttemptRef = useRef(null);
 
     const GENDER_ICONS = {
         male: faMars,
@@ -62,6 +65,42 @@ function Comment() {
         };
         fetchComment();
     }, [slug]);
+
+    // Scroll tới comment khi URL có hash #comment-<id>
+    useEffect(() => {
+        const hash = location.hash; // ví dụ: "#comment-abc123"
+        if (!hash.startsWith('#comment-')) return;
+
+        const commentId = hash.replace('#comment-', '');
+
+        // Mở replies nếu comment đó là reply (có parent_id)
+        const targetComment = commentList.find((c) => c._id === commentId);
+        if (targetComment?.parent_id) {
+            setExpandedComments((prev) => ({ ...prev, [targetComment.parent_id]: true }));
+        }
+
+        setHighlightedCommentId(commentId);
+
+        // Thử scroll nhiều lần vì DOM có thể chưa render xong
+        let attempts = 0;
+        const tryScroll = () => {
+            const el = document.getElementById(`comment-${commentId}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                clearInterval(scrollAttemptRef.current);
+            } else if (attempts++ > 20) {
+                clearInterval(scrollAttemptRef.current);
+            }
+        };
+
+        clearInterval(scrollAttemptRef.current);
+        scrollAttemptRef.current = setInterval(tryScroll, 150);
+
+        // Xóa highlight sau 3 giây
+        setTimeout(() => setHighlightedCommentId(null), 3000);
+
+        return () => clearInterval(scrollAttemptRef.current);
+    }, [location.hash, commentList]);
 
     // config socket.io
     useEffect(() => {
@@ -229,7 +268,11 @@ function Comment() {
         const canDelete = isOwner || (isAdmin && !commentByAdmin);
 
         return (
-            <div className={cx('comment')} key={comment?._id}>
+            <div
+                id={`comment-${comment?._id}`}
+                className={cx('comment', { highlighted: highlightedCommentId === comment?._id })}
+                key={comment?._id}
+            >
                 <div className={cx('left-side')}>
                     <div className={cx('avatar', { avatarreply: comment?.parent_id })}>
                         <img src={comment?.user_avatar} alt={`avatar`} />
