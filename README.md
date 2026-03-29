@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/assets/images/logo.png" alt="CFLIX Logo" width="200" />
+  <img src="public/assets/images/logo_mau_den.png" alt="CFLIX Logo" width="200" />
   <h1>CFLIX Frontend</h1>
 
   <p>
