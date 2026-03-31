@@ -39,7 +39,7 @@ function UserPage() {
     }, [user, nevigate]);
 
     useEffect(() => {
-        document.title = 'Cflix - Quản lý tài khoản';
+        document.title = 'CFlix - Quản lý tài khoản';
     }, []);
 
     if (!user) return null;

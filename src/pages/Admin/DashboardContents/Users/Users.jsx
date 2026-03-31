@@ -331,7 +331,6 @@ function Users() {
                         <tr className={cx('loader')}></tr>
                     ) : (
                         users
-                            ?.filter((user) => user._id !== currentUser?._id)
                             ?.map((user, index) => {
                                 const indexNumber = (currentPage - 1) * ITEMS_PER_PAGE + index + 1;
                                 return (
