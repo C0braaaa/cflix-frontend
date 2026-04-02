@@ -54,10 +54,10 @@ export const nations = async (page = 1, limit = 32, nationSlug) => {
     }
 };
 
-export const allMovies = async (page = 1) => {
+export const allMovies = async (page = 1, type = null) => {
     try {
         const res = await request.get('danh-sach/phim-moi-cap-nhat-v3', {
-            params: { page },
+            params: { page, type },
         });
         return res || {};
     } catch (error) {

@@ -116,10 +116,6 @@ function Users() {
         }
     };
 
-    const handleCloseMenu = () => {
-        setActiveMenuId(null);
-    };
-
     const handleShowEdittingUSer = (user) => {
         setEdittingUSer(user); // Lưu user đang chọn vào state
         setActiveMenuId(null); // Đóng menu dropdown
@@ -365,11 +361,12 @@ function Users() {
                                             <div className={cx('actions')}>
                                                 <Tippy
                                                     interactive
-                                                    visible={activeMenuId === user._id}
+                                                    trigger="click"
                                                     placement="bottom-end"
                                                     arrow={false}
                                                     offset={[30, 5]}
-                                                    onClickOutside={handleCloseMenu}
+                                                    onShow={() => setActiveMenuId(user._id)}
+                                                    onHide={() => setActiveMenuId((prev) => (prev === user._id ? null : prev))}
                                                     render={(attrs) => (
                                                         <>
                                                             {user.role !== 'admin' ? (
@@ -430,12 +427,6 @@ function Users() {
                                                         className={cx('gear-icon', {
                                                             active: activeMenuId === user._id,
                                                         })}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setActiveMenuId(
-                                                                activeMenuId === user._id ? null : user._id,
-                                                            );
-                                                        }}
                                                     >
                                                         <FontAwesomeIcon icon={faGear} />
                                                     </div>

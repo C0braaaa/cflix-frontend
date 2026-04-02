@@ -3,14 +3,26 @@ import { useState, useEffect, useRef } from 'react';
 import { useDebounce } from '../../../../hooks';
 import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
+import HeadlessTippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faArrowRight, faSearch, faCircleXmark, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
+import {
+    faArrowLeft,
+    faArrowRight,
+    faSearch,
+    faCircleXmark,
+    faArrowTrendUp,
+    faGear,
+    faLock,
+    faUnlock,
+} from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 import styles from './Movies.module.scss';
 import { search } from '../../../../services/searchService';
 import { allMovies } from '../../../../services/moviesServices';
 import { getTopViewedAPI } from '../../../../services/viewsService';
+import { blockMovieAPI, unblockMovieAPI, getAllBlockedSlugsAPI } from '../../../../services/movieBlockService';
 import MoviePieChart from './MoviePieChart';
 
 const cx = classNames.bind(styles);
@@ -24,6 +36,8 @@ function Movies() {
     const [totalPages, setTotalPages] = useState(0);
     const [inputPage, setInputPage] = useState(currentPage);
     const [inputText, setInputText] = useState('');
+    const [openActions, setOpenActions] = useState(null);
+    const [blockedSlugs, setBlockedSlugs] = useState(new Set());
     const [stats, setStats] = useState({
         viewsByType: {},
     });
@@ -92,6 +106,20 @@ function Movies() {
             }
         };
         fetchViews();
+    }, []);
+
+    useEffect(() => {
+        const fetchBlocked = async () => {
+            try {
+                const res = await getAllBlockedSlugsAPI();
+                if (res?.data) {
+                    setBlockedSlugs(new Set(res.data));
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchBlocked();
     }, []);
 
     useEffect(() => {
@@ -215,6 +243,8 @@ function Movies() {
                             <th>QUỐC GIA</th>
                             <th>NGÀY CẬP NHẬT</th>
                             <th>LƯỢT XEM</th>
+                            <th>TRẠNG THÁI</th>
+                            <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody className={cx('tbody')}>
@@ -266,6 +296,82 @@ function Movies() {
                                                 )}
                                             </span>
                                         </Tippy>
+                                    </td>
+                                    <td>
+                                        <span className={cx('status', { active: movie?.isActive })}>
+                                            {blockedSlugs.has(movie?.slug) ? (
+                                                <FontAwesomeIcon icon={faLock} color="#D97706" />
+                                            ) : (
+                                                <FontAwesomeIcon icon={faUnlock} color="#059669" />
+                                            )}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div className={cx('actions')}>
+                                            <HeadlessTippy
+                                                interactive
+                                                trigger="click"
+                                                placement="bottom-end"
+                                                arrow={false}
+                                                offset={[-60, 5]}
+                                                onShow={() => setOpenActions(movie?.slug)}
+                                                onHide={() =>
+                                                    setOpenActions((prev) => (prev === movie?.slug ? null : prev))
+                                                }
+                                                render={(attrs) => {
+                                                    const isBlocked = blockedSlugs.has(movie?.slug);
+                                                    return (
+                                                        <div
+                                                            className={cx('dropdown-actions')}
+                                                            tabIndex="-1"
+                                                            {...attrs}
+                                                        >
+                                                            <div
+                                                                className={cx('dropdown-item')}
+                                                                onClick={async () => {
+                                                                    setOpenActions(null);
+                                                                    try {
+                                                                        if (isBlocked) {
+                                                                            await unblockMovieAPI(movie?.slug);
+                                                                            setBlockedSlugs((prev) => {
+                                                                                const newSet = new Set(prev);
+                                                                                newSet.delete(movie?.slug);
+                                                                                return newSet;
+                                                                            });
+                                                                            toast.success('Mở khóa phim thành công!');
+                                                                        } else {
+                                                                            await blockMovieAPI(
+                                                                                movie?.slug,
+                                                                                movie?.name,
+                                                                                'inappropriate',
+                                                                            );
+                                                                            setBlockedSlugs((prev) =>
+                                                                                new Set(prev).add(movie?.slug),
+                                                                            );
+                                                                            toast.success('Đã khóa phim!');
+                                                                        }
+                                                                    } catch (error) {
+                                                                        console.log(error);
+                                                                        toast.error('Có lỗi xảy ra!');
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <FontAwesomeIcon icon={isBlocked ? faUnlock : faLock} />
+                                                                <span>{isBlocked ? 'Mở khóa' : 'Khóa'}</span>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                }}
+                                            >
+                                                <div
+                                                    className={cx('gear-icon', {
+                                                        open: openActions === movie?.slug,
+                                                    })}
+                                                >
+                                                    <FontAwesomeIcon icon={faGear} />
+                                                </div>
+                                            </HeadlessTippy>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
