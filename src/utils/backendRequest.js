@@ -20,6 +20,8 @@ backendRequest.interceptors.response.use(
             console.warn('Token hết hạn hoặc không hợp lệ! Đang đăng xuất...');
             localStorage.removeItem('cflix_user');
             localStorage.removeItem('cflix_token');
+            sessionStorage.setItem('notify_after_load', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!');
+            window.location.href = '/';
 
             return Promise.reject(error);
         }

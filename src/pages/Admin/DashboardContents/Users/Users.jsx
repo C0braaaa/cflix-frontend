@@ -17,7 +17,6 @@ import {
     faUserCheck,
     faUserPlus,
     faUsers,
-    faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
@@ -366,7 +365,9 @@ function Users() {
                                                     arrow={false}
                                                     offset={[30, 5]}
                                                     onShow={() => setActiveMenuId(user._id)}
-                                                    onHide={() => setActiveMenuId((prev) => (prev === user._id ? null : prev))}
+                                                    onHide={() =>
+                                                        setActiveMenuId((prev) => (prev === user._id ? null : prev))
+                                                    }
                                                     render={(attrs) => (
                                                         <>
                                                             {user.role !== 'admin' ? (
@@ -463,9 +464,17 @@ function Users() {
                 </div>
             )}
             {users.length === 0 && (
-                <div className={cx('no-data')}>
-                    <FontAwesomeIcon icon={faWarning} />
-                    <p>Không tìm thấy dữ liệu!</p>
+                <div
+                    style={{
+                        textAlign: 'center',
+                        padding: '3rem 0',
+                        fontSize: '1.6rem',
+                        color: 'var(--text-black)',
+                        backgroundColor: 'var(--warning-color)',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    Không có dữ liệu hiển thị!
                 </div>
             )}
             {edittingUSer && <div className={cx('overlay-users')} onClick={() => setEdittingUSer(false)}></div>}

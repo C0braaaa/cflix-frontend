@@ -151,7 +151,7 @@ function MainContents({ title = '', api = null, apiToggle = null, field = '' }) 
                     ))
                 ) : (
                     <div className={cx('no-data')}>
-                        <p>Không có dữ liệu</p>
+                        <p>Không có dữ liệu hiển thị!</p>
                     </div>
                 )}
             </div>

@@ -339,31 +339,62 @@ function MovieInfo() {
         return (
             <div className={cx('wrapper')}>
                 <div className={cx('thumbnail')}>
-                    <div style={{width: '100%', height: '100%', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                         <FontAwesomeIcon icon={faLock} color="#333" style={{fontSize: '10rem'}}/>
+                    <div
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: '#000',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faLock} color="#333" style={{ fontSize: '10rem' }} />
                     </div>
                 </div>
                 <div className={cx('content')}>
                     <div className={cx('left-side')}>
-                        <div className={cx('poster')} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-                              <FontAwesomeIcon icon={faLock} color="#ff4d4f" style={{fontSize: '4rem', marginBottom: '1rem'}}/>
+                        <div
+                            className={cx('poster')}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                            }}
+                        >
+                            <FontAwesomeIcon
+                                icon={faLock}
+                                color="#ff4d4f"
+                                style={{ fontSize: '4rem', marginBottom: '1rem' }}
+                            />
                         </div>
                         <h2 className={cx('name')}>Nội dung đã khóa</h2>
                         <p className={cx('origin-name')}>Không khả dụng</p>
-                        <div className={cx('description')} style={{marginTop: '2rem'}}>
+                        <div className={cx('description')} style={{ marginTop: '2rem' }}>
                             <h2 className={cx('title')}>Lý do:</h2>
-                            <p className={cx('desc')} style={{color: '#ff4d4f'}}>Phim này tạm thời bị khóa do vi phạm các điều khoản dịch vụ của chúng tôi.</p>
+                            <p className={cx('desc')} style={{ color: '#ff4d4f' }}>
+                                Phim này tạm thời bị khóa do vi phạm các điều khoản dịch vụ của chúng tôi.
+                            </p>
                         </div>
                     </div>
-                    <div className={cx('right-side')} style={{justifyContent: 'center', alignItems: 'center'}}>
-                          <div style={{textAlign: 'center'}}>
-                               <FontAwesomeIcon icon={faLock} style={{ fontSize: '6rem', marginBottom: '20px', color: '#ff4d4f' }} />
-                               <h2 style={{ fontSize: '2.4rem', marginBottom: '10px', color: 'white' }}>Nội Dung Đã Bị Khóa</h2>
-                               <p style={{ fontSize: '1.6rem', color: '#ccc', marginBottom: '30px' }}>Rất tiếc! Bộ phim bạn yêu cầu hiện không thể xem được vì lý do bản quyền hoặc vi phạm nội dung.</p>
-                               <Link to="/">
-                                   <Button primary>Về trang chủ</Button>
-                               </Link>
-                          </div>
+                    <div className={cx('right-side')} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <FontAwesomeIcon
+                                icon={faLock}
+                                style={{ fontSize: '6rem', marginBottom: '20px', color: '#ff4d4f' }}
+                            />
+                            <h2 style={{ fontSize: '2.4rem', marginBottom: '10px', color: 'white' }}>
+                                Nội Dung Đã Bị Khóa
+                            </h2>
+                            <p style={{ fontSize: '1.6rem', color: '#ccc', marginBottom: '30px' }}>
+                                Rất tiếc! Bộ phim bạn yêu cầu hiện không thể xem được vì lý do bản quyền hoặc vi phạm
+                                nội dung.
+                            </p>
+                            <Link to="/">
+                                <Button primary>Về trang chủ</Button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
