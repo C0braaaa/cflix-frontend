@@ -14,7 +14,6 @@ import {
     faCommentDots,
     faSpinner,
     faUpRightFromSquare,
-    faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -366,9 +365,17 @@ function Report() {
                 )}
             </div>
             {reports?.length === 0 && (
-                <div className={cx('nodata')}>
-                    <FontAwesomeIcon icon={faWarning} />
-                    <p>Không có dữ liệu, hãy thử lại!</p>
+                <div
+                    style={{
+                        textAlign: 'center',
+                        padding: '3rem 0',
+                        fontSize: '1.6rem',
+                        color: 'var(--text-black)',
+                        backgroundColor: 'var(--warning-color)',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    Không có dữ liệu hiển thị!
                 </div>
             )}
             {totalPages > 1 && (

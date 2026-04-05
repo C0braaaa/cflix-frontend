@@ -444,3 +444,24 @@
         margin-left: 1rem;
     }
 }
+
+.blocked-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-color-6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.blocked-content {
+    text-align: center;
+    background-color: #191b24;
+    padding: 5rem 10rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border-color);
+}

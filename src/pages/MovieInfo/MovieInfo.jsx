@@ -12,12 +12,14 @@ import {
     faShare,
     faThumbsDown,
     faThumbsUp,
+    faLock,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { useAuth } from '../../features/auth/context/AuthContext';
 import styles from './MovieInfo.module.scss';
 import Button from '../../components/Button/index-button';
 import { toggleFavoriteAPI, togglePlaylistAPI, checkMovieStatusAPI } from '../../services/userServices';
+import { checkMovieBlockedAPI } from '../../services/movieBlockService';
 import { toggleDislikeAPI, toggleLikeAPI, getRatingAPI } from '../../services/ratingService';
 import { detail } from '../../services/moviesServices';
 import Comment from '../../layout/components/Comments/Comments';
@@ -32,6 +34,7 @@ function MovieInfo() {
     const [episodes, setEpisodes] = useState([]);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [showMore, setShowMore] = useState(false);
+    const [isBlocked, setIsBlocked] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [isPlaylist, setIsPlaylist] = useState(false);
     const [ratingInfo, setRatingInfo] = useState({
@@ -61,6 +64,20 @@ function MovieInfo() {
             }
         };
         checkStatus();
+
+        const checkBlocked = async () => {
+            if (slug) {
+                try {
+                    const res = await checkMovieBlockedAPI(slug);
+                    if (res?.data?.isBlocked) {
+                        setIsBlocked(true);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        checkBlocked();
     }, [slug, user]);
 
     // handle click favorite
@@ -317,6 +334,72 @@ function MovieInfo() {
             <div className={cx('skeleton', 'skeleton-text', 'medium')}></div>
         </div>
     );
+
+    if (isBlocked) {
+        return (
+            <div className={cx('wrapper')}>
+                <div className={cx('thumbnail')}>
+                    <div
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: '#000',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faLock} color="#333" style={{ fontSize: '10rem' }} />
+                    </div>
+                </div>
+                <div className={cx('content')}>
+                    <div className={cx('left-side')}>
+                        <div
+                            className={cx('poster')}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                            }}
+                        >
+                            <FontAwesomeIcon
+                                icon={faLock}
+                                color="#ff4d4f"
+                                style={{ fontSize: '4rem', marginBottom: '1rem' }}
+                            />
+                        </div>
+                        <h2 className={cx('name')}>Nội dung đã khóa</h2>
+                        <p className={cx('origin-name')}>Không khả dụng</p>
+                        <div className={cx('description')} style={{ marginTop: '2rem' }}>
+                            <h2 className={cx('title')}>Lý do:</h2>
+                            <p className={cx('desc')} style={{ color: '#ff4d4f' }}>
+                                Phim này tạm thời bị khóa do vi phạm các điều khoản dịch vụ của chúng tôi.
+                            </p>
+                        </div>
+                    </div>
+                    <div className={cx('right-side')} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <FontAwesomeIcon
+                                icon={faLock}
+                                style={{ fontSize: '6rem', marginBottom: '20px', color: '#ff4d4f' }}
+                            />
+                            <h2 style={{ fontSize: '2.4rem', marginBottom: '10px', color: 'white' }}>
+                                Nội Dung Đã Bị Khóa
+                            </h2>
+                            <p style={{ fontSize: '1.6rem', color: '#ccc', marginBottom: '30px' }}>
+                                Rất tiếc! Bộ phim bạn yêu cầu hiện không thể xem được vì lý do bản quyền hoặc vi phạm
+                                nội dung.
+                            </p>
+                            <Link to="/">
+                                <Button primary>Về trang chủ</Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={cx('wrapper')}>

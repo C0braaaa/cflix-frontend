@@ -17,7 +17,6 @@ import {
     faUserCheck,
     faUserPlus,
     faUsers,
-    faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
@@ -114,10 +113,6 @@ function Users() {
             console.error('Delete user failed:', error);
             toast.error(error?.response?.data?.message || 'Xóa người dùng thất bại');
         }
-    };
-
-    const handleCloseMenu = () => {
-        setActiveMenuId(null);
     };
 
     const handleShowEdittingUSer = (user) => {
@@ -364,11 +359,14 @@ function Users() {
                                             <div className={cx('actions')}>
                                                 <Tippy
                                                     interactive
-                                                    visible={activeMenuId === user._id}
+                                                    trigger="click"
                                                     placement="bottom-end"
                                                     arrow={false}
                                                     offset={[30, 5]}
-                                                    onClickOutside={handleCloseMenu}
+                                                    onShow={() => setActiveMenuId(user._id)}
+                                                    onHide={() =>
+                                                        setActiveMenuId((prev) => (prev === user._id ? null : prev))
+                                                    }
                                                     render={(attrs) => (
                                                         <>
                                                             {user.role !== 'admin' ? (
@@ -429,12 +427,6 @@ function Users() {
                                                         className={cx('gear-icon', {
                                                             active: activeMenuId === user._id,
                                                         })}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setActiveMenuId(
-                                                                activeMenuId === user._id ? null : user._id,
-                                                            );
-                                                        }}
                                                     >
                                                         <FontAwesomeIcon icon={faGear} />
                                                     </div>
@@ -471,9 +463,17 @@ function Users() {
                 </div>
             )}
             {users.length === 0 && (
-                <div className={cx('no-data')}>
-                    <FontAwesomeIcon icon={faWarning} />
-                    <p>Không tìm thấy dữ liệu!</p>
+                <div
+                    style={{
+                        textAlign: 'center',
+                        padding: '3rem 0',
+                        fontSize: '1.6rem',
+                        color: 'var(--text-black)',
+                        backgroundColor: 'var(--warning-color)',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    Không có dữ liệu hiển thị!
                 </div>
             )}
             {edittingUSer && <div className={cx('overlay-users')} onClick={() => setEdittingUSer(false)}></div>}
