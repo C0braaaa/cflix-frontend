@@ -134,6 +134,8 @@ function Comment() {
     const handleSend = async () => {
         if (!user) {
             toast.error('Bạn phải đăng nhập để bình luận!');
+            openModal('login');
+            return;
         }
         if (!text.trim()) return;
         try {

@@ -61,6 +61,9 @@ function MovieInfo() {
                 } catch (error) {
                     console.log(error);
                 }
+            } else {
+                setIsFavorite(false);
+                setIsPlaylist(false);
             }
         };
         checkStatus();
@@ -82,6 +85,11 @@ function MovieInfo() {
 
     // handle click favorite
     const handleAddFavorite = async () => {
+        if (!user) {
+            toast.error('Vui lòng đăng nhập để thêm yêu thích!');
+            openModal('login');
+            return;
+        }
         try {
             const res = await toggleFavoriteAPI({
                 slug: movie.slug,
@@ -103,6 +111,11 @@ function MovieInfo() {
 
     // handle click playlist
     const handleAddPlaylist = async () => {
+        if (!user) {
+            toast.error('Vui lòng đăng nhập để thêm vào danh sách xem sau!');
+            openModal('login');
+            return;
+        }
         try {
             const res = await togglePlaylistAPI({
                 slug: movie.slug,
@@ -129,7 +142,10 @@ function MovieInfo() {
                 try {
                     const res = await getRatingAPI(slug);
                     if (res && res.status && res.data) {
-                        setRatingInfo(res.data);
+                        setRatingInfo({
+                            ...res.data,
+                            userStatus: user ? res.data.userStatus : 'neutral',
+                        });
                     }
                 } catch (error) {
                     console.log(error);

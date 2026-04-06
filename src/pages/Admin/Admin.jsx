@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilm, faFlag, faHome, faMoon, faSun, faTableCellsLarge, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faFilm, faFlag, faHome, faMoon, faSun, faTableCellsLarge, faUser, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Overview, Users, Movies, Report } from './DashboardContents';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
@@ -21,6 +21,7 @@ function DashBoard() {
     const [toggleTheme, setToggleTheme] = useState(() => {
         return localStorage.getItem('admin-theme') || 'dark';
     });
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         localStorage.setItem('admin-theme', toggleTheme);
@@ -28,7 +29,11 @@ function DashBoard() {
 
     return (
         <div className={cx('wrapper')} data-admin-theme={toggleTheme}>
+            {isSidebarOpen && <div className={cx('backdrop')} onClick={() => setIsSidebarOpen(false)}></div>}
             <header className={cx('header')}>
+                <div className={cx('toggle-sidebar')} onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                    <FontAwesomeIcon icon={faBars} />
+                </div>
                 <div className={cx('toggle-theme')}>
                     <div className={cx('toggle')}>
                         <span
@@ -54,7 +59,7 @@ function DashBoard() {
                     </div>
                 </div>
             </header>
-            <div className={cx('sidebar')}>
+            <div className={cx('sidebar', { open: isSidebarOpen })}>
                 <div className={cx('logo')}>
                     <div className={cx('logo-img')}>
                         <img

@@ -31,7 +31,7 @@ function TrafficBarChart({ data }) {
                     dataKey="views"
                     fill="var(--primary-color)"
                     radius={[6, 6, 0, 0]} // Bo tròn góc trên
-                    barSize={35} // Độ mập của cột
+                    maxBarSize={35} // Độ mập của cột
                     name="Lượt truy cập"
                 />
             </BarChart>

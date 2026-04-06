@@ -103,6 +103,9 @@ function Wacth() {
                 } catch (error) {
                     console.log(error);
                 }
+            } else {
+                setIsFavorite(false);
+                setIsPlaylist(false);
             }
         };
         checkStatus();
@@ -124,6 +127,11 @@ function Wacth() {
 
     // handle click favorite
     const handleAddFavorite = async () => {
+        if (!user) {
+            toast.error('Vui lòng đăng nhập để thêm yêu thích!');
+            openModal('login');
+            return;
+        }
         try {
             const res = await toggleFavoriteAPI({
                 slug: movie.slug,
@@ -145,6 +153,11 @@ function Wacth() {
 
     // handle click playlist
     const handleAddPlaylist = async () => {
+        if (!user) {
+            toast.error('Vui lòng đăng nhập để thêm vào danh sách xem sau!');
+            openModal('login');
+            return;
+        }
         try {
             const res = await togglePlaylistAPI({
                 slug: movie.slug,
@@ -235,7 +248,7 @@ function Wacth() {
         return (
             <div className={cx('wrapper')}>
                 <div className={cx('left-side')}>
-                     <div className={cx('l-1')}>
+                    <div className={cx('l-1')}>
                         <Link to={`/`}>
                             <FontAwesomeIcon icon={faCircleLeft} />
                         </Link>
@@ -244,14 +257,47 @@ function Wacth() {
                         </h2>
                     </div>
                     <div className={cx('video')}>
-                         <div style={{width: '100%', aspectRatio: '16/9', backgroundColor: '#000', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '1rem 1rem 0 0', padding: '2rem', textAlign: 'center'}}>
-                               <FontAwesomeIcon icon={faLock} style={{ fontSize: '6rem', marginBottom: '20px', color: '#ff4d4f' }} />
-                               <h2 style={{ fontSize: '2.4rem', marginBottom: '10px', color: 'white' }}>Nội Dung Không Khả Dụng</h2>
-                               <p style={{ fontSize: '1.6rem', color: '#ccc', marginBottom: '30px' }}>Phim này đã bị khóa do vi phạm các điều khoản dịch vụ hoặc bản quyền.</p>
-                               <Link to="/">
-                                   <button style={{ backgroundColor: 'var(--primary-color)', color: 'white', padding: '1.5rem 2.5rem', border: 'none', borderRadius: '5px', fontSize: '1.6rem', cursor: 'pointer', fontWeight: 'bold' }}>Quay Về Trang Chủ</button>
-                               </Link>
-                         </div>
+                        <div
+                            style={{
+                                width: '100%',
+                                aspectRatio: '16/9',
+                                backgroundColor: '#000',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: '1rem 1rem 0 0',
+                                padding: '2rem',
+                                textAlign: 'center',
+                            }}
+                        >
+                            <FontAwesomeIcon
+                                icon={faLock}
+                                style={{ fontSize: '6rem', marginBottom: '20px', color: '#ff4d4f' }}
+                            />
+                            <h2 style={{ fontSize: '2.4rem', marginBottom: '10px', color: 'white' }}>
+                                Nội Dung Không Khả Dụng
+                            </h2>
+                            <p style={{ fontSize: '1.6rem', color: '#ccc', marginBottom: '30px' }}>
+                                Phim này đã bị khóa do vi phạm các điều khoản dịch vụ hoặc bản quyền.
+                            </p>
+                            <Link to="/">
+                                <button
+                                    style={{
+                                        backgroundColor: 'var(--primary-color)',
+                                        color: 'white',
+                                        padding: '1.5rem 2.5rem',
+                                        border: 'none',
+                                        borderRadius: '5px',
+                                        fontSize: '1.6rem',
+                                        cursor: 'pointer',
+                                        fontWeight: 'bold',
+                                    }}
+                                >
+                                    Quay Về Trang Chủ
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

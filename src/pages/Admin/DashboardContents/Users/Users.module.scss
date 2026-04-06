@@ -555,3 +555,89 @@
         margin-bottom: 20rem;
     }
 }
+
+// RESPONSIVE
+@media (max-width: 1200px) {
+    .stat-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        padding: 1rem;
+        margin-bottom: 5rem;
+    }
+
+    .stat-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+
+        .card {
+            padding: 1.5rem;
+            .card-value {
+                font-size: 2rem;
+            }
+        }
+    }
+
+    .heading {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: 1.5rem;
+        margin-top: 1rem;
+
+        .filter-btn {
+            flex-wrap: wrap;
+            width: 100%;
+            justify-content: flex-start;
+
+            .all, .roles, .status {
+                gap: 1rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        .search {
+            width: 100%;
+            .search-input {
+                width: 100%;
+            }
+        }
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        
+        .table {
+            min-width: 900px; // forces horizontal scroll
+        }
+    }
+
+    .pagination-wrapper {
+        padding: 1.5rem;
+        justify-content: center;
+        .pagination {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+    }
+
+    .modal-edit, .confirm-delete {
+        width: 90%;
+        max-width: 500px;
+    }
+    .modal-edit {
+        height: auto;
+        padding-bottom: 2rem;
+        .edit-form .btn {
+            position: relative;
+            transform: none;
+            left: 0;
+            width: 100%;
+            margin-top: 1rem;
+        }
+    }
+}

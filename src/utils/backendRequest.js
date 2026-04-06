@@ -17,11 +17,14 @@ backendRequest.interceptors.response.use(
     (error) => {
         const { response, config } = error;
         if (response && response.status === 401 && !config.url.includes('auth/login')) {
-            console.warn('Token hết hạn hoặc không hợp lệ! Đang đăng xuất...');
-            localStorage.removeItem('cflix_user');
-            localStorage.removeItem('cflix_token');
-            sessionStorage.setItem('notify_after_load', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!');
-            window.location.href = '/';
+            const hasToken = !!localStorage.getItem('cflix_token');
+            if (hasToken) {
+                console.warn('Token hết hạn hoặc không hợp lệ! Đang đăng xuất...');
+                localStorage.removeItem('cflix_user');
+                localStorage.removeItem('cflix_token');
+                sessionStorage.setItem('notify_after_load', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!');
+                window.location.href = '/';
+            }
 
             return Promise.reject(error);
         }
