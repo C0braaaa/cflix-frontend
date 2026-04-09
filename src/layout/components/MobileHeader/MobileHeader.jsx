@@ -122,6 +122,19 @@ function MobileHeader() {
                                                     <FontAwesomeIcon icon={faClockRotateLeft} />
                                                     <span>Xem Tiếp</span>
                                                 </Link>
+                                                {user && user.role === 'admin' && (
+                                                    <Link
+                                                        to="/dashboard"
+                                                        className={cx('user__item')}
+                                                        onClick={() => {
+                                                            setMenuIcon((prev) => !prev);
+                                                            setShowMenu((prev) => !prev);
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon icon={faUser} />
+                                                        <span>Dashboard</span>
+                                                    </Link>
+                                                )}
                                                 <Link
                                                     to="/user/profile"
                                                     className={cx('user__item')}
