@@ -99,7 +99,12 @@ function ChatBot({ showChatbox }) {
             }
 
             parts.push(
-                <Link key={match.index} to={match[2]} style={{ color: 'var(--primary-color)' }}>
+                <Link
+                    key={match.index}
+                    to={match[2]}
+                    style={{ color: 'var(--primary-color)' }}
+                    onClick={() => showChatbox(false)}
+                >
                     {match[1]}{' '}
                 </Link>,
             );
