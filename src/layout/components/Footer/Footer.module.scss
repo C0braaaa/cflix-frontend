@@ -139,13 +139,10 @@
     .wrapper {
         padding: 0 2rem;
     }
-    // .footer-divider {
-    //     margin-top: 3rem;
-    // }
 }
 
 // media for tablet
-@media (min-width: 500px) and (max-width: 1080px) {
+@media (min-width: 640px) and (max-width: 1080px) {
     .wrapper {
         flex-direction: column;
     }
@@ -166,7 +163,7 @@
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 640px) {
     .wrapper {
         flex-direction: column;
         padding: 1.5rem 0 1.5rem 0;
@@ -179,6 +176,9 @@
         .left-side {
             width: 100%;
             padding: 1rem;
+        }
+        .right-side {
+            margin-bottom: 5.5rem;
         }
     }
     .line-1 {
@@ -201,5 +201,8 @@
     }
     .l-2 {
         width: 100%;
+    }
+    .footer-divider {
+        bottom: 5rem;
     }
 }
