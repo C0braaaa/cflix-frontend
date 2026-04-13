@@ -42,3 +42,12 @@
         }
     }
 }
+
+@media (max-width: 640px) {
+    .wrapper {
+        padding-top: 4rem;
+    }
+    .heading {
+        padding: 0 3rem;
+    }
+}
