@@ -37,6 +37,7 @@ function ForgotPassPage() {
 
             if (!token) {
                 navigate('/', { state: { openModal: 'login' } });
+                toast.warn('Vui lòng đăng nhập để tiếp tục!');
                 return;
             }
 
