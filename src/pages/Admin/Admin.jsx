@@ -4,7 +4,16 @@ import { Link } from 'react-router-dom';
 
 import styles from './Admin.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilm, faFlag, faHome, faMoon, faSun, faTableCellsLarge, faUser, faBars } from '@fortawesome/free-solid-svg-icons';
+import {
+    faFilm,
+    faFlag,
+    faHome,
+    faMoon,
+    faSun,
+    faTableCellsLarge,
+    faUser,
+    faBars,
+} from '@fortawesome/free-solid-svg-icons';
 import { Overview, Users, Movies, Report } from './DashboardContents';
 import { useAuth } from '../../features/auth/context/AuthContext';
 
@@ -60,14 +69,14 @@ function DashBoard() {
                 </div>
             </header>
             <div className={cx('sidebar', { open: isSidebarOpen })}>
-                <div className={cx('logo')}>
+                <Link to="/" className={cx('logo')}>
                     <div className={cx('logo-img')}>
                         <img
                             src={toggleTheme === 'dark' ? '/assets/images/logo.png' : '/assets/images/logo_mau_den.png'}
                             alt="logo"
                         />
                     </div>
-                </div>
+                </Link>
                 <div className={cx('menu')}>
                     <div
                         className={cx('menu-item', { active: activeMenu === 'overview' })}

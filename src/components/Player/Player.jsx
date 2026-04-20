@@ -26,6 +26,31 @@ export default function Player({ option, style, getInstance, movieData }) {
         dataRef.current = { user, movieData };
     }, [user, movieData]);
 
+    // --- Media Session API: Hiện thông báo media trên mobile ---
+    useEffect(() => {
+        if (!('mediaSession' in navigator)) return;
+        if (!movieData?.name) return;
+
+        const title = movieData.name;
+        const episodeName = movieData.episode_name || '';
+        const posterUrl = movieData.thumb_url || '';
+
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: episodeName ? `${title} - ${episodeName}` : title,
+            artist: 'CFlix',
+            album: movieData.origin_name || title,
+            artwork: posterUrl
+                ? [
+                      { src: posterUrl, sizes: '96x96', type: 'image/jpeg' },
+                      { src: posterUrl, sizes: '128x128', type: 'image/jpeg' },
+                      { src: posterUrl, sizes: '192x192', type: 'image/jpeg' },
+                      { src: posterUrl, sizes: '256x256', type: 'image/jpeg' },
+                      { src: posterUrl, sizes: '512x512', type: 'image/jpeg' },
+                  ]
+                : [],
+        });
+    }, [movieData]);
+
     useEffect(() => {
         hasCountedView.current = false;
         const art = new Artplayer({
@@ -164,6 +189,52 @@ export default function Player({ option, style, getInstance, movieData }) {
             if (option.seekTime && option.seekTime > 0) {
                 art.seek = option.seekTime;
                 art.notice.show = `Đã phát tiếp từ ${formatTime(option.seekTime)}`;
+            }
+        });
+
+        // --- Gắn action handlers cho Media Session ---
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.setActionHandler('play', () => {
+                art.play();
+            });
+            navigator.mediaSession.setActionHandler('pause', () => {
+                art.pause();
+            });
+            navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+                art.seek = Math.max(0, art.currentTime - (details.seekOffset || 10));
+            });
+            navigator.mediaSession.setActionHandler('seekforward', (details) => {
+                art.seek = Math.min(art.duration, art.currentTime + (details.seekOffset || 10));
+            });
+            navigator.mediaSession.setActionHandler('seekto', (details) => {
+                if (details.fastSeek && 'fastSeek' in art.video) {
+                    art.video.fastSeek(details.seekTime);
+                } else {
+                    art.seek = details.seekTime;
+                }
+            });
+        }
+
+        // --- Đồng bộ trạng thái playback với Media Session ---
+        art.on('play', () => {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.playbackState = 'playing';
+            }
+        });
+        art.on('pause', () => {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.playbackState = 'paused';
+            }
+        });
+        art.on('video:timeupdate', () => {
+            if ('mediaSession' in navigator && art.duration > 0) {
+                try {
+                    navigator.mediaSession.setPositionState({
+                        duration: art.duration,
+                        playbackRate: art.playbackRate || 1,
+                        position: art.currentTime,
+                    });
+                } catch (_) {}
             }
         });
 

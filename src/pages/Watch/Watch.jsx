@@ -329,6 +329,7 @@ function Wacth() {
                                 name: movie.name,
                                 origin_name: movie.origin_name,
                                 poster_url: movie.poster_url,
+                                thumb_url: movie.thumb_url,
                                 episode_slug: currentEpisode?.slug,
                                 episode_name: currentEpisode?.name,
                                 type: movie.type,

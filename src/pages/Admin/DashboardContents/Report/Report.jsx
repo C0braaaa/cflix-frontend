@@ -218,7 +218,7 @@ function Report() {
                         Đang xử lý
                     </span>
                     <span className={cx({ active: status === 'resolved' })} onClick={() => setStatus('resolved')}>
-                        Đã xứ lý
+                        Đã xử lý
                     </span>
                 </div>
             </div>

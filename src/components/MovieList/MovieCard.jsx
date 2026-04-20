@@ -86,9 +86,9 @@ function MovieCard({ movie, type }) {
                 {movie.category?.length > 0 && (
                     <div className={cx('hover-panel__genres')}>
                         {movie.category.slice(0, 3).map((cat) => (
-                            <span key={cat.id} className={cx('hover-panel__genre-tag')}>
+                            <Link to={`/the-loai/${cat.slug}`} key={cat.id} className={cx('hover-panel__genre-tag')}>
                                 {cat.name}
-                            </span>
+                            </Link>
                         ))}
                     </div>
                 )}
@@ -102,6 +102,7 @@ function MovieCard({ movie, type }) {
             placement="bottom"
             offset={[-20, -380]}
             interactive
+            zIndex={999}
             render={(attrs) => <HoverPanel {...attrs} />}
         >
             <div className={cx('card-wrapper')}>
