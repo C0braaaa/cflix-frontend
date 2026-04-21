@@ -173,7 +173,7 @@ function MovieInfo() {
             userStatus: newStatus,
         });
         try {
-            await toggleLikeAPI(slug);
+            await toggleLikeAPI({ slug, name: movie.name, poster_url: movie.poster_url });
         } catch (error) {
             setRatingInfo({ ...ratingInfo, userStatus: oldStatus });
             toast.error('Lỗi kết nối');
@@ -199,7 +199,7 @@ function MovieInfo() {
             userStatus: newStatus,
         });
         try {
-            await toggleDislikeAPI(slug);
+            await toggleDislikeAPI({ slug, name: movie.name, poster_url: movie.poster_url });
         } catch (error) {
             setRatingInfo({ ...ratingInfo, userStatus: oldStatus });
             toast.error('Lỗi kết nối');

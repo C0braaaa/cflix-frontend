@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
-import { Slider, LatestMovie, Topics, ContinueWatching, AddSlide, MostView } from './component/index';
+import { Slider, LatestMovie, Topics, ContinueWatching, AddSlide, MostView, Ranking } from './component/index';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -83,6 +83,7 @@ function Home() {
                 link="f/phim-le-moi-nhat"
             />
             <MostView title="Top 10 phim lẻ xem nhiều nhất!" type="single" />
+            <Ranking />
             <LatestMovie
                 slug="phim-bo"
                 year="2026"
