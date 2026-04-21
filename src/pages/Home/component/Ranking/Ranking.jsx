@@ -119,7 +119,7 @@ function Ranking() {
             </div>
             {showFullList !== null && (
                 <div className={cx('full-list')}>
-                    <div className={cx('overlay')}></div>
+                    <div className={cx('overlay')} onClick={() => setShowFullList(null)}></div>
                     <div className={cx('modal')}>
                         <div className={cx('header')}>
                             {showFullList === 1 && <FontAwesomeIcon icon={faFilm} />}

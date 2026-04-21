@@ -229,3 +229,9 @@
         padding: 2rem;
     }
 }
+
+@media (max-width: 648px) {
+    .wrapper {
+        display: none;
+    }
+}
