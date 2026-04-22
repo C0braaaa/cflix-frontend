@@ -35,11 +35,8 @@
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 648px) {
     .add-slide {
-        top: 2rem;
-        right: 3rem;
-        padding: 0.5rem;
-        opacity: 1;
+        display: none;
     }
 }

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 import styles from './AddSlide.module.scss';
@@ -24,6 +24,21 @@ function AddSlide({ setShow, onSuccess, dataToEdit }) {
         tag_classic: dataToEdit?.tag_classic || [],
         types: dataToEdit?.types || [],
     });
+
+    useEffect(() => {
+        if (setShow !== null) {
+            // const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.overflow = 'hidden';
+            // document.body.style.paddingRight = `${scrollbarWidth}px`;
+        } else {
+            document.body.style.overflow = '';
+            // document.body.style.paddingRight = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        };
+    }, [setShow]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
