@@ -63,7 +63,7 @@ function FullLatestMovies() {
         setIsLoader(true);
         try {
             // Truyền urlPage, urlCountry, urlYear vào API
-            const data = await typeList(urlPage, 32, typeSlug, urlCountry, 2025, urlGenre, urlLang, urlSort);
+            const data = await typeList(urlPage, 32, typeSlug, urlCountry, 2026, urlGenre, urlLang, urlSort);
 
             setMovies(data.items || []);
             setTitlePage(data.titlePage || 'Danh sách phim');
@@ -85,7 +85,7 @@ function FullLatestMovies() {
     useEffect(() => {
         // Cập nhật Title trang
         const titleCountry = nations.find((n) => n.to.includes(urlCountry))?.name;
-        document.title = `${titlePage} mới nhất 2025 ${urlCountry ? `- ${titleCountry}` : ''}`;
+        document.title = `${titlePage} mới nhất 2026 ${urlCountry ? `- ${titleCountry}` : ''}`;
     }, [titlePage, urlCountry]);
 
     // --- 3. CẬP NHẬT URL KHI CHUYỂN TRANG ---
@@ -143,7 +143,7 @@ function FullLatestMovies() {
             <h2
                 className={cx('title')}
                 style={{ backgroundImage: titleBg }}
-            >{`Danh sách ${titlePage} mới nhất 2025`}</h2>
+            >{`Danh sách ${titlePage} mới nhất 2026`}</h2>
 
             <div className={cx('filter')}>
                 <div
