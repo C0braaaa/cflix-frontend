@@ -99,7 +99,7 @@ function App() {
                                 />
                             );
                         })}
-                        // Private routes
+                        {/* Private routes */}
                         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
                             {privateRoutes.map((route, index) => {
                                 const Page = route.component;
