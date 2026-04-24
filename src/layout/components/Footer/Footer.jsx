@@ -26,7 +26,7 @@ function Footer() {
                         <div className={cx('social')}>
                             <a
                                 className={cx('social-icon')}
-                                href="https://github.com/C0braaaa/CFlix"
+                                href="https://www.youtube.com/@cobrafactsdaily"
                                 target="_blank"
                                 rel="noreferrer"
                             >
@@ -58,7 +58,7 @@ function Footer() {
                             </a>
                             <a
                                 className={cx('social-icon')}
-                                href="https://github.com/C0braaaa/CFlix"
+                                href="https://www.youtube.com/@cobrafactsdaily"
                                 target="_blank"
                                 rel="noreferrer"
                             >
@@ -66,7 +66,7 @@ function Footer() {
                             </a>
                             <a
                                 className={cx('social-icon')}
-                                href="https://www.youtube.com/shorts/SXHMnicI6Pg"
+                                href="https://www.youtube.com/@cobrafactsdaily"
                                 target="_blank"
                                 rel="noreferrer"
                             >
@@ -75,7 +75,7 @@ function Footer() {
                         </div>
                     </div>
                     <div className={cx('l-2')}>
-                        <p className={cx('content')}>
+                        <p className={cx('content')} style={{ textAlign: 'justify' }}>
                             CFLIX là website xem phim trực tuyến được xây dựng trong khuôn khổ đồ án tốt nghiệp, với mục
                             tiêu ứng dụng các kiến thức đã học vào thực tế. Nền tảng cung cấp giao diện xem phim hiện
                             đại, hỗ trợ Vietsub, thuyết minh và lồng tiếng với chất lượng hiển thị Full HD. Dự án tập
