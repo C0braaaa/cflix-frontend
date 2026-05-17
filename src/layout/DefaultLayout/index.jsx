@@ -1,64 +1,57 @@
-import React from 'react';
-import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTools, faExclamationTriangle, faEnvelope, faFilm } from '@fortawesome/free-solid-svg-icons';
-import styles from './DefaultLayout.module.scss';
+// import React from 'react';
+// import classNames from 'classnames/bind';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faTools, faExclamationTriangle, faEnvelope, faFilm } from '@fortawesome/free-solid-svg-icons';
+// import styles from './DefaultLayout.module.scss';
 
-const cx = classNames.bind(styles);
+// const cx = classNames.bind(styles);
 
 // === GIAO DIỆN BẢO TRÌ ===
-function DefaultLayout() {
-    return (
-        <div className={cx('wrapper-maintenance')}>
-            <div className={cx('maintenance-container')}>
-                <div className={cx('brand')}>
-                    <FontAwesomeIcon icon={faFilm} className={cx('brand-icon')} />
-                    <span>CFlix</span>
-                </div>
+// function DefaultLayout() {
+//     return (
+//         <div className={cx('wrapper-maintenance')}>
+//             <div className={cx('maintenance-container')}>
+//                 <div className={cx('brand')}>
+//                     <FontAwesomeIcon icon={faFilm} className={cx('brand-icon')} />
+//                     <span>CFlix</span>
+//                 </div>
 
-                <div className={cx('icon-wrapper')}>
-                    <FontAwesomeIcon icon={faTools} className={cx('icon-tools')} />
-                </div>
-                <h1 className={cx('title')}>Trang Web Ngừng Hoạt Động</h1>
-                <p className={cx('message')}>
-                    CFlix hiện đang tạm ngưng hoạt động do một số yếu tố liên quan đến chính sách và định hướng phát
-                    triển. Chúng tôi đang tiến hành rà soát và điều chỉnh để đảm bảo phù hợp với các yêu cầu cần thiết
-                    trong thời gian tới.
-                </p>
-                <div className={cx('info-box')}>
-                    <div className={cx('info-item')}>
-                        <FontAwesomeIcon icon={faExclamationTriangle} className={cx('info-icon')} />
-                        <span>Thời gian dự kiến: Vô thời hạn</span>
-                    </div>
-                    {/* <div className={cx('info-item')}>
-                        <FontAwesomeIcon icon={faEnvelope} className={cx('info-icon')} />
-                        <span>Liên hệ: support@cflix.com</span>
-                    </div> */}
-                </div>
+//                 <div className={cx('icon-wrapper')}>
+//                     <FontAwesomeIcon icon={faTools} className={cx('icon-tools')} />
+//                 </div>
+//                 <h1 className={cx('title')}>Trang Web Ngừng Hoạt Động</h1>
+//                 <p className={cx('message')}>
+//                     CFlix hiện đang tạm ngưng hoạt động do một số yếu tố liên quan đến chính sách và định hướng phát
+//                     triển. Chúng tôi đang tiến hành rà soát và điều chỉnh để đảm bảo phù hợp với các yêu cầu cần thiết
+//                     trong thời gian tới.
+//                 </p>
+//                 <div className={cx('info-box')}>
+//                     <div className={cx('info-item')}>
+//                         <FontAwesomeIcon icon={faExclamationTriangle} className={cx('info-icon')} />
+//                         <span>Thời gian dự kiến: Vô thời hạn</span>
+//                     </div>
+//                     {/* <div className={cx('info-item')}>
+//                         <FontAwesomeIcon icon={faEnvelope} className={cx('info-icon')} />
+//                         <span>Liên hệ: support@cflix.com</span>
+//                     </div> */}
+//                 </div>
 
-                <div className={cx('progress-bar')}>
-                    <div className={cx('progress')}></div>
-                </div>
-            </div>
+//                 <div className={cx('progress-bar')}>
+//                     <div className={cx('progress')}></div>
+//                 </div>
+//             </div>
 
-            {/* Background Animations */}
-            <div className={cx('background-elements')}>
-                <div className={cx('circle', 'circle-1')}></div>
-                <div className={cx('circle', 'circle-2')}></div>
-                <div className={cx('circle', 'circle-3')}></div>
-            </div>
-        </div>
-    );
-}
+//             {/* Background Animations */}
+//             <div className={cx('background-elements')}>
+//                 <div className={cx('circle', 'circle-1')}></div>
+//                 <div className={cx('circle', 'circle-2')}></div>
+//                 <div className={cx('circle', 'circle-3')}></div>
+//             </div>
+//         </div>
+//     );
+// }
 
-export default DefaultLayout;
-
-/* 
-=========================================================
-=== CODE GIAO DIỆN MẶC ĐỊNH (CŨ) ===
-Khi cần mở lại web, hãy comment đoạn code bảo trì phía trên
-và bỏ comment toàn bộ đoạn code dưới đây (từ import đến export).
-=========================================================
+// export default DefaultLayout;
 
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
@@ -148,4 +141,3 @@ function DefaultLayout({ children }) {
 }
 
 export default DefaultLayout;
-*/

@@ -1,0 +1,102 @@
+.disclaimer-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+
+    .disclaimer-content {
+        position: relative;
+        width: 90%;
+        max-width: 600px;
+        background: rgba(25, 25, 30, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1.5rem;
+        padding: 3rem;
+        z-index: 1;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        animation: fade-in-scale 0.4s ease-out;
+
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: transparent;
+            border: none;
+            color: #a1a1aa;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: #e50914;
+            }
+        }
+
+        h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            background: linear-gradient(to right, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: #d4d4d8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            
+            strong {
+                color: #ffffff;
+                font-weight: 600;
+            }
+            
+            &:last-of-type {
+                margin-bottom: 2.5rem;
+            }
+        }
+
+        .btn-understand {
+            padding: 1rem 3rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+            border-radius: 0.8rem;
+            background: #e50914;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+
+            &:hover {
+                background: #f40612;
+            }
+        }
+    }
+}
+
+@keyframes fade-in-scale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

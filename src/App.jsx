@@ -11,6 +11,7 @@ import AuthContainer from './features/auth/AuthContainer';
 import SplashScreen from './components/SplashScreen/SplashPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { addTrafficAPI } from './services/trafficService';
+import DisclaimerModal from './components/DisclaimerModal/DisclaimerModal';
 
 function App() {
     const [splashScreen, setSplashScreen] = useState(true);
@@ -139,6 +140,7 @@ function App() {
                     theme="dark"
                     zIndex={999999999}
                 />
+                <DisclaimerModal />
             </div>
         </Router>
     );
