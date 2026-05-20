@@ -138,7 +138,7 @@ function App() {
                     closeOnClick
                     pauseOnHover
                     theme="dark"
-                    zIndex={999999999}
+                    style={{ zIndex: 9999999999 }}
                 />
                 <DisclaimerModal />
             </div>

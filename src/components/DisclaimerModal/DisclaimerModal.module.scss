@@ -30,26 +30,11 @@
         text-align: center;
         animation: fade-in-scale 0.4s ease-out;
 
-        .close-btn {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: transparent;
-            border: none;
-            color: #a1a1aa;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: color 0.2s ease;
-
-            &:hover {
-                color: #e50914;
-            }
-        }
-
         h2 {
             font-size: 2.4rem;
             font-weight: 700;
             margin-bottom: 2rem;
+            background-clip: text;
             color: #ffffff;
             background: linear-gradient(to right, #ffffff, #a1a1aa);
             -webkit-background-clip: text;
@@ -61,30 +46,66 @@
             color: #d4d4d8;
             line-height: 1.6;
             margin-bottom: 1.5rem;
-            
+
             strong {
                 color: #ffffff;
                 font-weight: 600;
             }
-            
+
             &:last-of-type {
                 margin-bottom: 2.5rem;
             }
         }
 
-        .btn-understand {
-            padding: 1rem 3rem;
-            font-size: 1.6rem;
-            font-weight: 600;
-            border-radius: 0.8rem;
-            background: #e50914;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease;
+        .access-key-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
 
-            &:hover {
-                background: #f40612;
+            .access-key-input {
+                width: 100%;
+                max-width: 250px;
+                padding: 1.2rem;
+                font-size: 1.8rem;
+                text-align: center;
+                letter-spacing: 0.5rem;
+                border-radius: 0.8rem;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                background: rgba(255, 255, 255, 0.05);
+                color: #fff;
+                outline: none;
+                transition: all 0.3s ease;
+
+                &:focus {
+                    border-color: #e50914;
+                    background: rgba(255, 255, 255, 0.1);
+                }
+
+                &::placeholder {
+                    letter-spacing: normal;
+                    font-size: 1.4rem;
+                    color: rgba(255, 255, 255, 0.4);
+                }
+            }
+
+            .btn-submit {
+                padding: 1rem 4rem;
+                font-size: 1.6rem;
+                font-weight: 600;
+                border-radius: 0.8rem;
+                background: #e50914;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                transition: background 0.3s ease;
+                width: 100%;
+                max-width: 250px;
+
+                &:hover {
+                    background: #f40612;
+                }
             }
         }
     }
