@@ -118,7 +118,7 @@ function DefaultLayout({ children }) {
                 </div>
             )}
 
-            <Tippy content={`Hello, ${user?.username || "I'm Jarvis"}`}>
+            {/* <Tippy content={`Hello, ${user?.username || "I'm Jarvis"}`}>
                 <div className={cx('chatbot')} onClick={() => setShowChatBot((prev) => !prev)}>
                     <img src="/assets/images/chatbot_logo.png" alt="chatbot-logo" />
                 </div>
@@ -127,7 +127,7 @@ function DefaultLayout({ children }) {
                 <div className={cx('chatbox')}>
                     <ChatBot showChatbox={setShowChatBot} />
                 </div>
-            )}
+            )} */}
             {isReportModalOpen && (
                 <div className={cx('report-modal')}>
                     <div className={cx('overlay')} onClick={closeReportModal}></div>
