@@ -24,52 +24,22 @@ function Footer() {
                             <img src="/assets/images/logo.png" alt="logo" />
                         </div>
                         <div className={cx('social')}>
-                            <a
-                                className={cx('social-icon')}
-                                href="https://www.youtube.com/@cobrafactsdaily"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
+                            <a className={cx('social-icon')} href="#" target="_blank" rel="noreferrer">
                                 <FontAwesomeIcon icon={faDiscord} />
                             </a>
-                            <a
-                                className={cx('social-icon')}
-                                href="https://www.facebook.com/c0bra.0f"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
+                            <a className={cx('social-icon')} href="#" target="_blank" rel="noreferrer">
                                 <FontAwesomeIcon icon={faFacebookF} />
                             </a>
-                            <a
-                                className={cx('social-icon')}
-                                href="https://www.instagram.com/th__hieu/"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
+                            <a className={cx('social-icon')} href="#" target="_blank" rel="noreferrer">
                                 <FontAwesomeIcon icon={faInstagram} />
                             </a>
-                            <a
-                                className={cx('social-icon')}
-                                href="https://www.threads.com/@th__hieu"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
+                            <a className={cx('social-icon')} href="#" target="_blank" rel="noreferrer">
                                 <FontAwesomeIcon icon={faThreads} />
                             </a>
-                            <a
-                                className={cx('social-icon')}
-                                href="https://www.youtube.com/@cobrafactsdaily"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
+                            <a className={cx('social-icon')} href="#" target="_blank" rel="noreferrer">
                                 <FontAwesomeIcon icon={faTelegram} />
                             </a>
-                            <a
-                                className={cx('social-icon')}
-                                href="https://www.youtube.com/@cobrafactsdaily"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
+                            <a className={cx('social-icon')} href="#" target="_blank" rel="noreferrer">
                                 <FontAwesomeIcon icon={faYoutube} />
                             </a>
                         </div>
