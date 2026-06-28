@@ -45,6 +45,35 @@
             }
         }
 
+        // 3. CSS Cho nút chuyển tập (Prev/Next Episode)
+        .ep-nav-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0.85;
+            transition: all 0.2s ease;
+            padding: 4px;
+
+            svg {
+                fill: #fff;
+                transition: fill 0.2s ease;
+            }
+
+            &:hover {
+                opacity: 1;
+                svg {
+                    fill: #ff0000;
+                }
+            }
+        }
+
+        .ep-nav-disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         // 3. ẨN CÁC NÚT KHÔNG CẦN THIẾT BÊN PHẢI (Theo yêu cầu)
         // Mặc định ẩn hết Setting, PIP, Screenshot... chỉ để lại Fullscreen
         .art-control-setting,
@@ -72,6 +101,10 @@
 @media (max-width: 500px) {
     .wrapper {
         border-radius: 0;
+    }
+    .ep-nav-control,
+    .art-control-quality {
+        display: none;
     }
     :global {
         .art-control-setting,

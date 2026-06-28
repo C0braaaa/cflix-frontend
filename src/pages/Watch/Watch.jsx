@@ -334,6 +334,11 @@ function Wacth() {
                                 episode_name: currentEpisode?.name,
                                 type: movie.type,
                             }}
+                            episodeNav={{
+                                episodes: episodes?.[server]?.server_data || [],
+                                currentEpisodeSlug: currentEpisode?.slug,
+                                movieSlug: slug,
+                            }}
                             style={{
                                 width: '100%',
                                 display: 'flex',
