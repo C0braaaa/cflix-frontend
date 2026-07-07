@@ -57,41 +57,92 @@
             }
         }
 
-        .access-key-container {
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 3rem;
+            height: 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 2rem;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 1.5rem;
-            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            line-height: 1;
 
-            .access-key-input {
-                width: 100%;
-                max-width: 250px;
-                padding: 1.2rem;
-                font-size: 1.8rem;
-                text-align: center;
-                letter-spacing: 0.5rem;
-                border-radius: 0.8rem;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                background: rgba(255, 255, 255, 0.05);
-                color: #fff;
-                outline: none;
-                transition: all 0.3s ease;
-
-                &:focus {
-                    border-color: #e50914;
-                    background: rgba(255, 255, 255, 0.1);
-                }
-
-                &::placeholder {
-                    letter-spacing: normal;
-                    font-size: 1.4rem;
-                    color: rgba(255, 255, 255, 0.4);
-                }
+            &:hover {
+                background: rgba(229, 9, 20, 0.8);
+                transform: scale(1.1);
             }
+        }
 
-            .btn-submit {
-                padding: 1rem 4rem;
+        // [ACCESS_KEY] Uncomment this block and remove .button-container/.btn-accept below to enable access key styles
+        // .access-key-container {
+        //     display: flex;
+        //     flex-direction: column;
+        //     align-items: center;
+        //     gap: 1.5rem;
+        //     margin-top: 1rem;
+        //
+        //     .access-key-input {
+        //         width: 100%;
+        //         max-width: 250px;
+        //         padding: 1.2rem;
+        //         font-size: 1.8rem;
+        //         text-align: center;
+        //         letter-spacing: 0.5rem;
+        //         border-radius: 0.8rem;
+        //         border: 1px solid rgba(255, 255, 255, 0.2);
+        //         background: rgba(255, 255, 255, 0.05);
+        //         color: #fff;
+        //         outline: none;
+        //         transition: all 0.3s ease;
+        //
+        //         &:focus {
+        //             border-color: #e50914;
+        //             background: rgba(255, 255, 255, 0.1);
+        //         }
+        //
+        //         &::placeholder {
+        //             letter-spacing: normal;
+        //             font-size: 1.4rem;
+        //             color: rgba(255, 255, 255, 0.4);
+        //         }
+        //     }
+        //
+        //     .btn-submit {
+        //         padding: 1rem 4rem;
+        //         font-size: 1.6rem;
+        //         font-weight: 600;
+        //         border-radius: 0.8rem;
+        //         background: #e50914;
+        //         color: #fff;
+        //         border: none;
+        //         cursor: pointer;
+        //         transition: background 0.3s ease;
+        //         width: 100%;
+        //         max-width: 250px;
+        //
+        //         &:hover {
+        //             background: #f40612;
+        //         }
+        //     }
+        // }
+
+        // [ACCESS_KEY] Remove this block when enabling access key styles
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+
+            .btn-accept {
+                padding: 1.2rem 4rem;
                 font-size: 1.6rem;
                 font-weight: 600;
                 border-radius: 0.8rem;
