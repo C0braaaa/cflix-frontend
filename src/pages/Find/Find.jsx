@@ -69,10 +69,7 @@ function Find() {
                                 <Link to={`/phim/${movie.slug}`} key={movie._id}>
                                     <div className={cx('item')}>
                                         <div className={cx('poster')}>
-                                            <img
-                                                src={`https://images.weserv.nl/?url=phimimg.com/${movie.poster_url}`}
-                                                alt={movie.name}
-                                            />
+                                            <img src={movie.poster_url} alt={movie.name} />
                                             <div className={cx('quality')}>
                                                 <Tippy content="Chất lượng">
                                                     <span>{movie.quality}</span>

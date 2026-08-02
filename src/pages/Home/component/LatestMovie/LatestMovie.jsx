@@ -91,7 +91,7 @@ function LatestMovie({ slug = '', year = '', bg = '', title = '', link = '' }) {
                     movies.map((movie, index) => (
                         <Link to={`/phim/${movie.slug}`} className={cx('item')} key={index}>
                             <img
-                                src={`https://images.weserv.nl/?url=phimimg.com/${movie.thumb_url}`}
+                                src={`https://phimimg.com/${movie.thumb_url}`}
                                 onError={(e) => (e.target.src = 'assets/images/defaultimg.jpg')}
                                 alt={movie.name}
                             />
