@@ -28,15 +28,16 @@
             background: #d9d9d9;
             border-radius: 1rem;
             transition: all 0.1s ease-in-out;
+            border: 4px var(--primary-color) solid;
 
-            &:hover {
-                border: 4px solid var(--primary-color);
-            }
+            // &:hover {
+            //     border: 4px solid var(--primary-color);
+            // }
 
-            &:hover::before {
-                border-right: 4px solid var(--primary-color);
-                border-bottom: 4px solid var(--primary-color);
-            }
+            // &:hover::before {
+            //     border-right: 4px solid var(--primary-color);
+            //     border-bottom: 4px solid var(--primary-color);
+            // }
 
             &::before {
                 content: '';
